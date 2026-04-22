@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=20" />
+  <link rel="stylesheet" href="assets/css/main.css?v=21" />
 </head>
 <body>
 
@@ -124,10 +124,9 @@
           <circle class="op-e-core" cx="210" cy="70" r="2.6" fill="currentColor" />
         </svg>
 
-        <!-- Eyebrow: typewriter effect -->
-        <div class="op-eyebrow op-eyebrow--typewriter" data-typewriter="Keio · Sociology · Seminar" data-typewriter-delay="3000" aria-label="Keio · Sociology · Seminar">
-          <span class="op-tw-text"></span>
-          <span class="op-tw-caret" aria-hidden="true"></span>
+        <!-- Eyebrow: character-level mask-and-rise (same primitive as statement) -->
+        <div class="op-eyebrow op-eyebrow--reveal">
+          <span class="op-eb-line" data-split-chars data-delay-base="3.0" data-delay-step="0.04">Keio · Sociology · Seminar</span>
         </div>
 
         <!-- Main statement — character-by-character reveal -->
@@ -149,11 +148,6 @@
         <!-- Japanese subtitle -->
         <p class="op-subtitle">
           <span class="op-clip"><span class="op-clip-in">慶友会 社会学ゼミ</span></span>
-        </p>
-
-        <!-- Motto -->
-        <p class="op-motto">
-          <span class="op-clip"><span class="op-clip-in">Jiga Sakko · 自我作古</span></span>
         </p>
       </div>
     </div>
@@ -1078,6 +1072,6 @@
     </footer>
   </div>
 
-  <script src="assets/js/main.js?v=20"></script>
+  <script src="assets/js/main.js?v=21"></script>
 </body>
 </html>

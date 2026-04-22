@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  console.log('[sociology-seminar] main.js v20 — Loading + char reveals + typewriter');
+  console.log('[sociology-seminar] main.js v21 — Char reveals everywhere, JOIN padding fix');
 
   /* =========================================================
      INTRO SEQUENCE
@@ -136,11 +136,19 @@
     }, 1000);
   }
 
-  /* ---------- Character splitter ---------- */
+  /* ---------- Character splitter ----------
+     Splits the text content of every [data-split-chars] element into
+     per-character masked spans. If the element carries data-delay-base
+     / data-delay-step, each character gets an inline --char-delay set
+     automatically (base + idx * step seconds). */
   function splitChars(rootSel) {
     document.querySelectorAll(rootSel).forEach((el) => {
       const text = el.textContent;
+      const base = parseFloat(el.getAttribute('data-delay-base') || 'NaN');
+      const step = parseFloat(el.getAttribute('data-delay-step') || 'NaN');
+      const hasDelays = !isNaN(base) && !isNaN(step);
       el.textContent = '';
+      let idx = 0;
       for (let i = 0; i < text.length; i++) {
         const ch = text[i];
         if (ch === ' ') {
@@ -152,33 +160,13 @@
         const inner = document.createElement('span');
         inner.className = 'op-char';
         inner.textContent = ch;
+        if (hasDelays) {
+          inner.style.setProperty('--char-delay', (base + idx * step) + 's');
+        }
         wrap.appendChild(inner);
         el.appendChild(wrap);
+        idx++;
       }
-    });
-  }
-
-  /* ---------- Typewriter effect ---------- */
-  function setupTypewriter() {
-    const els = document.querySelectorAll('[data-typewriter]');
-    els.forEach((el) => {
-      const text = el.getAttribute('data-typewriter') || '';
-      const startDelay = parseInt(el.getAttribute('data-typewriter-delay') || '0', 10);
-      const charDelay = 52; // ms per char
-      const target = el.querySelector('.op-tw-text');
-      const caret = el.querySelector('.op-tw-caret');
-      if (!target) return;
-      let i = 0;
-      setTimeout(() => {
-        const iv = setInterval(() => {
-          target.textContent = text.slice(0, ++i);
-          if (i >= text.length) {
-            clearInterval(iv);
-            // Hide caret after 3 more blinks (~2.5s)
-            setTimeout(() => { if (caret) caret.classList.add('is-off'); }, 2400);
-          }
-        }, charDelay);
-      }, startDelay);
     });
   }
 
@@ -212,7 +200,6 @@
     document.body.classList.add('is-ready');
     console.log('[sociology-seminar] opening armed');
     startParticles();
-    setupTypewriter();
     setTimeout(() => finishOpening(FADE_OUT_MS), OPENING_DURATION + FADE_OUT_MS);
   }
 

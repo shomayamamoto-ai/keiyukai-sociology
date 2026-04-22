@@ -655,8 +655,8 @@ a { color: inherit; text-decoration: none; }
   100% { background-position: 200% 50%; }
 }
 
-/* ==================== TYPEWRITER EYEBROW ==================== */
-.op-eyebrow--typewriter {
+/* ==================== EYEBROW (char-level reveal) ==================== */
+.op-eyebrow--reveal {
   margin-top: 1rem;
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
@@ -664,26 +664,10 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.5em;
   color: rgba(231, 212, 163, 0.9);
   text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.1em;
   min-height: 1.2em;
-}
-.op-tw-text { white-space: pre; }
-.op-tw-caret {
   display: inline-block;
-  width: 1px;
-  height: 1em;
-  background: var(--accent);
-  margin-left: 0.1em;
-  opacity: 0;
-  animation: op-caret-blink 0.85s steps(2, start) 3.0s 9;
 }
-.op-tw-caret.is-off { display: none; }
-@keyframes op-caret-blink {
-  0%, 49.9% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
+.op-eb-line { display: inline-block; }
 
 /* ==================== SUBTITLE / MOTTO ==================== */
 .op-subtitle {
@@ -2737,7 +2721,11 @@ body.is-leaving {
    NAV CTA (Join button)
    ========================================================= */
 .nav__cta {
-  padding: 0.4rem 0.9rem;
+  /* Generous padding + text-indent compensates for letter-spacing
+     which otherwise pushes the first character against the left
+     border (the "J" of JOIN was clipped) */
+  padding: 0.45rem 1.1rem 0.45rem 1.1rem;
+  text-indent: 0.28em;
   border: 1px solid var(--accent);
   color: var(--accent-2) !important;
   transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
