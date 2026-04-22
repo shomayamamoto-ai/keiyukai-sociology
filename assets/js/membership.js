@@ -29,7 +29,6 @@
   const steps = Array.from(form.querySelectorAll('.m-step'));
   const indicators = Array.from(document.querySelectorAll('[data-step-indicator]'));
   let current = 1;
-  let lastMailto = null; // remembered so the modal's retry button can relaunch
 
   /* ---------- Field labels for summary + errors ---------- */
   const LABELS = {
@@ -395,20 +394,13 @@
     }
   });
 
-  /* ---------- Submit (mailto) ---------- */
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!validateStep(TOTAL_STEPS)) return;
-
-    // Build the email body
-    const fd = new FormData(form);
+  /* ---------- Submit (direct send via Web3Forms) ---------- */
+  function buildBodyText(fd) {
     const lines = [];
     lines.push('■ 慶友会 社会学ゼミ 入会申込');
     lines.push('（このメールは申込フォームから自動生成されています）');
     lines.push('');
-
     const add = (label, val) => { lines.push(`${label}: ${val || ''}`); };
-
     add('1. お名前（漢字）', fd.get('name_kanji'));
     add('   フリガナ', fd.get('name_kana'));
     add('2. 学籍番号', fd.get('student_id'));
@@ -418,84 +410,115 @@
     add('6. 都道府県', fd.get('prefecture'));
     add('7. 年齢層', fd.get('age'));
     add('8. 職業', fd.get('occupation'));
-
     lines.push('');
     lines.push('9. ご入会のきっかけ（複数選択可）:');
     fd.getAll('source[]').forEach((s) => lines.push(`   - ${s}`));
     const ref = fd.get('referrer');
     if (ref) lines.push(`   ご紹介者: ${ref}`);
-
-    lines.push('');
-    lines.push('10. 自己紹介:');
-    lines.push(fd.get('intro') || '');
-
-    lines.push('');
-    lines.push('11. 入会を希望する動機:');
-    lines.push(fd.get('motivation') || '');
-
-    lines.push('');
-    lines.push('12. サイトへのご感想:');
-    lines.push(fd.get('impression') || '');
-
-    lines.push('');
-    lines.push('13. 誤記入の確認・卒論計画・現在のお悩み等:');
-    lines.push(fd.get('verification') || '');
-
-    lines.push('');
-    lines.push('---');
+    lines.push(''); lines.push('10. 自己紹介:'); lines.push(fd.get('intro') || '');
+    lines.push(''); lines.push('11. 入会を希望する動機:'); lines.push(fd.get('motivation') || '');
+    lines.push(''); lines.push('12. サイトへのご感想:'); lines.push(fd.get('impression') || '');
+    lines.push(''); lines.push('13. 誤記入の確認・卒論計画・現在のお悩み等:'); lines.push(fd.get('verification') || '');
+    lines.push(''); lines.push('---');
     lines.push('【ルール順守への同意】');
     lines.push(`・独習ノートのスクリーンショット禁止ルール順守に同意: ${fd.get('rule_note') ? '✓' : '-'}`);
     lines.push(`・講師派遣の録音・撮影・録画を一切行わないことに同意:   ${fd.get('rule_record') ? '✓' : '-'}`);
     lines.push(`・プライバシーポリシーおよびゼミ規約に同意:             ${fd.get('privacy') ? '✓' : '-'}`);
-    lines.push(`・Gmail / keio.jp アドレス使用を確認:                   ${fd.get('email_domain_ok') ? '✓' : '-'}`);
-    lines.push(`・メールアドレスの入力ミスがないことを確認:             ${fd.get('email_verified') ? '✓' : '-'}`);
+    return lines.join('\n');
+  }
 
-    const subject = `【入会申込】慶友会 社会学ゼミ - ${fd.get('name_kanji') || ''}`;
-    const body = lines.join('\n');
-    // Address assembled at runtime so the raw string isn't visible
-    // to scrapers pulling the HTML/JS.
-    const localPart = 'sociology.semi.kk';
-    const domainPart = 'gmail.com';
-    const mailto = 'mailto:' + localPart + '@' + domainPart +
+  function setSubmitState(state, label) {
+    const btn = document.getElementById('wizard-submit');
+    if (!btn) return;
+    btn.disabled = (state === 'loading');
+    if (label) btn.textContent = label;
+  }
+
+  function mailtoFallback(subject, body) {
+    const local = 'sociology.semi.kk';
+    const domain = 'gmail.com';
+    const mailto = 'mailto:' + local + '@' + domain +
       '?subject=' + encodeURIComponent(subject) +
       '&body=' + encodeURIComponent(body);
-    lastMailto = mailto;
+    const a = document.createElement('a');
+    a.href = mailto; a.rel = 'noopener'; a.style.display = 'none';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validateStep(TOTAL_STEPS)) return;
 
     saveState();
+    const fd = new FormData(form);
+    const body = buildBodyText(fd);
+    const subject = `【入会申込】慶友会 社会学ゼミ - ${fd.get('name_kanji') || ''}`;
 
-    // Show thank-you modal first; mailto opens in background shortly after
-    openThanksModal();
-    // Slight delay so modal paints before the OS handoff
-    setTimeout(() => {
-      // Use an invisible anchor to kick the mailto — safer than location.href on some browsers
-      const a = document.createElement('a');
-      a.href = mailto;
-      a.rel = 'noopener';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }, 280);
+    // Update hidden Web3Forms fields with dynamic values
+    const subjInput = form.querySelector('input[name="subject"]');
+    if (subjInput) subjInput.value = subject;
+    // Attach the human-readable body as the primary "message" field
+    const messageInput = document.createElement('input');
+    messageInput.type = 'hidden';
+    messageInput.name = 'message';
+    messageInput.value = body;
+    form.appendChild(messageInput);
+
+    const accessKey = (form.querySelector('input[name="access_key"]') || {}).value || '';
+    const endpoint = form.getAttribute('action') || 'https://api.web3forms.com/submit';
+
+    // If access key is still the placeholder, fall back to mailto
+    if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+      errorsEl.textContent = '';
+      console.warn('[membership] Web3Forms access key not configured — falling back to mailto');
+      openThanksModal();
+      setTimeout(() => mailtoFallback(subject, body), 280);
+      messageInput.remove();
+      return;
+    }
+
+    // Direct send
+    setSubmitState('loading', '送信中…');
+    errorsEl.textContent = '';
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
+      });
+      if (res.ok) {
+        openThanksModal();
+        setSubmitState('done', '送信完了');
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+      } else {
+        const data = await res.json().catch(() => ({}));
+        errorsEl.textContent = '送信に失敗しました（HTTP ' + res.status + '）。' +
+          (data.message ? data.message + ' ' : '') +
+          '時間をおいて再度お試しいただくか、下のリンクからメールアプリでもお送りいただけます。';
+        const fallbackLink = document.createElement('a');
+        fallbackLink.href = '#';
+        fallbackLink.textContent = 'メールアプリで送る';
+        fallbackLink.style.cssText = 'color:#e7d4a3;text-decoration:underline;margin-left:.6em;';
+        fallbackLink.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          mailtoFallback(subject, body);
+        });
+        errorsEl.appendChild(fallbackLink);
+        setSubmitState('idle', '入会申込を送信する →');
+      }
+    } catch (err) {
+      errorsEl.textContent = 'ネットワークエラーが発生しました: ' + err.message +
+        ' / メールアプリでお送りいただくか、時間をおいて再度お試しください。';
+      setSubmitState('idle', '入会申込を送信する →');
+    } finally {
+      messageInput.remove();
+    }
   });
 
   /* ---------- Thank-you modal ---------- */
   const modal = document.getElementById('thanks-modal');
   const modalClose = document.getElementById('thanks-close');
-  // Wire up "もう一度メールを起動する" button inside the modal
-  document.querySelectorAll('.m-modal__mail-btn[data-mail]').forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (lastMailto) {
-        const a = document.createElement('a');
-        a.href = lastMailto;
-        a.rel = 'noopener';
-        a.style.display = 'none';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      }
-    });
-  });
   function openThanksModal() {
     if (!modal) return;
     modal.classList.add('is-open');

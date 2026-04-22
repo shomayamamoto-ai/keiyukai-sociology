@@ -52,16 +52,26 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
+  let particlesStartTs = 0;
   function seedParticles() {
-    // More particles for livelier backdrop; pre-baked sprites keep it cheap
-    const count = Math.min(70, Math.floor((W * H) / 24000));
+    // Livelier backdrop with a converging opening beat.
+    // Particles start at the edges flowing TOWARD the center, then
+    // gradually flip to rising upward after the 1.5s mark.
+    const count = Math.min(80, Math.floor((W * H) / 22000));
     particles = [];
+    particlesStartTs = performance.now();
     for (let i = 0; i < count; i++) {
+      // Initial position: distribute around screen perimeter
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.max(W, H) * (0.4 + Math.random() * 0.4);
+      const cx = W / 2, cy = H / 2;
       particles.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        size: 14 + Math.random() * 22,
-        vx: (Math.random() - 0.5) * 0.22,
+        x: cx + Math.cos(angle) * radius,
+        y: cy + Math.sin(angle) * radius,
+        targetCx: cx,
+        targetCy: cy,
+        size: 14 + Math.random() * 24,
+        vx: 0,
         vy: -0.15 - Math.random() * 0.28,
         life: Math.random(),
         speedLife: 0.0018 + Math.random() * 0.0036,
@@ -70,27 +80,66 @@
     }
   }
 
+  function getElapsedMs() {
+    return performance.now() - particlesStartTs;
+  }
+
   function renderFrame() {
     if (!ctx) return;
     ctx.clearRect(0, 0, W, H);
     ctx.globalCompositeOperation = 'lighter';
 
+    const elapsed = getElapsedMs();
+    // First 1.8s: particles converge toward center ("arrival" feeling)
+    // 1.8s - 2.4s: transition — velocity eases from pull-to-center into rise
+    // After 2.4s: classic rising flow
+    const convergePhase = elapsed < 1800;
+    const transPhase = elapsed >= 1800 && elapsed < 2400;
+
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life += p.speedLife;
-      if (p.y < -30 || p.life > 1.2) {
-        p.x = Math.random() * W;
-        p.y = H + Math.random() * 30;
-        p.life = 0;
+
+      if (convergePhase) {
+        // Pull toward center with acceleration
+        const dx = p.targetCx - p.x;
+        const dy = p.targetCy - p.y;
+        p.x += dx * 0.014;
+        p.y += dy * 0.014;
+      } else if (transPhase) {
+        // Blend: still some pull, increasing rise
+        const t = (elapsed - 1800) / 600; // 0 → 1
+        const dx = p.targetCx - p.x;
+        const dy = p.targetCy - p.y;
+        p.x += dx * 0.014 * (1 - t);
+        p.y += dy * 0.014 * (1 - t) + p.vy * t;
+        p.x += (Math.random() - 0.5) * 0.22 * t;
+      } else {
+        // Rising flow
+        p.x += p.vx || ((Math.random() - 0.5) * 0.22);
+        p.y += p.vy;
+        p.life += p.speedLife;
+        if (p.y < -30 || p.life > 1.2) {
+          p.x = Math.random() * W;
+          p.y = H + Math.random() * 30;
+          p.life = 0;
+        }
       }
-      const fade = Math.sin(p.life * Math.PI);
+
+      // Life fade (during converge/trans, use time-based brightness)
+      let fade;
+      if (convergePhase) {
+        // ramp in 0→1 over 800ms, hold until 1.6s, begin fading
+        fade = elapsed < 800 ? elapsed / 800 : 1;
+      } else if (transPhase) {
+        fade = 1 - (elapsed - 1800) / 600 * 0.4;
+      } else {
+        fade = Math.sin(p.life * Math.PI);
+      }
       if (fade <= 0) continue;
-      ctx.globalAlpha = fade * (p.blue ? 0.45 : 0.75);
+
+      ctx.globalAlpha = fade * (p.blue ? 0.45 : 0.78);
       const sprite = p.blue ? glowBlue : glowGold;
       const size = p.size;
-      // drawImage is far cheaper than shadowBlur per frame
       ctx.drawImage(sprite, p.x - size / 2, p.y - size / 2, size, size);
     }
     ctx.globalAlpha = 1;
