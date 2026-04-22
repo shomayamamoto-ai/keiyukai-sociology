@@ -306,8 +306,30 @@
   function updateAllCounters() {
     form.querySelectorAll('textarea[minlength]').forEach(updateCounter);
   }
-  form.querySelectorAll('textarea').forEach((ta) => {
-    ta.addEventListener('input', () => updateCounter(ta));
+
+  /* ---------- Real-time field validation ---------- */
+  function isFieldValid(el) {
+    if (!el) return false;
+    if (el.type === 'checkbox' || el.type === 'radio') return false; // handled separately
+    const val = (el.value || '').trim();
+    if (el.required && !val) return false;
+    if (el.tagName === 'TEXTAREA' && el.minLength && val.length < el.minLength) return false;
+    return el.checkValidity();
+  }
+  function updateValidityVisual(el) {
+    const label = el.closest('label');
+    if (!label) return;
+    label.classList.toggle('is-valid', isFieldValid(el));
+  }
+  form.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea, select').forEach((el) => {
+    el.addEventListener('input', () => {
+      clearFieldError(el);
+      updateValidityVisual(el);
+    });
+    el.addEventListener('blur', () => updateValidityVisual(el));
+    if (el.tagName === 'TEXTAREA') {
+      el.addEventListener('input', () => updateCounter(el));
+    }
   });
 
   /* ---------- Navigation handlers ---------- */
@@ -345,6 +367,20 @@
     changeTimeout = setTimeout(saveState, 600);
   });
   form.addEventListener('change', saveState);
+
+  // Enter key → advance to next step (except inside textareas & when submit is visible)
+  form.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    if (e.target.tagName === 'TEXTAREA') return;
+    if (e.shiftKey) return;
+    // On last step, let native submit happen
+    if (current === TOTAL_STEPS) return;
+    e.preventDefault();
+    if (validateStep(current)) {
+      renderStep(current + 1);
+      saveState();
+    }
+  });
 
   /* ---------- Submit (mailto) ---------- */
   form.addEventListener('submit', (e) => {
@@ -407,10 +443,45 @@
       '?subject=' + encodeURIComponent(subject) +
       '&body=' + encodeURIComponent(body);
 
-    // Mark completed in storage so the form isn't stuck on reload
     saveState();
-    window.location.href = mailto;
+
+    // Show thank-you modal first; mailto opens in background shortly after
+    openThanksModal();
+    // Slight delay so modal paints before the OS handoff
+    setTimeout(() => {
+      // Use an invisible anchor to kick the mailto — safer than location.href on some browsers
+      const a = document.createElement('a');
+      a.href = mailto;
+      a.rel = 'noopener';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }, 280);
   });
+
+  /* ---------- Thank-you modal ---------- */
+  const modal = document.getElementById('thanks-modal');
+  const modalClose = document.getElementById('thanks-close');
+  function openThanksModal() {
+    if (!modal) return;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeThanksModal() {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  if (modalClose) modalClose.addEventListener('click', closeThanksModal);
+  if (modal) {
+    modal.querySelector('.m-modal__backdrop').addEventListener('click', closeThanksModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeThanksModal();
+    });
+  }
 
   /* ---------- Scroll progress for this page ---------- */
   (function setupScrollProgress() {
@@ -434,4 +505,6 @@
   restoreState();
   renderStep(current, true);
   updateAllCounters();
+  // Refresh validity visuals after restore so checkmarks show on reload
+  form.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea, select').forEach(updateValidityVisual);
 })();
