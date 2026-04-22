@@ -336,17 +336,50 @@
 
   function setupMagneticButtons() {
     const buttons = document.querySelectorAll('.btn');
-    if (!buttons.length || !window.matchMedia('(hover: hover)').matches) return;
+    if (!buttons.length || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const STRENGTH_X = 0.14;   // gentle horizontal pull
+    const STRENGTH_Y = 0.18;   // slightly stronger vertical
+    const LERP = 0.18;         // settle speed (lower = smoother, slower)
+    const EPSILON = 0.1;
+
     buttons.forEach((btn) => {
       btn.setAttribute('data-magnetic', '');
+      let targetX = 0, targetY = 0;
+      let curX = 0, curY = 0;
+      let rafId = null;
+      let active = false;
+
+      function tick() {
+        curX += (targetX - curX) * LERP;
+        curY += (targetY - curY) * LERP;
+        if (Math.abs(targetX - curX) < EPSILON && Math.abs(targetY - curY) < EPSILON) {
+          curX = targetX; curY = targetY;
+        }
+        btn.style.transform = `translate3d(${curX.toFixed(2)}px, ${curY.toFixed(2)}px, 0)`;
+        if (active || Math.abs(curX) > EPSILON || Math.abs(curY) > EPSILON) {
+          rafId = requestAnimationFrame(tick);
+        } else {
+          btn.style.transform = '';
+          rafId = null;
+        }
+      }
+
+      function start() { if (!rafId) rafId = requestAnimationFrame(tick); }
+
+      btn.addEventListener('pointerenter', () => {
+        active = true;
+        start();
+      });
       btn.addEventListener('pointermove', (e) => {
         const rect = btn.getBoundingClientRect();
-        const mx = e.clientX - rect.left - rect.width / 2;
-        const my = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate3d(${mx * 0.25}px, ${my * 0.35}px, 0)`;
+        targetX = (e.clientX - rect.left - rect.width / 2) * STRENGTH_X;
+        targetY = (e.clientY - rect.top - rect.height / 2) * STRENGTH_Y;
       });
       btn.addEventListener('pointerleave', () => {
-        btn.style.transform = '';
+        active = false;
+        targetX = 0; targetY = 0;
+        start();
       });
     });
   }
