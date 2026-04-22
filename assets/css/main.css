@@ -51,23 +51,19 @@ a { color: inherit; text-decoration: none; }
 ::selection { background: var(--accent); color: var(--bg-0); }
 
 /* =========================================================
-   OPENING MOVIE (v18) — Dignified
+   OPENING MOVIE (v19) — Dynamic: camera + sweeps + complex emblem
 
-   Philosophy: the seminar stands for human dignity, patience,
-   and essential learning. Its opening should breathe, not
-   perform. So this build does three things and nothing more:
-
-     1. A single ornamental line draws itself, as if etched
-        by hand (SVG stroke-dasharray with long exponential
-        easing) — invoking a book's title page.
-     2. A widely-tracked label (KEIO · SOCIOLOGY · SEMINAR)
-        rises, then a short statement in italic serif:
-          "A space for  essential  learning."
-     3. Kanji appears exactly once, understated, below the
-        headline: 慶友会 社会学ゼミ · followed by the motto.
-
-   No orbs, no flashes, no layered particles. Breath and space.
-   Total timeline ~7.4s then 900ms fade.
+   Still dignified, but now with motion in multiple axes:
+     • Parallax backdrop (3 layers at different drift speeds)
+     • 3 diagonal light sweeps at key beats
+     • Corner frame lines drawing inward
+     • Stage has subtle camera breathing (scale 0.985 → 1.015)
+     • Complex SVG emblem with 10+ animated parts (hooks,
+       compass ring, spokes, pins) each timed separately
+     • Words enter from left, right, and bottom — varied
+     • Hero word "essential" gets a dramatic zoom-in + glow burst
+     • Full-screen flash at the transition moment
+   Total: ~8.6s before fade.
    ========================================================= */
 
 .op {
@@ -75,11 +71,9 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   z-index: 100;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 55%, #0b1020 0%, #05070d 60%, #03050a 100%);
+  background: #03050a;
   color: #f5f1e6;
   -webkit-font-smoothing: antialiased;
-  text-rendering: geometricPrecision;
   contain: strict;
 }
 .op.is-done {
@@ -88,20 +82,46 @@ a { color: inherit; text-decoration: none; }
   transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ---- Subtle static backdrop + ambient particles ---- */
-.op-bg {
+/* ==================== BACKDROP (3 parallax layers) ==================== */
+.op-bg { position: absolute; inset: 0; pointer-events: none; }
+
+.op-bg-deep, .op-bg-mid, .op-bg-near {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.op-bg-a {
-  position: absolute;
-  inset: 0;
+  inset: -10%;
   opacity: 0;
-  background:
-    radial-gradient(60% 45% at 50% 40%, rgba(30, 55, 100, 0.35), transparent 70%),
-    radial-gradient(55% 40% at 50% 70%, rgba(200, 169, 106, 0.16), transparent 75%);
+  will-change: transform, opacity;
 }
+.op-bg-deep {
+  background:
+    radial-gradient(70% 55% at 50% 55%, rgba(20, 35, 70, 0.65), transparent 75%);
+}
+.op-bg-mid {
+  background:
+    radial-gradient(45% 35% at 30% 40%, rgba(111, 169, 255, 0.22), transparent 70%),
+    radial-gradient(45% 35% at 72% 62%, rgba(200, 169, 106, 0.20), transparent 70%);
+}
+.op-bg-near {
+  background:
+    radial-gradient(28% 22% at 50% 50%, rgba(231, 212, 163, 0.22), transparent 75%);
+}
+.is-ready .op-bg-deep { animation: op-bg-in 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards, op-drift-slow 24s linear 0.5s infinite alternate; }
+.is-ready .op-bg-mid { animation: op-bg-in 2.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards, op-drift-med 18s linear 0.7s infinite alternate-reverse; }
+.is-ready .op-bg-near { animation: op-bg-in 2.6s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards, op-drift-fast 14s ease-in-out 1s infinite alternate; }
+@keyframes op-bg-in { to { opacity: 1; } }
+@keyframes op-drift-slow {
+  0%   { transform: translate3d(-1%, 0, 0) scale(1);    }
+  100% { transform: translate3d(2%, -1%, 0) scale(1.04); }
+}
+@keyframes op-drift-med {
+  0%   { transform: translate3d(1%, 1%, 0) scale(1);    }
+  100% { transform: translate3d(-2%, -2%, 0) scale(1.06); }
+}
+@keyframes op-drift-fast {
+  0%   { transform: translate3d(0, 0, 0) scale(1);    }
+  50%  { transform: translate3d(0, -2%, 0) scale(1.08); }
+  100% { transform: translate3d(0, 0, 0) scale(1);    }
+}
+
 #op-particles {
   position: absolute;
   inset: 0;
@@ -109,21 +129,78 @@ a { color: inherit; text-decoration: none; }
   height: 100% !important;
   opacity: 0;
 }
-.is-ready .op-bg-a { animation: op-bg-in 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards; }
-.is-ready #op-particles { animation: op-bg-in 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards; }
-@keyframes op-bg-in {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
+.is-ready #op-particles { animation: op-bg-in 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards; }
+
+/* ==================== LIGHT SWEEPS ==================== */
+.op-sweep {
+  position: absolute;
+  top: -50%;
+  bottom: -50%;
+  width: 180px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(231, 212, 163, 0.14) 40%,
+    rgba(255, 246, 220, 0.45) 50%,
+    rgba(231, 212, 163, 0.14) 60%,
+    transparent 100%);
+  transform: translateX(-120vw) rotate(18deg);
+  filter: blur(6px);
+  opacity: 0;
+}
+.is-ready .op-sweep-1 { animation: op-sweep 1.8s cubic-bezier(0.77, 0, 0.175, 1) 0.2s forwards; }
+.is-ready .op-sweep-2 { animation: op-sweep 2.0s cubic-bezier(0.77, 0, 0.175, 1) 3.4s forwards; }
+.is-ready .op-sweep-3 { animation: op-sweep 1.6s cubic-bezier(0.77, 0, 0.175, 1) 6.2s forwards; }
+@keyframes op-sweep {
+  0%   { opacity: 0; transform: translateX(-120vw) rotate(18deg); }
+  30%  { opacity: 1; }
+  60%  { opacity: 0.9; }
+  100% { opacity: 0; transform: translateX(120vw) rotate(18deg); }
 }
 
-/* ---- Editorial corner marks ---- */
+/* ==================== FRAME CORNERS ==================== */
+.op-frame {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.op-frame::before,
+.op-frame::after {
+  content: "";
+  position: absolute;
+  background: linear-gradient(to right, rgba(200, 169, 106, 0.8), transparent);
+}
+.op-frame-tl, .op-frame-tr { top: 3rem; }
+.op-frame-bl, .op-frame-br { bottom: 3rem; }
+.op-frame-tl, .op-frame-bl { left: 3rem; }
+.op-frame-tr, .op-frame-br { right: 3rem; }
+.op-frame::before { top: 0; width: 60px; height: 1px; }
+.op-frame::after  { top: 0; height: 60px; width: 1px;
+  background: linear-gradient(to bottom, rgba(200, 169, 106, 0.8), transparent); }
+.op-frame-tr::before { right: 0; left: auto; transform: scaleX(-1); }
+.op-frame-tr::after  { right: 0; left: auto; }
+.op-frame-bl::before { bottom: 0; top: auto; transform-origin: left; }
+.op-frame-bl::after  { bottom: 0; top: auto;
+  background: linear-gradient(to top, rgba(200, 169, 106, 0.8), transparent); }
+.op-frame-br::before { right: 0; left: auto; bottom: 0; top: auto; transform: scaleX(-1); }
+.op-frame-br::after  { right: 0; left: auto; bottom: 0; top: auto;
+  background: linear-gradient(to top, rgba(200, 169, 106, 0.8), transparent); }
+
+.is-ready .op-frame-tl { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards; }
+.is-ready .op-frame-tr { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards; }
+.is-ready .op-frame-bl { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards; }
+.is-ready .op-frame-br { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 1.15s forwards; }
+@media (max-width: 720px) { .op-frame { display: none; } }
+
+/* ==================== CORNER MARKS ==================== */
 .op-cm {
   position: absolute;
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
   font-size: 0.72rem;
   letter-spacing: 0.25em;
-  color: rgba(245, 241, 230, 0.42);
+  color: rgba(245, 241, 230, 0.5);
   text-transform: uppercase;
   opacity: 0;
 }
@@ -132,9 +209,9 @@ a { color: inherit; text-decoration: none; }
 .op-cm-bl { bottom: 1.6rem; left: 1.8rem; }
 .op-cm-br { bottom: 1.6rem; right: 1.8rem; }
 .is-ready .op-cm-tl { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; }
-.is-ready .op-cm-tr { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
-.is-ready .op-cm-bl { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards; }
-.is-ready .op-cm-br { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+.is-ready .op-cm-tr { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards; }
+.is-ready .op-cm-bl { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards; }
+.is-ready .op-cm-br { animation: op-cm-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.75s forwards; }
 @keyframes op-cm-in {
   0%   { opacity: 0; transform: translateY(6px); }
   100% { opacity: 1; transform: translateY(0); }
@@ -146,74 +223,96 @@ a { color: inherit; text-decoration: none; }
   .op-cm-tr { right: 1.1rem; }
 }
 
-/* ---- Stage: centered composition ---- */
+/* ==================== STAGE (camera-breathing) ==================== */
 .op-stage {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0 6vw;
+}
+.op-stage-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  gap: 1.3rem;
+  gap: 1.2rem;
+  transform-origin: center;
+  will-change: transform;
+}
+.is-ready .op-stage-inner {
+  animation: op-camera 8.6s cubic-bezier(0.4, 0, 0.2, 1) 0s forwards;
+}
+@keyframes op-camera {
+  0%   { transform: scale(0.985); }
+  25%  { transform: scale(1); }
+  60%  { transform: scale(1.008); }
+  85%  { transform: scale(1.015); }
+  100% { transform: scale(1.02); }
 }
 
-/* ---- Emblem: SVG drawn line ---- */
+/* ==================== COMPLEX EMBLEM ==================== */
 .op-emblem {
-  width: clamp(220px, 34vw, 340px);
+  width: clamp(260px, 42vw, 420px);
   height: auto;
   color: var(--accent);
   opacity: 0;
-  margin-bottom: 0.4rem;
-  filter: drop-shadow(0 0 18px rgba(200, 169, 106, 0.35));
+  filter: drop-shadow(0 0 22px rgba(200, 169, 106, 0.45));
+  margin-bottom: 0.2rem;
 }
-.is-ready .op-emblem { animation: op-emblem-appear 0.3s ease-out 0.3s forwards; }
-@keyframes op-emblem-appear { to { opacity: 1; } }
+.is-ready .op-emblem { animation: op-bg-in 0.3s ease-out 0.3s forwards; }
 
-.op-emblem-line {
-  stroke-dasharray: 420;
-  stroke-dashoffset: 420;
-}
-.op-emblem-tick {
-  stroke-dasharray: 22;
-  stroke-dashoffset: 22;
-}
-.op-emblem-pin,
-.op-emblem-dot {
-  opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-}
+/* All stroke paths default hidden via stroke-dasharray */
+.op-e-main       { stroke-dasharray: 380; stroke-dashoffset: 380; }
+.op-e-leftarm    { stroke-dasharray: 120; stroke-dashoffset: 120; }
+.op-e-rightarm   { stroke-dasharray: 120; stroke-dashoffset: 120; }
+.op-e-upper      { stroke-dasharray: 22;  stroke-dashoffset: 22; }
+.op-e-lower      { stroke-dasharray: 22;  stroke-dashoffset: 22; }
+.op-e-ring       { stroke-dasharray: 57;  stroke-dashoffset: 57; }
+.op-e-spoke-l    { stroke-dasharray: 14;  stroke-dashoffset: 14; }
+.op-e-spoke-r    { stroke-dasharray: 14;  stroke-dashoffset: 14; }
+.op-e-pin,
+.op-e-core       { opacity: 0; transform-origin: center; transform-box: fill-box; }
 
-.is-ready .op-emblem-line {
-  animation: op-stroke-draw 2.4s cubic-bezier(0.77, 0, 0.175, 1) 0.4s forwards;
+.is-ready .op-e-main {
+  animation: op-stroke-draw 2.2s cubic-bezier(0.77, 0, 0.175, 1) 0.4s forwards;
 }
-.is-ready .op-emblem-pin-l {
-  animation: op-pin-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+.is-ready .op-e-leftarm {
+  animation: op-stroke-draw 1.0s cubic-bezier(0.77, 0, 0.175, 1) 1.1s forwards;
 }
-.is-ready .op-emblem-pin-r {
-  animation: op-pin-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 2.6s forwards;
+.is-ready .op-e-rightarm {
+  animation: op-stroke-draw 1.0s cubic-bezier(0.77, 0, 0.175, 1) 1.25s forwards;
 }
-.is-ready .op-emblem-dot {
-  animation: op-pin-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+.is-ready .op-e-ring {
+  animation: op-stroke-draw 1.0s cubic-bezier(0.77, 0, 0.175, 1) 1.6s forwards;
 }
-.is-ready .op-emblem-tick {
-  animation: op-tick-draw 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
+.is-ready .op-e-upper {
+  animation: op-stroke-draw 0.45s cubic-bezier(0.77, 0, 0.175, 1) 2.0s forwards;
 }
-@keyframes op-stroke-draw {
-  to { stroke-dashoffset: 0; }
+.is-ready .op-e-lower {
+  animation: op-stroke-draw 0.45s cubic-bezier(0.77, 0, 0.175, 1) 2.1s forwards;
 }
-@keyframes op-tick-draw {
-  to { stroke-dashoffset: 0; }
+.is-ready .op-e-spoke-l {
+  animation: op-stroke-draw 0.35s cubic-bezier(0.77, 0, 0.175, 1) 2.2s forwards;
 }
+.is-ready .op-e-spoke-r {
+  animation: op-stroke-draw 0.35s cubic-bezier(0.77, 0, 0.175, 1) 2.25s forwards;
+}
+.is-ready .op-e-pin-l { animation: op-pin-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards; }
+.is-ready .op-e-pin-r { animation: op-pin-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 2.5s forwards; }
+.is-ready .op-e-pin-bl { animation: op-pin-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 2.0s forwards; }
+.is-ready .op-e-pin-br { animation: op-pin-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 2.15s forwards; }
+.is-ready .op-e-core { animation: op-pin-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) 2.4s forwards; }
+
+@keyframes op-stroke-draw { to { stroke-dashoffset: 0; } }
 @keyframes op-pin-in {
   0%   { opacity: 0; transform: scale(0); }
-  60%  { opacity: 1; transform: scale(1.25); }
+  60%  { opacity: 1; transform: scale(1.3); }
   100% { opacity: 1; transform: scale(1); }
 }
 
-/* ---- Mask-and-rise primitive ---- */
+/* ==================== MASK-AND-RISE primitive ==================== */
 .op-clip {
   display: inline-block;
   overflow: hidden;
@@ -229,13 +328,25 @@ a { color: inherit; text-decoration: none; }
 .is-ready .op-clip-in {
   animation: op-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-@keyframes op-rise {
-  to { transform: translate3d(0, 0, 0); }
+@keyframes op-rise { to { transform: translate3d(0, 0, 0); } }
+
+/* Directional word entrances */
+.op-w { display: inline-block; opacity: 0; will-change: transform, opacity; }
+.op-w-from-l { transform: translate3d(-30px, 0, 0); }
+.op-w-from-r { transform: translate3d(30px, 0, 0); }
+.op-w-rise   { transform: translate3d(0, 26px, 0); }
+.is-ready .op-w-from-l,
+.is-ready .op-w-from-r,
+.is-ready .op-w-rise {
+  animation: op-word-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes op-word-in {
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
-/* ---- Eyebrow: KEIO · SOCIOLOGY · SEMINAR ---- */
+/* ==================== EYEBROW ==================== */
 .op-eyebrow {
-  margin-top: 0.6rem;
+  margin-top: 1rem;
   display: inline-flex;
   align-items: baseline;
   gap: 0.85rem;
@@ -243,72 +354,106 @@ a { color: inherit; text-decoration: none; }
   font-style: italic;
   font-size: clamp(0.88rem, 1.25vw, 1.05rem);
   letter-spacing: 0.5em;
-  color: rgba(231, 212, 163, 0.85);
+  color: rgba(231, 212, 163, 0.9);
   text-transform: uppercase;
 }
-.op-eyebrow .op-clip-in {
-  animation-delay: 3.2s;
-}
-.op-eyebrow .op-clip:nth-child(1) .op-clip-in { animation-delay: 3.1s; }
-.op-eyebrow .op-clip:nth-child(3) .op-clip-in { animation-delay: 3.25s; }
-.op-eyebrow .op-clip:nth-child(5) .op-clip-in { animation-delay: 3.4s; }
-.op-eyebrow .op-ed {
+.op-eyebrow .op-w:nth-child(1) { animation-delay: 3.1s; }
+.op-eyebrow .op-w:nth-child(3) { animation-delay: 3.25s; }
+.op-eyebrow .op-w:nth-child(5) { animation-delay: 3.4s; }
+.op-ed {
   color: var(--accent);
   opacity: 0;
-  animation: op-cm-in 0.6s ease-out forwards;
+  animation: op-ed-in 0.5s ease-out forwards;
 }
-.op-eyebrow .op-ed:nth-of-type(1) { animation-delay: 3.3s; }
-.op-eyebrow .op-ed:nth-of-type(2) { animation-delay: 3.45s; }
+.op-ed-1 { animation-delay: 3.25s; }
+.op-ed-2 { animation-delay: 3.4s; }
+@keyframes op-ed-in {
+  0%   { opacity: 0; transform: scale(0) rotate(-90deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
 
-/* ---- The main statement ---- */
+/* ==================== STATEMENT ==================== */
 .op-statement {
   margin: 0.8rem 0 0.2rem;
   font-family: "Cormorant Garamond", serif;
   font-weight: 400;
-  font-size: clamp(2.2rem, 5.4vw, 4.2rem);
-  line-height: 1.25;
+  font-size: clamp(2.2rem, 5.4vw, 4.4rem);
+  line-height: 1.2;
   letter-spacing: 0.02em;
   color: #ffffff;
   max-width: 1100px;
-}
-.op-statement em {
-  font-style: italic;
-  color: var(--accent-2);
-  font-weight: 500;
-  background: linear-gradient(120deg, var(--accent-2) 0%, #fff3d4 50%, var(--accent-2) 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: op-shimmer 6s linear infinite;
-}
-@keyframes op-shimmer {
-  0%   { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
 }
 .op-line {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.55rem 1rem;
+  gap: 0.45rem 1rem;
+  align-items: baseline;
 }
-.op-line-1 .op-clip:nth-child(1) .op-clip-in { animation-delay: 4.0s; }
-.op-line-1 .op-clip:nth-child(2) .op-clip-in { animation-delay: 4.1s; }
-.op-line-2 .op-clip:nth-child(1) .op-clip-in { animation-delay: 4.25s; }
-.op-line-2 .op-clip:nth-child(2) .op-clip-in { animation-delay: 4.35s; }
+.op-line-a .op-w:nth-child(1) { animation-delay: 4.0s; }
+.op-line-a .op-w:nth-child(2) { animation-delay: 4.1s; }
+.op-line-b .op-w:nth-child(2) { animation-delay: 4.85s; }
 
-/* ---- Japanese subtitle (only moment of kanji) ---- */
+/* Hero word — dramatic zoom-in with glow burst */
+.op-hero {
+  display: inline-block;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent-2);
+  background: linear-gradient(120deg, var(--accent-2) 0%, #fff3d4 50%, var(--accent-2) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 60px rgba(231, 212, 163, 0);
+  opacity: 0;
+  transform: scale(1.8);
+  filter: blur(8px);
+  will-change: transform, opacity, filter;
+  position: relative;
+}
+.op-hero::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle, rgba(231, 212, 163, 0.55), transparent 55%);
+  filter: blur(20px);
+  opacity: 0;
+  z-index: -1;
+}
+.is-ready .op-hero {
+  animation: op-hero-in 1.3s cubic-bezier(0.16, 1, 0.3, 1) 4.55s forwards,
+             op-shimmer 6s linear 6s infinite;
+}
+.is-ready .op-hero::after {
+  animation: op-hero-glow 1.4s cubic-bezier(0.22, 1, 0.36, 1) 4.5s forwards;
+}
+@keyframes op-hero-in {
+  0%   { opacity: 0; transform: scale(1.8); filter: blur(8px); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+@keyframes op-hero-glow {
+  0%   { opacity: 0; transform: scale(0.4); }
+  50%  { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+@keyframes op-shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* ==================== SUBTITLE / MOTTO ==================== */
 .op-subtitle {
-  margin: 1.4rem 0 0;
+  margin: 1.3rem 0 0;
   font-family: "Shippori Mincho", serif;
   font-weight: 400;
   font-size: clamp(0.95rem, 1.3vw, 1.12rem);
   letter-spacing: 0.45em;
-  color: rgba(245, 241, 230, 0.85);
+  color: rgba(245, 241, 230, 0.9);
 }
-.op-subtitle .op-clip-in { animation-delay: 5.4s; }
+.op-subtitle .op-clip-in { animation-delay: 5.9s; }
 
-/* ---- Motto ---- */
 .op-motto {
   margin: 0.4rem 0 0;
   font-family: "Cormorant Garamond", serif;
@@ -317,19 +462,49 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.4em;
   color: var(--accent);
 }
-.op-motto .op-clip-in { animation-delay: 6.0s; }
+.op-motto .op-clip-in { animation-delay: 6.5s; }
 
-/* ---- Bottom progress bar ---- */
+/* ==================== FLASH ==================== */
+.op-flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 55%, rgba(255, 246, 220, 0.9), transparent 60%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.is-ready .op-flash {
+  animation: op-flash-burst 0.9s cubic-bezier(0.22, 1, 0.36, 1) 4.5s forwards;
+}
+@keyframes op-flash-burst {
+  0%   { opacity: 0; }
+  10%  { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* ==================== HUD ==================== */
 .op-hud {
   position: absolute;
   bottom: 4rem;
   left: 50%;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
   opacity: 0;
 }
 .is-ready .op-hud { animation: op-cm-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards; }
+.op-hud-label {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: rgba(245, 241, 230, 0.4);
+  text-transform: uppercase;
+}
 .op-hud-bar {
-  width: 160px;
+  width: 180px;
   height: 1px;
   background: rgba(245, 241, 230, 0.08);
   overflow: hidden;
@@ -340,17 +515,15 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(to right, var(--accent), var(--accent-2));
 }
 .is-ready .op-hud-fill {
-  animation: op-hud-grow 7.4s linear 0.4s forwards;
+  animation: op-hud-grow 8.6s linear 0.4s forwards;
 }
-@keyframes op-hud-grow {
-  to { width: 100%; }
-}
+@keyframes op-hud-grow { to { width: 100%; } }
 @media (max-width: 640px) {
   .op-hud { bottom: 2.6rem; }
-  .op-hud-bar { width: 120px; }
+  .op-hud-bar { width: 130px; }
 }
 
-/* ---- Skip button ---- */
+/* ==================== SKIP ==================== */
 .op-skip {
   position: absolute;
   top: 1.6rem;
@@ -373,10 +546,7 @@ a { color: inherit; text-decoration: none; }
   transition: color 0.3s, border-color 0.3s, background 0.3s;
 }
 @media (min-width: 900px) {
-  .op-skip {
-    right: 1.8rem;
-    transform: none;
-  }
+  .op-skip { right: 1.8rem; transform: none; }
 }
 .is-ready .op-skip { animation: op-cm-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards; }
 .op-skip:hover {
@@ -394,8 +564,10 @@ a { color: inherit; text-decoration: none; }
     transition-duration: 0.01ms !important;
   }
   .op-clip-in { transform: none !important; }
-  .op-emblem-line, .op-emblem-tick { stroke-dashoffset: 0 !important; }
-  .op-emblem, .op-emblem-pin, .op-emblem-dot { opacity: 1 !important; }
+  .op-w { opacity: 1 !important; transform: none !important; }
+  .op-hero { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .op-emblem { opacity: 1 !important; }
+  [class*="op-e-"] { stroke-dashoffset: 0 !important; opacity: 1 !important; }
 }
 
 /* =========================================================

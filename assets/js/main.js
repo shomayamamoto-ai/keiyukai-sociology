@@ -1,13 +1,13 @@
 (() => {
   'use strict';
-  console.log('[sociology-seminar] main.js v18 — Dignified opening');
+  console.log('[sociology-seminar] main.js v19 — Dynamic opening');
 
   /* =========================================================
      OPENING: fonts-gated, mask-and-rise CSS timeline.
      JS owns: fonts.ready gate, particle layer, skip/cleanup.
      ========================================================= */
 
-  const OPENING_DURATION = 7800;
+  const OPENING_DURATION = 8600;
   const FADE_OUT_MS = 900;
 
   const opening = document.getElementById('opening');
@@ -49,19 +49,19 @@
   }
 
   function seedParticles() {
-    // Cap at 40 — research says 120 with shadowBlur kills frame rate
-    const count = Math.min(40, Math.floor((W * H) / 38000));
+    // More particles for livelier backdrop; pre-baked sprites keep it cheap
+    const count = Math.min(70, Math.floor((W * H) / 24000));
     particles = [];
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * W,
         y: Math.random() * H,
-        size: 14 + Math.random() * 18,   // visual size
-        vx: (Math.random() - 0.5) * 0.08,
-        vy: -0.08 - Math.random() * 0.14,
+        size: 14 + Math.random() * 22,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: -0.15 - Math.random() * 0.28,
         life: Math.random(),
-        speedLife: 0.0012 + Math.random() * 0.002,
-        blue: Math.random() < 0.22,
+        speedLife: 0.0018 + Math.random() * 0.0036,
+        blue: Math.random() < 0.25,
       });
     }
   }
