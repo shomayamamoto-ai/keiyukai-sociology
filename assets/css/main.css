@@ -2035,10 +2035,13 @@ a { color: inherit; text-decoration: none; }
 }
 .contact__note {
   margin: 0 auto;
-  max-width: 52ch;
+  max-width: 46ch;
   color: var(--ink-2);
   font-size: 0.9rem;
   line-height: 2;
+  text-wrap: pretty;        /* avoid orphaned last-line widows */
+  word-break: keep-all;
+  line-break: strict;
 }
 
 /* FOOTER */
