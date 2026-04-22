@@ -1,13 +1,13 @@
 (() => {
   'use strict';
-  console.log('[sociology-seminar] main.js v16 — KEIO editorial opening');
+  console.log('[sociology-seminar] main.js v18 — Dignified opening');
 
   /* =========================================================
      OPENING: fonts-gated, mask-and-rise CSS timeline.
      JS owns: fonts.ready gate, particle layer, skip/cleanup.
      ========================================================= */
 
-  const OPENING_DURATION = 8500;
+  const OPENING_DURATION = 7800;
   const FADE_OUT_MS = 900;
 
   const opening = document.getElementById('opening');

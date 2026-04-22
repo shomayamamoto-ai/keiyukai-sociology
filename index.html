@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=17" />
+  <link rel="stylesheet" href="assets/css/main.css?v=18" />
 </head>
 <body>
 
@@ -27,94 +27,75 @@
     <div class="cursor__ring"></div>
   </div>
 
-  <!-- ============ OPENING (v16 — KEIO-centered editorial) ============ -->
+  <!-- ============ OPENING (v18 — Dignified: drawn emblem + restrained typography) ============ -->
   <div id="opening" class="op">
 
-    <!-- Calm backdrop + subtle particles -->
+    <!-- Calm backdrop (static gradient + very subtle particles) -->
     <div class="op-bg" aria-hidden="true">
       <div class="op-bg-a"></div>
-      <div class="op-bg-b"></div>
       <canvas id="op-particles"></canvas>
     </div>
 
-    <!-- Editorial corner marks -->
-    <div class="op-corner op-corner-tl" aria-hidden="true">
-      <span class="op-corner__num">01</span>
-      <span class="op-corner__lbl">OPENING</span>
-    </div>
-    <div class="op-corner op-corner-tr" aria-hidden="true">
-      <span class="op-corner__lbl">EST.</span>
-      <span class="op-corner__num">2026</span>
-    </div>
-    <div class="op-corner op-corner-bl" aria-hidden="true">
-      <span class="op-corner__lbl">SOC · SEM</span>
-    </div>
-    <div class="op-corner op-corner-br" aria-hidden="true">
-      <span class="op-corner__lbl">VER · I</span>
-    </div>
+    <!-- Subtle editorial corner marks -->
+    <div class="op-cm op-cm-tl" aria-hidden="true">Opening</div>
+    <div class="op-cm op-cm-tr" aria-hidden="true">Est. 慶應義塾</div>
+    <div class="op-cm op-cm-bl" aria-hidden="true">Keio · Sociology · Seminar</div>
+    <div class="op-cm op-cm-br" aria-hidden="true">2026</div>
 
-    <!-- Thin horizontal rules -->
-    <div class="op-rule op-rule-t" aria-hidden="true"></div>
-    <div class="op-rule op-rule-b" aria-hidden="true"></div>
-
-    <!-- Stage -->
+    <!-- Centered composition -->
     <div class="op-stage">
 
-      <!-- ACT 1 — KEIO giant -->
-      <div class="op-act" data-act="1">
-        <div class="op-micro" style="--d:0.6s">
-          <span class="op-clip"><span class="op-clip-in">— Since 慶應義塾 —</span></span>
-        </div>
-        <h1 class="op-keio">
-          <span class="op-clip" style="--d:0.85s"><span class="op-clip-in op-letter">K</span></span><span class="op-clip" style="--d:1.00s"><span class="op-clip-in op-letter">E</span></span><span class="op-clip" style="--d:1.15s"><span class="op-clip-in op-letter">I</span></span><span class="op-clip" style="--d:1.30s"><span class="op-clip-in op-letter">O</span></span>
-        </h1>
+      <!-- Ornamental emblem (SVG line-draws itself) -->
+      <svg class="op-emblem" viewBox="0 0 340 60" aria-hidden="true" fill="none">
+        <g stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path class="op-emblem-line" d="M 30 30 Q 100 24 170 30 Q 240 36 310 30" />
+          <line class="op-emblem-tick" x1="170" y1="34" x2="170" y2="48" />
+        </g>
+        <circle class="op-emblem-pin op-emblem-pin-l" cx="25" cy="30" r="3" fill="currentColor" />
+        <circle class="op-emblem-pin op-emblem-pin-r" cx="315" cy="30" r="3" fill="currentColor" />
+        <circle class="op-emblem-dot" cx="170" cy="30" r="1.6" fill="currentColor" />
+      </svg>
+
+      <!-- Eyebrow: widely tracked label -->
+      <div class="op-eyebrow">
+        <span class="op-clip"><span class="op-clip-in">Keio</span></span>
+        <span class="op-ed" aria-hidden="true">·</span>
+        <span class="op-clip"><span class="op-clip-in">Sociology</span></span>
+        <span class="op-ed" aria-hidden="true">·</span>
+        <span class="op-clip"><span class="op-clip-in">Seminar</span></span>
       </div>
 
-      <!-- ACT 2 — Sociology · Seminar -->
-      <div class="op-act" data-act="2">
-        <div class="op-micro" style="--d:3.1s">
-          <span class="op-clip"><span class="op-clip-in">— A Field of Inquiry —</span></span>
-        </div>
-        <h2 class="op-discipline">
-          <span class="op-clip" style="--d:3.35s"><span class="op-clip-in">Sociology</span></span>
-          <span class="op-sep" aria-hidden="true">·</span>
-          <span class="op-clip" style="--d:3.55s"><span class="op-clip-in">Seminar</span></span>
-        </h2>
-        <div class="op-vseal" style="--d:4.1s" aria-hidden="true">
-          <span class="op-clip"><span class="op-clip-in">社</span></span>
-        </div>
-      </div>
+      <!-- Main philosophical statement -->
+      <h1 class="op-statement">
+        <span class="op-line op-line-1">
+          <span class="op-clip"><span class="op-clip-in">A space</span></span>
+          <span class="op-clip"><span class="op-clip-in">for</span></span>
+        </span>
+        <span class="op-line op-line-2">
+          <span class="op-clip"><span class="op-clip-in"><em>essential</em></span></span>
+          <span class="op-clip"><span class="op-clip-in">learning.</span></span>
+        </span>
+      </h1>
 
-      <!-- ACT 3 — full identity -->
-      <div class="op-act" data-act="3">
-        <div class="op-identity">
-          <div class="op-id-keio" style="--d:6.2s">
-            <span class="op-clip"><span class="op-clip-in">KEIO</span></span>
-          </div>
-          <div class="op-divider"></div>
-          <h1 class="op-id-main" style="--d:6.7s">
-            <span class="op-clip"><span class="op-clip-in">Sociology Seminar</span></span>
-          </h1>
-          <p class="op-id-jp" style="--d:7.1s">
-            <span class="op-clip"><span class="op-clip-in">慶友会 社会学ゼミ</span></span>
-          </p>
-          <div class="op-divider op-divider-2"></div>
-          <p class="op-id-motto" style="--d:7.8s">
-            <span class="op-clip"><span class="op-clip-in">Jiga Sakko · 自我作古</span></span>
-          </p>
-        </div>
-      </div>
+      <!-- Understated Japanese subtitle -->
+      <p class="op-subtitle">
+        <span class="op-clip"><span class="op-clip-in">慶友会 社会学ゼミ</span></span>
+      </p>
+
+      <!-- Motto -->
+      <p class="op-motto">
+        <span class="op-clip"><span class="op-clip-in">Jiga Sakko · 自我作古</span></span>
+      </p>
     </div>
 
-    <!-- HUD (bottom-center progress) -->
+    <!-- Bottom progress bar -->
     <div class="op-hud" aria-hidden="true">
-      <span class="op-hud-tag">Opening Sequence</span>
       <div class="op-hud-bar"><div class="op-hud-fill"></div></div>
     </div>
 
     <!-- Skip -->
     <button type="button" class="op-skip" id="opening-skip">
-      <span>SKIP</span>
+      <span>Skip</span>
       <span class="op-skip-arrow" aria-hidden="true">→</span>
     </button>
   </div>
@@ -1023,6 +1004,6 @@
     </footer>
   </div>
 
-  <script src="assets/js/main.js?v=16"></script>
+  <script src="assets/js/main.js?v=18"></script>
 </body>
 </html>
