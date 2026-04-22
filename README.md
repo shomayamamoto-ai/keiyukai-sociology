@@ -1,0 +1,20 @@
+# 慶友会 社会学ゼミ — Sociology Seminar
+
+慶應義塾大学 通信教育課程 公認学生団体「慶友会 社会学ゼミ」の公式ウェブサイトです。
+
+## 理念
+真の教育は、人間の尊厳を守り、自己と他者の双方を理解し、互いを支え合い、心身を健康にたもちながら「自立できるちから」をはぐくみます。
+
+## 公開URL
+`https://shomayamamoto-ai.github.io/keiyukai-sociology/`
+
+## 連絡先
+入会・見学のご相談: sociology.semi.kk@gmail.com
+
+---
+
+## ローカル開発
+```bash
+python3 serve.py
+# → http://localhost:8000
+```

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>慶友会 社会学ゼミ — Sociology Seminar</title>
+  <meta name="description" content="慶友会 社会学ゼミは、慶應義塾大学通信教育課程の学生による学習サークルです。本質的な思考と本質的な学びを掲げ、ゼミ形式で社会学を探究します。" />
+  <meta property="og:title" content="慶友会 社会学ゼミ" />
+  <meta property="og:description" content="本質的思考・本質的学び — 慶應義塾大学 通信教育課程の社会学ゼミ" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Preload the two critical font files so the intro doesn't FOUT -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css?v=7" />
+</head>
+<body>
+
+  <!-- ============ OPENING (v7 — Awwwards-grade kinetic typography) ============ -->
+  <div id="opening" class="op">
+
+    <!-- Calm static backdrop + subtle canvas particles -->
+    <div class="op-bg" aria-hidden="true">
+      <div class="op-bg-a"></div>
+      <div class="op-bg-b"></div>
+      <canvas id="op-particles"></canvas>
+    </div>
+
+    <!-- Thin horizontal rules that draw before type -->
+    <div class="op-rule op-rule-t" aria-hidden="true"></div>
+    <div class="op-rule op-rule-b" aria-hidden="true"></div>
+
+    <!-- Stage: three stacked acts -->
+    <div class="op-stage">
+
+      <!-- ACT 1 -->
+      <div class="op-act" data-act="1">
+        <div class="op-eyebrow" style="--d:0.55s">
+          <span class="op-clip"><span class="op-clip-in">EST. 慶應義塾 · KEIYUKAI</span></span>
+        </div>
+        <div class="op-big">
+          <span class="op-clip" style="--d:0.75s"><span class="op-clip-in op-glyph">慶</span></span><span class="op-clip" style="--d:0.82s"><span class="op-clip-in op-glyph">友</span></span><span class="op-clip" style="--d:0.89s"><span class="op-clip-in op-glyph">会</span></span>
+        </div>
+        <div class="op-sub" style="--d:1.5s">
+          <span class="op-clip"><span class="op-clip-in">Sociology Seminar · Since 慶應義塾</span></span>
+        </div>
+      </div>
+
+      <!-- ACT 2 -->
+      <div class="op-act" data-act="2">
+        <div class="op-phrase" style="--d:3.2s">
+          <span class="op-clip"><span class="op-clip-in">本質的<em>思考</em></span></span>
+        </div>
+        <div class="op-phrase" style="--d:3.42s">
+          <span class="op-clip"><span class="op-clip-in">本質的<em>学び</em></span></span>
+        </div>
+        <div class="op-phrase" style="--d:3.64s">
+          <span class="op-clip"><span class="op-clip-in">自立できる<em>ちから</em></span></span>
+        </div>
+      </div>
+
+      <!-- ACT 3 -->
+      <div class="op-act" data-act="3">
+        <div class="op-eyebrow" style="--d:6.3s">
+          <span class="op-clip"><span class="op-clip-in">慶應義塾大学 通信教育課程</span></span>
+        </div>
+        <div class="op-big">
+          <span class="op-clip" style="--d:6.55s"><span class="op-clip-in op-glyph">社</span></span><span class="op-clip" style="--d:6.62s"><span class="op-clip-in op-glyph">会</span></span><span class="op-clip" style="--d:6.69s"><span class="op-clip-in op-glyph">学</span></span><span class="op-clip op-small-wrap" style="--d:6.78s"><span class="op-clip-in op-glyph op-glyph-small">ゼ</span></span><span class="op-clip op-small-wrap" style="--d:6.85s"><span class="op-clip-in op-glyph op-glyph-small">ミ</span></span>
+        </div>
+        <div class="op-en" style="--d:7.5s">
+          <span class="op-clip"><span class="op-clip-in">Sociology Seminar</span></span>
+        </div>
+        <div class="op-divider"></div>
+        <div class="op-motto">
+          <span class="op-clip" style="--d:8.25s"><span class="op-clip-in">自</span></span><span class="op-clip" style="--d:8.30s"><span class="op-clip-in">我</span></span><span class="op-clip" style="--d:8.35s"><span class="op-clip-in">作</span></span><span class="op-clip" style="--d:8.40s"><span class="op-clip-in">古</span></span>
+          <span class="op-motto-dash" style="--d:8.55s"><span class="op-clip"><span class="op-clip-in">—</span></span></span>
+          <span class="op-motto-jp" style="--d:8.65s"><span class="op-clip"><span class="op-clip-in">われよりいにしえをなす</span></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div class="op-hud" aria-hidden="true">
+      <div class="op-hud-bar"><div class="op-hud-fill"></div></div>
+      <div class="op-hud-meta">
+        <span>SOCIOLOGY SEMINAR</span>
+        <span>BUILD · 2026</span>
+      </div>
+    </div>
+
+    <!-- Skip -->
+    <button type="button" class="op-skip" id="opening-skip">
+      <span class="op-clip"><span class="op-clip-in">SKIP</span></span>
+      <span class="op-skip-arrow" aria-hidden="true">→</span>
+    </button>
+  </div>
+
+  <!-- ============ MAIN SITE ============ -->
+  <div id="site" class="site" aria-hidden="true">
+
+    <header class="nav">
+      <a href="#top" class="nav__brand">
+        <span class="nav__brand-mark" aria-hidden="true"></span>
+        <span class="nav__brand-text">
+          <span class="nav__brand-jp">慶友会 社会学ゼミ</span>
+          <span class="nav__brand-en">Sociology Seminar</span>
+        </span>
+      </a>
+      <nav class="nav__links" aria-label="メインナビゲーション">
+        <a href="#creed">Creed</a>
+        <a href="#philosophy">Philosophy</a>
+        <a href="#activities">Activities</a>
+        <a href="#process">Process</a>
+        <a href="#readings">Readings</a>
+        <a href="#faq">FAQ</a>
+        <a href="membership.html">Join</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section id="top" class="hero">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__gradient" data-parallax="0.15"></div>
+        <div class="hero__stars" data-parallax="0.25"></div>
+        <div class="hero__glow-1"></div>
+        <div class="hero__glow-2"></div>
+      </div>
+
+      <div class="hero__ornament hero__ornament--left" aria-hidden="true">
+        <svg viewBox="0 0 80 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="40" y1="0" x2="40" y2="400" stroke="currentColor" stroke-width="1" stroke-opacity="0.4"/>
+          <circle cx="40" cy="60" r="3" fill="currentColor" fill-opacity="0.8"/>
+          <circle cx="40" cy="200" r="2" fill="currentColor" fill-opacity="0.5"/>
+          <circle cx="40" cy="340" r="3" fill="currentColor" fill-opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="hero__ornament hero__ornament--right" aria-hidden="true">
+        <svg viewBox="0 0 80 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="40" y1="0" x2="40" y2="400" stroke="currentColor" stroke-width="1" stroke-opacity="0.4"/>
+          <circle cx="40" cy="60" r="3" fill="currentColor" fill-opacity="0.8"/>
+          <circle cx="40" cy="200" r="2" fill="currentColor" fill-opacity="0.5"/>
+          <circle cx="40" cy="340" r="3" fill="currentColor" fill-opacity="0.8"/>
+        </svg>
+      </div>
+
+      <div class="hero__content">
+        <p class="hero__eyebrow">
+          <span class="hero__eyebrow-line"></span>
+          慶應義塾大学 通信教育課程 — 公認学生団体
+          <span class="hero__eyebrow-line"></span>
+        </p>
+        <h2 class="hero__title">
+          <span>学びの本質に、</span>
+          <span>ワクワクする。</span>
+          <span class="hero__title--accent">自立するちからを、共に。</span>
+        </h2>
+        <p class="hero__lead">
+          真の教育とは、人間の尊厳を守り、自己と他者を理解し、<br />
+          互いを支え合いながら、<em>「自立できるちから」</em>をはぐくむこと——。
+        </p>
+        <p class="hero__lead hero__lead--soft">
+          私たちは、難解な内容もわかりやすくかみくだき、寄り添う姿勢で、<br />
+          社会学の本質にワクワクする時間を共有していきます。
+        </p>
+        <div class="hero__actions">
+          <a href="#about" class="btn btn--primary">
+            <span>ゼミについて知る</span>
+            <span class="btn__arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="membership.html" class="btn btn--ghost">
+            <span>入会を検討する</span>
+          </a>
+        </div>
+
+        <div class="hero__metrics" aria-hidden="true">
+          <div class="metric">
+            <span class="metric__num">慶應</span>
+            <span class="metric__label">通信教育課程</span>
+          </div>
+          <div class="metric__divider"></div>
+          <div class="metric">
+            <span class="metric__num">Online</span>
+            <span class="metric__label">Zoom × スライド</span>
+          </div>
+          <div class="metric__divider"></div>
+          <div class="metric">
+            <span class="metric__num">全国</span>
+            <span class="metric__label">どこからでも参加可</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__scroll" aria-hidden="true">
+        <span>SCROLL</span>
+        <span class="hero__scroll-line"></span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section section--about">
+      <div class="section__header">
+        <span class="section__num">01</span>
+        <h3 class="section__title">About Us</h3>
+        <p class="section__subtitle">私たちについて</p>
+      </div>
+
+      <div class="about__grid">
+        <div class="about__card">
+          <h4>ゼミの目的</h4>
+          <p>
+            慶友会 社会学ゼミは、慶應義塾大学 通信教育課程で学ぶ学生による自発的な学習サークルです。
+            個々に学ぶ通信生が集い、講師を囲むゼミ形式で本質的な学びを深めます。
+          </p>
+        </div>
+        <div class="about__card">
+          <h4>ゼミ形式の学び</h4>
+          <p>
+            慶應義塾の「自我作古（われよりいにしえをなす）」の精神のもと、
+            文・法・経済の領域横断で、講師派遣による対話型のゼミを展開しています。
+          </p>
+        </div>
+        <div class="about__card">
+          <h4>全国どこからでも</h4>
+          <p>
+            時間の制約や遠方にお住まいの方にも学びが届くよう、
+            Zoomによる中継とスライド共有を活用しています（教員・大学の許可のもと運営）。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CREED / 理念 -->
+    <section id="creed" class="section section--creed">
+      <div class="section__header">
+        <span class="section__num">02</span>
+        <h3 class="section__title">Our Creed</h3>
+        <p class="section__subtitle">理念</p>
+      </div>
+
+      <div class="creed__body">
+        <blockquote class="creed__statement">
+          <p>
+            真の教育は、<strong>人間の尊厳</strong>を守り、<br />
+            自己と他者の双方を理解し、互いを支え合い、<br />
+            心身を健康にたもちながら<br />
+            「<em>自立できるちから</em>」をはぐくみます。
+          </p>
+          <p>
+            難解な内容であっても<br />
+            わかりやすくかみくだいた、寄り添うような図解資料があれば、<br />
+            <em>学びの本質についてワクワクするような時間</em>を<br />
+            共有することが可能となります。
+          </p>
+          <p class="creed__sign">
+            わたしたちは、このような想いを抱きつつ、<br />
+            日々活動しています。
+          </p>
+        </blockquote>
+
+        <div class="creed__values">
+          <div class="value">
+            <span class="value__mark" aria-hidden="true">◆</span>
+            <h5>尊厳</h5>
+            <p>一人ひとりの存在と学びの歩みを、何より大切に。</p>
+          </div>
+          <div class="value">
+            <span class="value__mark" aria-hidden="true">◆</span>
+            <h5>共感</h5>
+            <p>自己と他者の双方を理解し、支え合う学びの場を。</p>
+          </div>
+          <div class="value">
+            <span class="value__mark" aria-hidden="true">◆</span>
+            <h5>自立</h5>
+            <p>「自立できるちから」を、共にはぐくんでいきます。</p>
+          </div>
+          <div class="value">
+            <span class="value__mark" aria-hidden="true">◆</span>
+            <h5>ワクワク</h5>
+            <p>かみくだいた図解で、本質にふれる歓びを共有します。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section id="philosophy" class="section section--philosophy">
+      <div class="section__header">
+        <span class="section__num">03</span>
+        <h3 class="section__title">Philosophy</h3>
+        <p class="section__subtitle">社会学という視座</p>
+      </div>
+
+      <div class="philosophy__body">
+        <blockquote class="philosophy__quote">
+          社会学は、フランス革命後にオーギュスト・コントが<br />
+          「<em>社会物理学</em>」として構想した学問である。<br />
+          歴史・心理・経済を統合し、実証主義の科学的アプローチで<br />
+          社会の「<em>秩序と進歩</em>」に貢献する——。
+        </blockquote>
+
+        <div class="philosophy__pillars">
+          <div class="pillar">
+            <span class="pillar__num">I</span>
+            <h5>秩序 / Order</h5>
+            <p>社会を成り立たせる構造と規範を、歴史的・実証的に読み解きます。</p>
+          </div>
+          <div class="pillar">
+            <span class="pillar__num">II</span>
+            <h5>進歩 / Progress</h5>
+            <p>AI・自動化時代に、人はどう生き、どう学ぶべきかを問い直します。</p>
+          </div>
+          <div class="pillar">
+            <span class="pillar__num">III</span>
+            <h5>自我作古</h5>
+            <p>前例なき時代を、自ら切り拓く人になる——慶應義塾の精神を体現します。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVITIES -->
+    <section id="activities" class="section section--activities">
+      <div class="section__header">
+        <span class="section__num">04</span>
+        <h3 class="section__title">Activities</h3>
+        <p class="section__subtitle">活動内容</p>
+      </div>
+
+      <ul class="activities__list">
+        <li class="activity">
+          <span class="activity__index">01</span>
+          <div class="activity__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="10" width="36" height="26" rx="2" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M6 16 L42 16" stroke="currentColor" stroke-width="1"/>
+              <circle cx="11" cy="13" r="1" fill="currentColor"/>
+              <circle cx="15" cy="13" r="1" fill="currentColor"/>
+              <path d="M14 24 L34 24 M14 28 L28 28" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              <circle cx="24" cy="42" r="2.5" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+          </div>
+          <div class="activity__body">
+            <h5>講師派遣ゼミ</h5>
+            <p>慶應義塾の専任教員をお招きし、対話形式で社会学の核心に迫ります。</p>
+            <span class="activity__tag">Online × Lecture</span>
+          </div>
+        </li>
+        <li class="activity">
+          <span class="activity__index">02</span>
+          <div class="activity__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 12 Q24 6 40 12 L40 38 Q24 32 8 38 Z" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M24 9 L24 35" stroke="currentColor" stroke-width="1"/>
+              <path d="M13 18 L20 20 M28 20 L35 18" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              <path d="M13 25 L20 27 M28 27 L35 25" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="activity__body">
+            <h5>輪読会・勉強会</h5>
+            <p>指定書籍を丁寧に読み込み、参加者同士で論点を交換します。図解資料で本質を可視化。</p>
+            <span class="activity__tag">Reading Circle</span>
+          </div>
+        </li>
+        <li class="activity">
+          <span class="activity__index">03</span>
+          <div class="activity__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="12" width="36" height="22" rx="3" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M20 22 L28 26 L20 30 Z" fill="currentColor"/>
+              <path d="M18 38 L30 38" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="38" cy="18" r="1.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="activity__body">
+            <h5>オンライン配信</h5>
+            <p>Zoom＋スライドで遠方・多忙の方も参加可能。録画の共有で非同期学習にも対応。</p>
+            <span class="activity__tag">Zoom × Slide</span>
+          </div>
+        </li>
+        <li class="activity">
+          <span class="activity__index">04</span>
+          <div class="activity__icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="18" r="5" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="32" cy="18" r="5" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M7 36 Q7 28 16 28 Q25 28 25 36" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M23 36 Q23 28 32 28 Q41 28 41 36" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="activity__body">
+            <h5>交流・情報交換</h5>
+            <p>通信課程で孤独になりがちな学びを、仲間と共有し励まし合います。卒論相談も活発。</p>
+            <span class="activity__tag">Community</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- PROCESS / 学びの流れ -->
+    <section id="process" class="section section--process">
+      <div class="section__header">
+        <span class="section__num">05</span>
+        <h3 class="section__title">How We Learn</h3>
+        <p class="section__subtitle">学びの流れ</p>
+      </div>
+
+      <ol class="process__timeline">
+        <li class="process__step">
+          <div class="process__dot" aria-hidden="true">
+            <span>1</span>
+          </div>
+          <div class="process__card">
+            <h5>テーマ設定</h5>
+            <p>社会学の古典・現代理論から、参加者の問題意識に響くテーマを選定します。</p>
+          </div>
+        </li>
+        <li class="process__step">
+          <div class="process__dot" aria-hidden="true">
+            <span>2</span>
+          </div>
+          <div class="process__card">
+            <h5>図解資料の作成</h5>
+            <p>難解な概念もかみくだいた図解資料で、誰もが本質にアクセスできるよう準備します。</p>
+          </div>
+        </li>
+        <li class="process__step">
+          <div class="process__dot" aria-hidden="true">
+            <span>3</span>
+          </div>
+          <div class="process__card">
+            <h5>ゼミ形式での対話</h5>
+            <p>講師を囲み、Zoomで全国の仲間と対話。問いを重ねることで理解が深まります。</p>
+          </div>
+        </li>
+        <li class="process__step">
+          <div class="process__dot" aria-hidden="true">
+            <span>4</span>
+          </div>
+          <div class="process__card">
+            <h5>省察と応用</h5>
+            <p>自分自身の生活・仕事に引き寄せて省察し、卒論や日々の実践へとつなげます。</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- READINGS -->
+    <section id="readings" class="section section--readings">
+      <div class="section__header">
+        <span class="section__num">06</span>
+        <h3 class="section__title">Core Readings</h3>
+        <p class="section__subtitle">指定書籍</p>
+      </div>
+
+      <div class="readings__grid">
+        <article class="book">
+          <div class="book__spine" aria-hidden="true">
+            <span>社会学</span>
+          </div>
+          <div class="book__body">
+            <h5>大学４年間の社会学が10時間でざっと学べる</h5>
+            <p class="book__author">出口 剛司 著</p>
+            <p class="book__desc">社会学の全体像を最短で俯瞰する入門書。ゼミの共通言語をつくります。</p>
+          </div>
+        </article>
+
+        <article class="book">
+          <div class="book__spine book__spine--alt" aria-hidden="true">
+            <span>Giddens</span>
+          </div>
+          <div class="book__body">
+            <h5>社会学 第五版</h5>
+            <p class="book__author">アンソニー・ギデンズ 著</p>
+            <p class="book__desc">世界基準の社会学テキスト。理論と現代的事例を往復しながら読み進めます。</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section section--faq">
+      <div class="section__header">
+        <span class="section__num">07</span>
+        <h3 class="section__title">FAQ</h3>
+        <p class="section__subtitle">よくあるご質問</p>
+      </div>
+
+      <div class="faq__list">
+        <details class="faq__item">
+          <summary>
+            <span class="faq__q">Q</span>
+            <span class="faq__question">社会学の予備知識がなくても参加できますか？</span>
+            <span class="faq__arrow" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>はい、まったく問題ありません。指定書籍『大学４年間の社会学が10時間でざっと学べる』から丁寧に土台を築きます。「本質をかみくだいた図解資料」で、初学者でも迷わず学べる設計です。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span class="faq__q">Q</span>
+            <span class="faq__question">会費はかかりますか？</span>
+            <span class="faq__arrow" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>詳細は入会申込時にご案内いたします。まずはお気軽にお問い合わせください。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span class="faq__q">Q</span>
+            <span class="faq__question">通信教育課程の入学前でも参加できますか？</span>
+            <span class="faq__arrow" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>ご出願予定の方も歓迎します。慶應通信での学び方や、卒論までの道のりなども、先輩メンバーから直接お話を聞いていただけます。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span class="faq__q">Q</span>
+            <span class="faq__question">遠方に住んでいますが参加可能ですか？</span>
+            <span class="faq__arrow" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>ゼミはZoomでのオンライン開催が中心です。全国どこからでも、また海外にお住まいの方でも、時差が合えばご参加いただけます。録画共有もあるため、後からの視聴も可能です。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span class="faq__q">Q</span>
+            <span class="faq__question">多忙でも続けられますか？</span>
+            <span class="faq__arrow" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>お仕事や家庭との両立を大切にしています。参加頻度は柔軟に調整可能、配信録画・図解資料で非同期での学習もサポートしています。寄り添う姿勢を何より大切に運営しています。</p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>
+            <span class="faq__q">Q</span>
+            <span class="faq__question">卒業論文の相談はできますか？</span>
+            <span class="faq__arrow" aria-hidden="true">+</span>
+          </summary>
+          <div class="faq__answer">
+            <p>もちろん可能です。社会学領域で卒論を執筆される方はもちろん、他分野の方でも、社会学的な視座から助言を得られます。職業背景を共有する仲間がいることが、テーマ選定でも大きな力になります。</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- JOIN -->
+    <section id="join" class="section section--join">
+      <div class="section__header">
+        <span class="section__num">08</span>
+        <h3 class="section__title">Join Us</h3>
+        <p class="section__subtitle">参加をお考えの方へ</p>
+      </div>
+
+      <div class="join__panel">
+        <p class="join__lead">
+          慶應義塾大学 通信教育課程で学ばれている方なら、どなたでも歓迎します。<br />
+          社会学への関心はもちろん、「本質的に考え、本質的に学びたい」という志をお持ちの方を特にお待ちしています。
+        </p>
+        <ul class="join__points">
+          <li>通信教育課程の在学生・出願予定の方</li>
+          <li>ゼミ形式での対話的な学びに関心のある方</li>
+          <li>Zoom等オンラインでの参加も可能</li>
+        </ul>
+        <div class="join__actions">
+          <a href="membership.html" class="btn btn--primary">入会申込フォームへ</a>
+          <a href="#contact" class="btn btn--ghost">まずは相談する</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section section--contact">
+      <div class="section__header">
+        <span class="section__num">09</span>
+        <h3 class="section__title">Contact</h3>
+        <p class="section__subtitle">お問い合わせ</p>
+      </div>
+
+      <div class="contact__card">
+        <p class="contact__kicker">入会・見学のご相談はこちらから</p>
+        <a class="contact__mail" href="mailto:sociology.semi.kk@gmail.com">
+          sociology.semi.kk@gmail.com
+        </a>
+        <p class="contact__note">
+          お名前・ご所属（通信教育課程の学類・学年など）・ご関心の分野を添えてお送りください。<br />
+          数日以内に担当者よりご返信いたします。
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <span class="footer__brand-jp">慶友会 社会学ゼミ</span>
+          <span class="footer__brand-en">Sociology Seminar, Keio Keiyukai</span>
+        </div>
+        <p class="footer__motto">自我作古 — われよりいにしえをなす</p>
+        <p class="footer__copy">© <span id="year"></span> Sociology Seminar. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/js/main.js?v=7"></script>
+</body>
+</html>
