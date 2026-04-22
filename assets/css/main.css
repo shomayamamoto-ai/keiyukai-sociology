@@ -2124,17 +2124,6 @@ a { color: inherit; text-decoration: none; }
   text-align: center;
   overflow: hidden;
 }
-.manifesto__inner::before,
-.manifesto__inner::after {
-  content: "";
-  position: absolute;
-  width: 1px;
-  height: 50%;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-  opacity: 0.5;
-}
-.manifesto__inner::before { top: 0; left: 50%; }
-.manifesto__inner::after  { bottom: 0; right: 50%; transform: rotate(180deg); transform-origin: right top; }
 
 .manifesto__small {
   margin: 0 0 1.6rem;
