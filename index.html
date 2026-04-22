@@ -5,17 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>慶友会 社会学ゼミ — Sociology Seminar</title>
   <meta name="description" content="慶友会 社会学ゼミは、慶應義塾大学通信教育課程の学生による学習サークルです。本質的な思考と本質的な学びを掲げ、ゼミ形式で社会学を探究します。" />
+  <meta name="theme-color" content="#05060a" />
   <meta property="og:title" content="慶友会 社会学ゼミ" />
   <meta property="og:description" content="本質的思考・本質的学び — 慶應義塾大学 通信教育課程の社会学ゼミ" />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://shomayamamoto-ai.github.io/keiyukai-sociology/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="慶友会 社会学ゼミ" />
+  <meta name="twitter:description" content="本質的思考・本質的学び — 慶應義塾大学 通信教育課程の社会学ゼミ" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Preload the two critical font files so the intro doesn't FOUT -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=7" />
+  <link rel="stylesheet" href="assets/css/main.css?v=10" />
 </head>
 <body>
+
+  <!-- Custom cursor (desktop only) -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
 
   <!-- ============ OPENING (v7 — Awwwards-grade kinetic typography) ============ -->
   <div id="opening" class="op">
@@ -96,6 +106,9 @@
     </button>
   </div>
 
+  <!-- Scroll progress indicator -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
   <!-- ============ MAIN SITE ============ -->
   <div id="site" class="site" aria-hidden="true">
 
@@ -109,14 +122,46 @@
       </a>
       <nav class="nav__links" aria-label="メインナビゲーション">
         <a href="#creed">Creed</a>
-        <a href="#philosophy">Philosophy</a>
         <a href="#activities">Activities</a>
-        <a href="#process">Process</a>
+        <a href="#themes">Themes</a>
+        <a href="#voices">Voices</a>
         <a href="#readings">Readings</a>
         <a href="#faq">FAQ</a>
-        <a href="membership.html">Join</a>
+        <a href="membership.html" class="nav__cta">Join</a>
       </nav>
+
+      <button type="button" class="nav__burger" id="nav-burger" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
     </header>
+
+    <!-- Mobile drawer -->
+    <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+      <div class="nav-drawer__backdrop"></div>
+      <aside class="nav-drawer__panel" role="dialog" aria-label="モバイルメニュー">
+        <div class="nav-drawer__header">
+          <span class="nav-drawer__title">慶友会 社会学ゼミ</span>
+          <button type="button" class="nav-drawer__close" id="nav-drawer-close" aria-label="メニューを閉じる">✕</button>
+        </div>
+        <nav class="nav-drawer__links">
+          <a href="#about" data-drawer-link>About</a>
+          <a href="#creed" data-drawer-link>Creed</a>
+          <a href="#philosophy" data-drawer-link>Philosophy</a>
+          <a href="#activities" data-drawer-link>Activities</a>
+          <a href="#themes" data-drawer-link>Themes</a>
+          <a href="#process" data-drawer-link>Process</a>
+          <a href="#voices" data-drawer-link>Voices</a>
+          <a href="#readings" data-drawer-link>Readings</a>
+          <a href="#faq" data-drawer-link>FAQ</a>
+          <a href="#contact" data-drawer-link>Contact</a>
+          <a href="membership.html" class="nav-drawer__cta">入会申込へ</a>
+        </nav>
+        <div class="nav-drawer__foot">
+          <p>sociology.semi.kk@gmail.com</p>
+          <p>自我作古</p>
+        </div>
+      </aside>
+    </div>
 
     <!-- HERO -->
     <section id="top" class="hero">
@@ -144,6 +189,16 @@
         </svg>
       </div>
 
+      <!-- Giant vertical kanji signature (decorative) -->
+      <div class="hero__signature" aria-hidden="true">
+        <span>社</span><span>会</span><span>学</span>
+      </div>
+
+      <!-- Red seal stamp (inkan) -->
+      <div class="hero__seal" aria-hidden="true">
+        <span>慶</span>
+      </div>
+
       <div class="hero__content">
         <p class="hero__eyebrow">
           <span class="hero__eyebrow-line"></span>
@@ -153,7 +208,7 @@
         <h2 class="hero__title">
           <span>学びの本質に、</span>
           <span>ワクワクする。</span>
-          <span class="hero__title--accent">自立するちからを、共に。</span>
+          <span class="hero__title--accent">自律する力を、共に。</span>
         </h2>
         <p class="hero__lead">
           真の教育とは、人間の尊厳を守り、自己と他者を理解し、<br />
@@ -230,6 +285,31 @@
       </div>
     </section>
 
+    <!-- FACTS / 数字で見る -->
+    <section id="facts" class="facts">
+      <div class="facts__inner">
+        <div class="facts__item">
+          <span class="facts__num">慶應</span>
+          <span class="facts__label">義塾公認団体</span>
+        </div>
+        <div class="facts__divider"></div>
+        <div class="facts__item">
+          <span class="facts__num">Monthly</span>
+          <span class="facts__label">ゼミ・勉強会開催</span>
+        </div>
+        <div class="facts__divider"></div>
+        <div class="facts__item">
+          <span class="facts__num" data-count-to="100" data-count-suffix="+">0<sup>+</sup></span>
+          <span class="facts__label">オリジナル図解資料</span>
+        </div>
+        <div class="facts__divider"></div>
+        <div class="facts__item">
+          <span class="facts__num">全国</span>
+          <span class="facts__label">Zoomで遠隔参加可</span>
+        </div>
+      </div>
+    </section>
+
     <!-- CREED / 理念 -->
     <section id="creed" class="section section--creed">
       <div class="section__header">
@@ -289,6 +369,13 @@
         <span class="section__num">03</span>
         <h3 class="section__title">Philosophy</h3>
         <p class="section__subtitle">社会学という視座</p>
+      </div>
+
+      <div class="philosophy__aside" aria-hidden="true">
+        <div class="philosophy__asterism">⁂</div>
+        <div class="philosophy__vert">
+          <span>秩</span><span>序</span><span>と</span><span>進</span><span>歩</span>
+        </div>
       </div>
 
       <div class="philosophy__body">
@@ -397,10 +484,96 @@
       </ul>
     </section>
 
+    <!-- THEMES / 現在探究中のテーマ -->
+    <section id="themes" class="section section--themes">
+      <div class="section__header">
+        <span class="section__num">05</span>
+        <h3 class="section__title">Current Themes</h3>
+        <p class="section__subtitle">いま探究しているテーマ</p>
+      </div>
+
+      <div class="themes__intro">
+        <p>
+          毎期、参加者の関心と社会的問題意識を起点に、社会学の核となる主題を選定して掘り下げます。<br />
+          ここでは現在進行中の探究テーマをご紹介します。
+        </p>
+      </div>
+
+      <div class="themes__grid">
+        <article class="theme">
+          <div class="theme__num">No.01</div>
+          <h4 class="theme__title">ハビトゥスと社会階層の再生産</h4>
+          <p class="theme__desc">
+            ピエール・ブルデューの理論を出発点に、教育・文化・職業選択の中で
+            「階層」がいかに静かに継承されるかを読み解きます。
+          </p>
+          <div class="theme__meta">
+            <span class="theme__tag">社会階層</span>
+            <span class="theme__tag">文化資本</span>
+          </div>
+        </article>
+
+        <article class="theme">
+          <div class="theme__num">No.02</div>
+          <h4 class="theme__title">監視社会と「自由」の再定義</h4>
+          <p class="theme__desc">
+            フーコーのパノプティコンから現代のプラットフォーム監視まで。
+            可視化される個人の中で、私たちが守るべき「自由」とは何かを問います。
+          </p>
+          <div class="theme__meta">
+            <span class="theme__tag">権力</span>
+            <span class="theme__tag">プライバシー</span>
+          </div>
+        </article>
+
+        <article class="theme">
+          <div class="theme__num">No.03</div>
+          <h4 class="theme__title">AI時代の労働と人間の尊厳</h4>
+          <p class="theme__desc">
+            自動化が進む社会で、仕事を通じた自己実現はどう変わるのか。
+            マルクスの疎外論と現代の知識労働を接続して考えます。
+          </p>
+          <div class="theme__meta">
+            <span class="theme__tag">労働社会学</span>
+            <span class="theme__tag">技術</span>
+          </div>
+        </article>
+
+        <article class="theme">
+          <div class="theme__num">No.04</div>
+          <h4 class="theme__title">共同体と「弱い紐帯」の力</h4>
+          <p class="theme__desc">
+            グラノヴェッターの理論を手がかりに、強い絆だけでなく
+            「弱い結びつき」が人生・キャリア・社会に果たす役割を再評価します。
+          </p>
+          <div class="theme__meta">
+            <span class="theme__tag">ネットワーク</span>
+            <span class="theme__tag">共同体</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- MANIFESTO callout -->
+    <section class="manifesto" aria-label="Manifesto">
+      <div class="manifesto__inner">
+        <p class="manifesto__small">— Our Manifesto</p>
+        <h2 class="manifesto__big">
+          <span>学びは、</span>
+          <span>急がず。</span>
+          <span>本質に、近づく。</span>
+        </h2>
+        <p class="manifesto__sub">
+          わかった気になる速さよりも、本当に腑に落ちる深さを。<br />
+          一人ひとりが、自分の問いを持って帰れる時間を大切にしています。
+        </p>
+      </div>
+    </section>
+
     <!-- PROCESS / 学びの流れ -->
     <section id="process" class="section section--process">
       <div class="section__header">
-        <span class="section__num">05</span>
+        <span class="section__num">06</span>
         <h3 class="section__title">How We Learn</h3>
         <p class="section__subtitle">学びの流れ</p>
       </div>
@@ -445,10 +618,60 @@
       </ol>
     </section>
 
+    <!-- VOICES / メンバーの声 -->
+    <section id="voices" class="section section--voices">
+      <div class="section__header">
+        <span class="section__num">07</span>
+        <h3 class="section__title">Voices</h3>
+        <p class="section__subtitle">メンバーの声</p>
+      </div>
+
+      <div class="voices__grid">
+        <article class="voice">
+          <div class="voice__mark" aria-hidden="true">"</div>
+          <p class="voice__quote">
+            通信で学びはじめて、一人で読み解くのが難しい章でも、
+            図解資料と仲間の言葉で一気に視界が開けました。
+            「本質的に学ぶ」とはこういう時間のことか、と毎回実感します。
+          </p>
+          <footer class="voice__foot">
+            <span class="voice__who">A. M.</span>
+            <span class="voice__meta">文学部 III類 / 教育業</span>
+          </footer>
+        </article>
+
+        <article class="voice">
+          <div class="voice__mark" aria-hidden="true">"</div>
+          <p class="voice__quote">
+            仕事と子育てで対面参加は難しかったのですが、
+            Zoom中心の運営と録画共有のおかげで、
+            自分のペースで深く考える時間が持てています。
+          </p>
+          <footer class="voice__foot">
+            <span class="voice__who">H. T.</span>
+            <span class="voice__meta">経済学部 / 医療職</span>
+          </footer>
+        </article>
+
+        <article class="voice">
+          <div class="voice__mark" aria-hidden="true">"</div>
+          <p class="voice__quote">
+            卒論のテーマ選びで迷っていたとき、
+            先輩方が自分の職業経験と社会学の視座を結びつける議論を聞いて、
+            一気に方向性が定まりました。
+          </p>
+          <footer class="voice__foot">
+            <span class="voice__who">K. S.</span>
+            <span class="voice__meta">法学部 甲類 / 行政職</span>
+          </footer>
+        </article>
+      </div>
+    </section>
+
     <!-- READINGS -->
     <section id="readings" class="section section--readings">
       <div class="section__header">
-        <span class="section__num">06</span>
+        <span class="section__num">08</span>
         <h3 class="section__title">Core Readings</h3>
         <p class="section__subtitle">指定書籍</p>
       </div>
@@ -481,7 +704,7 @@
     <!-- FAQ -->
     <section id="faq" class="section section--faq">
       <div class="section__header">
-        <span class="section__num">07</span>
+        <span class="section__num">09</span>
         <h3 class="section__title">FAQ</h3>
         <p class="section__subtitle">よくあるご質問</p>
       </div>
@@ -558,7 +781,7 @@
     <!-- JOIN -->
     <section id="join" class="section section--join">
       <div class="section__header">
-        <span class="section__num">08</span>
+        <span class="section__num">10</span>
         <h3 class="section__title">Join Us</h3>
         <p class="section__subtitle">参加をお考えの方へ</p>
       </div>
@@ -583,7 +806,7 @@
     <!-- CONTACT -->
     <section id="contact" class="section section--contact">
       <div class="section__header">
-        <span class="section__num">09</span>
+        <span class="section__num">11</span>
         <h3 class="section__title">Contact</h3>
         <p class="section__subtitle">お問い合わせ</p>
       </div>
@@ -602,16 +825,52 @@
 
     <footer class="footer">
       <div class="footer__inner">
-        <div class="footer__brand">
-          <span class="footer__brand-jp">慶友会 社会学ゼミ</span>
-          <span class="footer__brand-en">Sociology Seminar, Keio Keiyukai</span>
+        <div class="footer__top">
+          <div class="footer__brand-block">
+            <span class="footer__brand-mark" aria-hidden="true"></span>
+            <div class="footer__brand">
+              <span class="footer__brand-jp">慶友会 社会学ゼミ</span>
+              <span class="footer__brand-en">Sociology Seminar, Keio Keiyukai</span>
+            </div>
+            <p class="footer__motto">自我作古 — われよりいにしえをなす</p>
+          </div>
+
+          <nav class="footer__nav" aria-label="サイト内リンク">
+            <div class="footer__col">
+              <h6>About</h6>
+              <a href="#about">ゼミについて</a>
+              <a href="#creed">理念</a>
+              <a href="#philosophy">社会学の視座</a>
+            </div>
+            <div class="footer__col">
+              <h6>Learn</h6>
+              <a href="#activities">活動内容</a>
+              <a href="#process">学びの流れ</a>
+              <a href="#readings">指定書籍</a>
+              <a href="#voices">メンバーの声</a>
+            </div>
+            <div class="footer__col">
+              <h6>Join</h6>
+              <a href="membership.html">入会申込</a>
+              <a href="#faq">よくあるご質問</a>
+              <a href="#contact">お問い合わせ</a>
+            </div>
+            <div class="footer__col">
+              <h6>Contact</h6>
+              <a class="footer__mail" href="mailto:sociology.semi.kk@gmail.com">sociology.semi.kk@gmail.com</a>
+              <p class="footer__note">慶應義塾大学 通信教育課程 公認学生団体</p>
+            </div>
+          </nav>
         </div>
-        <p class="footer__motto">自我作古 — われよりいにしえをなす</p>
-        <p class="footer__copy">© <span id="year"></span> Sociology Seminar. All rights reserved.</p>
+
+        <div class="footer__bottom">
+          <p class="footer__copy">© <span id="year"></span> 慶友会 社会学ゼミ. All rights reserved.</p>
+          <p class="footer__credit">Crafted with care in 2026.</p>
+        </div>
       </div>
     </footer>
   </div>
 
-  <script src="assets/js/main.js?v=7"></script>
+  <script src="assets/js/main.js?v=10"></script>
 </body>
 </html>
