@@ -40,6 +40,10 @@ html, body {
   letter-spacing: 0.02em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Japanese kinsoku: don't break within 文節, strict line-break */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  line-break: strict;
 }
 
 body { overflow-x: hidden; }
