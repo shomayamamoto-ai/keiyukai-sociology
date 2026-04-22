@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=10" />
+  <link rel="stylesheet" href="assets/css/main.css?v=11" />
 </head>
 <body>
 
@@ -109,6 +109,22 @@
   <!-- Scroll progress indicator -->
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
+  <!-- Side dot navigator (desktop only) -->
+  <nav class="dotnav" id="dotnav" aria-label="セクション一覧">
+    <a href="#top" data-label="Top"><span></span></a>
+    <a href="#about" data-label="About"><span></span></a>
+    <a href="#creed" data-label="Creed"><span></span></a>
+    <a href="#philosophy" data-label="Philosophy"><span></span></a>
+    <a href="#activities" data-label="Activities"><span></span></a>
+    <a href="#themes" data-label="Themes"><span></span></a>
+    <a href="#process" data-label="Process"><span></span></a>
+    <a href="#voices" data-label="Voices"><span></span></a>
+    <a href="#resources" data-label="Resources"><span></span></a>
+    <a href="#readings" data-label="Readings"><span></span></a>
+    <a href="#faq" data-label="FAQ"><span></span></a>
+    <a href="#contact" data-label="Contact"><span></span></a>
+  </nav>
+
   <!-- ============ MAIN SITE ============ -->
   <div id="site" class="site" aria-hidden="true">
 
@@ -151,6 +167,7 @@
           <a href="#themes" data-drawer-link>Themes</a>
           <a href="#process" data-drawer-link>Process</a>
           <a href="#voices" data-drawer-link>Voices</a>
+          <a href="#resources" data-drawer-link>Resources</a>
           <a href="#readings" data-drawer-link>Readings</a>
           <a href="#faq" data-drawer-link>FAQ</a>
           <a href="#contact" data-drawer-link>Contact</a>
@@ -668,10 +685,128 @@
       </div>
     </section>
 
+    <!-- RESOURCES / 図解資料の世界 -->
+    <section id="resources" class="section section--resources">
+      <div class="section__header">
+        <span class="section__num">08</span>
+        <h3 class="section__title">Illustrated Resources</h3>
+        <p class="section__subtitle">図解資料の世界</p>
+      </div>
+
+      <div class="resources__intro">
+        <p>
+          難解な社会学の概念も、図に描き起こすことで本質が立ち上がります。<br />
+          ゼミで共有している100本超のオリジナル図解資料から、その一端をご紹介します。
+        </p>
+      </div>
+
+      <div class="resources__grid">
+        <!-- Resource 1: Habitus network -->
+        <article class="resource">
+          <div class="resource__visual resource__visual--network" aria-hidden="true">
+            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <!-- Connecting edges -->
+              <g stroke="currentColor" stroke-width="0.8" opacity="0.4">
+                <line x1="60" y1="100" x2="140" y2="60"/>
+                <line x1="60" y1="100" x2="140" y2="140"/>
+                <line x1="60" y1="100" x2="200" y2="100"/>
+                <line x1="140" y1="60" x2="200" y2="100"/>
+                <line x1="140" y1="60" x2="260" y2="50"/>
+                <line x1="140" y1="140" x2="200" y2="100"/>
+                <line x1="140" y1="140" x2="260" y2="160"/>
+                <line x1="200" y1="100" x2="260" y2="50"/>
+                <line x1="200" y1="100" x2="260" y2="160"/>
+                <line x1="260" y1="50" x2="260" y2="160"/>
+              </g>
+              <!-- Nodes -->
+              <circle cx="60" cy="100" r="14" fill="currentColor" opacity="0.95"/>
+              <circle cx="140" cy="60" r="9" fill="currentColor" opacity="0.8"/>
+              <circle cx="140" cy="140" r="9" fill="currentColor" opacity="0.8"/>
+              <circle cx="200" cy="100" r="11" fill="currentColor" opacity="0.85"/>
+              <circle cx="260" cy="50" r="8" fill="currentColor" opacity="0.7"/>
+              <circle cx="260" cy="160" r="8" fill="currentColor" opacity="0.7"/>
+              <!-- Labels -->
+              <text x="60" y="130" font-size="8" fill="currentColor" text-anchor="middle" opacity="0.9" font-family="serif">Habitus</text>
+              <text x="140" y="48" font-size="7" fill="currentColor" text-anchor="middle" opacity="0.7" font-family="serif">Field</text>
+              <text x="140" y="160" font-size="7" fill="currentColor" text-anchor="middle" opacity="0.7" font-family="serif">Capital</text>
+              <text x="200" y="92" font-size="7" fill="currentColor" text-anchor="middle" opacity="0.8" font-family="serif">Practice</text>
+            </svg>
+          </div>
+          <div class="resource__body">
+            <h5>ハビトゥス概念マップ</h5>
+            <p>ブルデューのハビトゥス・場・資本・実践の相互関係を、ノード・リンク図で可視化。</p>
+            <div class="resource__meta">
+              <span>Lecture 03</span>
+              <span>Bourdieu</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Resource 2: Weber's ideal types -->
+        <article class="resource">
+          <div class="resource__visual resource__visual--circles" aria-hidden="true">
+            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <circle cx="110" cy="100" r="56" stroke="currentColor" stroke-width="0.8" opacity="0.7"/>
+              <circle cx="160" cy="100" r="56" stroke="currentColor" stroke-width="0.8" opacity="0.7"/>
+              <circle cx="210" cy="100" r="56" stroke="currentColor" stroke-width="0.8" opacity="0.7"/>
+              <text x="90" y="105" font-size="8" fill="currentColor" text-anchor="middle" font-family="serif" opacity="0.85">伝統的</text>
+              <text x="160" y="60" font-size="8" fill="currentColor" text-anchor="middle" font-family="serif" opacity="0.85">感情的</text>
+              <text x="230" y="105" font-size="8" fill="currentColor" text-anchor="middle" font-family="serif" opacity="0.85">合理的</text>
+              <text x="160" y="145" font-size="7" fill="currentColor" text-anchor="middle" font-family="serif" opacity="0.65" font-style="italic">Four Types of Action</text>
+              <line x1="40" y1="180" x2="280" y2="180" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="resource__body">
+            <h5>ウェーバー「行為の4類型」</h5>
+            <p>目的合理的・価値合理的・感情的・伝統的行為を、重なる円で俯瞰する図解。</p>
+            <div class="resource__meta">
+              <span>Lecture 07</span>
+              <span>Weber</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Resource 3: Stratification pyramid -->
+        <article class="resource">
+          <div class="resource__visual resource__visual--pyramid" aria-hidden="true">
+            <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <g stroke="currentColor" fill="none">
+                <polygon points="160,30 240,180 80,180" stroke-width="0.8" opacity="0.9"/>
+                <line x1="120" y1="105" x2="200" y2="105" stroke-width="0.5" opacity="0.5"/>
+                <line x1="100" y1="145" x2="220" y2="145" stroke-width="0.5" opacity="0.5"/>
+              </g>
+              <text x="160" y="70" font-size="7" fill="currentColor" text-anchor="middle" font-family="serif" opacity="0.9">Upper</text>
+              <text x="160" y="130" font-size="7" fill="currentColor" text-anchor="middle" font-family="serif" opacity="0.7">Middle</text>
+              <text x="160" y="170" font-size="7" fill="currentColor" text-anchor="middle" font-family="serif" opacity="0.6">Working</text>
+              <!-- Arrows showing reproduction -->
+              <g stroke="currentColor" stroke-width="0.6" opacity="0.5">
+                <path d="M60 60 Q40 100 60 150" />
+                <path d="M260 150 Q280 100 260 60" />
+              </g>
+              <polygon points="55,148 60,158 65,148" fill="currentColor" opacity="0.6"/>
+              <polygon points="255,58 260,48 265,58" fill="currentColor" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="resource__body">
+            <h5>階層構造と再生産</h5>
+            <p>社会階層のピラミッドと、それが世代を越えて再生産される循環を矢印で示します。</p>
+            <div class="resource__meta">
+              <span>Lecture 12</span>
+              <span>Stratification</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="resources__note">
+        ※ 会員ページでは全100本以上の図解資料を閲覧できます。
+      </p>
+    </section>
+
     <!-- READINGS -->
     <section id="readings" class="section section--readings">
       <div class="section__header">
-        <span class="section__num">08</span>
+        <span class="section__num">09</span>
         <h3 class="section__title">Core Readings</h3>
         <p class="section__subtitle">指定書籍</p>
       </div>
@@ -704,7 +839,7 @@
     <!-- FAQ -->
     <section id="faq" class="section section--faq">
       <div class="section__header">
-        <span class="section__num">09</span>
+        <span class="section__num">10</span>
         <h3 class="section__title">FAQ</h3>
         <p class="section__subtitle">よくあるご質問</p>
       </div>
@@ -781,7 +916,7 @@
     <!-- JOIN -->
     <section id="join" class="section section--join">
       <div class="section__header">
-        <span class="section__num">10</span>
+        <span class="section__num">11</span>
         <h3 class="section__title">Join Us</h3>
         <p class="section__subtitle">参加をお考えの方へ</p>
       </div>
@@ -806,7 +941,7 @@
     <!-- CONTACT -->
     <section id="contact" class="section section--contact">
       <div class="section__header">
-        <span class="section__num">11</span>
+        <span class="section__num">12</span>
         <h3 class="section__title">Contact</h3>
         <p class="section__subtitle">お問い合わせ</p>
       </div>
@@ -871,6 +1006,6 @@
     </footer>
   </div>
 
-  <script src="assets/js/main.js?v=10"></script>
+  <script src="assets/js/main.js?v=11"></script>
 </body>
 </html>

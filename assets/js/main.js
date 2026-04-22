@@ -223,6 +223,51 @@
     onScroll();
   }
 
+  function setupDotNav() {
+    const dotnav = document.getElementById('dotnav');
+    if (!dotnav || !('IntersectionObserver' in window)) return;
+    const links = Array.from(dotnav.querySelectorAll('a'));
+    const idToLink = new Map(
+      links.map((l) => [l.getAttribute('href').slice(1), l])
+    );
+    const sectionIds = links
+      .map((l) => l.getAttribute('href').slice(1))
+      .filter((id) => document.getElementById(id));
+    const sections = sectionIds.map((id) => document.getElementById(id));
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const link = idToLink.get(entry.target.id);
+        if (!link) return;
+        if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+          links.forEach((l) => l.classList.remove('is-active'));
+          link.classList.add('is-active');
+        }
+      });
+    }, { threshold: [0.35, 0.6], rootMargin: '-20% 0px -20% 0px' });
+
+    sections.forEach((s) => io.observe(s));
+  }
+
+  function setupPageTransitions() {
+    document.querySelectorAll('a[href$=".html"]').forEach((a) => {
+      // Skip external, same-page, or target=_blank
+      const href = a.getAttribute('href') || '';
+      if (!href || href.startsWith('#') || a.target === '_blank' ||
+          href.startsWith('http') || href.startsWith('//')) {
+        return;
+      }
+      a.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return; // allow open-in-new-tab
+        e.preventDefault();
+        document.body.classList.add('is-leaving');
+        // safety: still navigate even if animation hangs
+        const go = () => { window.location.href = href; };
+        setTimeout(go, 360);
+      });
+    });
+  }
+
   function setupCustomCursor() {
     const cursor = document.getElementById('cursor');
     if (!cursor) return;
@@ -367,6 +412,8 @@
     setupMagneticButtons();
     setupCountUp();
     setupCustomCursor();
+    setupDotNav();
+    setupPageTransitions();
     bootOpening();
   });
 })();
