@@ -429,11 +429,25 @@
   background: rgba(10, 13, 22, 0.9);
   box-shadow: 0 0 0 3px rgba(200, 169, 106, 0.15);
 }
-.m-form input.has-error,
+/* Error styling — scoped to text-like inputs only so it can't
+   suppress the checked/gold state of appearance:none checkboxes */
+.m-form input[type="text"].has-error,
+.m-form input[type="email"].has-error,
+.m-form input[type="tel"].has-error,
 .m-form textarea.has-error,
 .m-form select.has-error {
-  border-color: rgba(220, 120, 120, 0.8) !important;
-  background: rgba(160, 70, 70, 0.06) !important;
+  border-color: rgba(220, 120, 120, 0.8);
+  background: rgba(160, 70, 70, 0.06);
+}
+
+/* Checkbox / radio error: outline the wrapping label, NOT the box
+   (that would fight the :checked gold background). */
+.m-check input[type="checkbox"].has-error {
+  box-shadow: 0 0 0 2px rgba(220, 120, 120, 0.55);
+}
+.m-choices input[type="radio"].has-error,
+.m-choices input[type="checkbox"].has-error {
+  box-shadow: 0 0 0 2px rgba(220, 120, 120, 0.55);
 }
 
 /* Real-time validated state */

@@ -332,6 +332,18 @@
     }
   });
 
+  // Checkboxes & radios: clear their own (and group's) has-error on change
+  form.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach((el) => {
+    el.addEventListener('change', () => {
+      clearFieldError(el);
+      // For groups sharing a name, clear siblings too
+      if (el.name) {
+        form.querySelectorAll(`input[name="${CSS.escape(el.name)}"]`)
+          .forEach((sib) => clearFieldError(sib));
+      }
+    });
+  });
+
   /* ---------- Navigation handlers ---------- */
   nextBtn.addEventListener('click', () => {
     if (!validateStep(current)) return;
