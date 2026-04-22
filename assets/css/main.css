@@ -51,22 +51,14 @@ a { color: inherit; text-decoration: none; }
 ::selection { background: var(--accent); color: var(--bg-0); }
 
 /* =========================================================
-   OPENING MOVIE (v7) — Awwwards-grade kinetic typography
+/* =========================================================
+   OPENING MOVIE (v16) — KEIO editorial minimalism
 
-   Motion design principles applied:
-   - "Mask-and-rise" glyph reveals (overflow:hidden container
-     + inner translateY(105%) → 0). No clip-path interpolation,
-     no background-position wipes. Pure GPU transforms.
-   - Emphasized easing cubic-bezier(0.22, 1, 0.36, 1)
-     (easeOutQuint) on type; (0.83, 0, 0.17, 1) on exits
-   - 55ms stagger between glyphs, 220ms between acts
-   - NO filter: blur(), NO box-shadow radius > 8px. Glow is
-     text-shadow with small radii, pre-rasterized by browser
-   - Canvas particles: 40 max, pre-baked glow sprite, DPR <= 2
-   - Animations gated on JS adding .is-ready to <body> after
-     document.fonts.ready so nothing runs under FOUT conditions
-   - will-change: transform only on in-flight glyphs; cleared
-     when timeline ends to free GPU layers
+   Concept: reduce kanji noise, let large italic serif "KEIO"
+   be the hero. 3 beats, ~8.5s total. Every motion uses the
+   mask-and-rise primitive (overflow:hidden container + inner
+   translateY(110%) → 0) for pure GPU-composited transforms.
+   Easing: cubic-bezier(0.16, 1, 0.3, 1) (easeOutExpo).
    ========================================================= */
 
 .op {
@@ -80,7 +72,6 @@ a { color: inherit; text-decoration: none; }
   text-rendering: geometricPrecision;
   contain: strict;
 }
-
 .op.is-done {
   opacity: 0;
   pointer-events: none;
@@ -97,19 +88,16 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   inset: 0;
   opacity: 0;
-  transform: translate3d(0, 0, 0);
 }
 .op-bg-a {
   background:
-    radial-gradient(55% 45% at 30% 40%, rgba(35, 62, 110, 0.55), transparent 70%),
-    radial-gradient(50% 40% at 70% 65%, rgba(200, 169, 106, 0.22), transparent 70%);
+    radial-gradient(55% 45% at 35% 45%, rgba(35, 62, 110, 0.45), transparent 70%),
+    radial-gradient(50% 40% at 70% 60%, rgba(200, 169, 106, 0.18), transparent 70%);
 }
 .op-bg-b {
   background:
-    radial-gradient(45% 35% at 80% 25%, rgba(111, 169, 255, 0.18), transparent 72%),
-    radial-gradient(50% 40% at 20% 80%, rgba(231, 212, 163, 0.12), transparent 70%);
+    radial-gradient(45% 35% at 80% 25%, rgba(111, 169, 255, 0.15), transparent 72%);
 }
-
 #op-particles {
   position: absolute;
   inset: 0;
@@ -117,7 +105,6 @@ a { color: inherit; text-decoration: none; }
   height: 100% !important;
   opacity: 0;
 }
-
 .is-ready .op-bg-a { animation: op-bg-in 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards; }
 .is-ready .op-bg-b { animation: op-bg-in 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards; }
 .is-ready #op-particles { animation: op-bg-in 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards; }
@@ -126,21 +113,58 @@ a { color: inherit; text-decoration: none; }
   100% { opacity: 1; }
 }
 
-/* ============ HAIRLINE RULES (draw across) ============ */
+/* ============ CORNER MARKS (editorial) ============ */
+.op-corner {
+  position: absolute;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  color: rgba(245, 241, 230, 0.35);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  opacity: 0;
+}
+.op-corner-tl { top: 1.6rem; left: 1.8rem; }
+.op-corner-tr { top: 1.6rem; right: 1.8rem; }
+.op-corner-bl { bottom: 1.6rem; left: 1.8rem; }
+.op-corner-br { bottom: 1.6rem; right: 1.8rem; }
+.op-corner__num {
+  color: var(--accent-2);
+  font-style: italic;
+}
+.op-corner__lbl { }
+
+.is-ready .op-corner-tl { animation: op-corner-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both; }
+.is-ready .op-corner-tr { animation: op-corner-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
+.is-ready .op-corner-bl { animation: op-corner-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both; }
+.is-ready .op-corner-br { animation: op-corner-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; }
+@keyframes op-corner-in {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 640px) {
+  .op-corner-bl, .op-corner-br { display: none; }
+  .op-corner-tl, .op-corner-tr { font-size: 0.55rem; top: 1.1rem; }
+  .op-corner-tl { left: 1.1rem; }
+  .op-corner-tr { right: 1.1rem; }
+}
+
+/* ============ HAIRLINE RULES ============ */
 .op-rule {
   position: absolute;
-  left: 6vw;
-  right: 6vw;
+  left: 10vw;
+  right: 10vw;
   height: 1px;
   background: linear-gradient(to right, transparent, rgba(200, 169, 106, 0.9) 20%, rgba(231, 212, 163, 1) 50%, rgba(200, 169, 106, 0.9) 80%, transparent);
   transform: scaleX(0);
   transform-origin: left center;
 }
-.op-rule-t { top: 8vh; }
-.op-rule-b { bottom: 8vh; transform-origin: right center; }
-
-.is-ready .op-rule-t { animation: op-rule-draw 1.6s cubic-bezier(0.77, 0, 0.175, 1) 0.25s forwards; }
-.is-ready .op-rule-b { animation: op-rule-draw 1.6s cubic-bezier(0.77, 0, 0.175, 1) 0.45s forwards; }
+.op-rule-t { top: 12vh; }
+.op-rule-b { bottom: 12vh; transform-origin: right center; }
+.is-ready .op-rule-t { animation: op-rule-draw 1.6s cubic-bezier(0.77, 0, 0.175, 1) 0.3s forwards; }
+.is-ready .op-rule-b { animation: op-rule-draw 1.6s cubic-bezier(0.77, 0, 0.175, 1) 0.5s forwards; }
 @keyframes op-rule-draw {
   0%   { transform: scaleX(0); }
   100% { transform: scaleX(1); }
@@ -168,27 +192,33 @@ a { color: inherit; text-decoration: none; }
   will-change: transform, opacity;
 }
 
-/* Act entries/exits orchestrated via ~body.is-ready selector
-   so nothing plays until JS has confirmed fonts + layout ready. */
-.is-ready .op-act[data-act="1"] { animation: op-act-enter 0.001s linear 0s forwards, op-act-exit 0.8s cubic-bezier(0.83, 0, 0.17, 1) 2.75s forwards; }
-.is-ready .op-act[data-act="2"] { animation: op-act-enter 0.001s linear 3.0s forwards, op-act-exit 0.8s cubic-bezier(0.83, 0, 0.17, 1) 5.7s forwards; }
-.is-ready .op-act[data-act="3"] { animation: op-act-enter 0.001s linear 6.0s forwards; }
-
-@keyframes op-act-enter {
-  to { opacity: 1; }
+/* Beat schedule — fewer acts, longer time per act */
+.is-ready .op-act[data-act="1"] {
+  animation:
+    op-act-enter 0.001s linear 0s forwards,
+    op-act-exit 0.8s cubic-bezier(0.83, 0, 0.17, 1) 2.7s forwards;
 }
+.is-ready .op-act[data-act="2"] {
+  animation:
+    op-act-enter 0.001s linear 2.9s forwards,
+    op-act-exit 0.8s cubic-bezier(0.83, 0, 0.17, 1) 5.7s forwards;
+}
+.is-ready .op-act[data-act="3"] {
+  animation: op-act-enter 0.001s linear 6.0s forwards;
+}
+@keyframes op-act-enter { to { opacity: 1; } }
 @keyframes op-act-exit {
   0%   { opacity: 1; transform: translate3d(0, 0, 0); }
-  100% { opacity: 0; transform: translate3d(0, -30px, 0); }
+  100% { opacity: 0; transform: translate3d(0, -24px, 0); }
 }
 
-/* ============ MASK-AND-RISE PRIMITIVE ============ */
+/* ============ MASK-AND-RISE ============ */
 .op-clip {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
   line-height: 1;
-  padding: 0.08em 0;  /* breathe for descenders */
+  padding: 0.08em 0;
 }
 .op-clip-in {
   display: inline-block;
@@ -196,205 +226,221 @@ a { color: inherit; text-decoration: none; }
   will-change: transform;
 }
 .is-ready .op-clip-in {
-  animation: op-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) forwards;
+  animation: op-rise 1.3s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) forwards;
 }
 @keyframes op-rise {
-  0%   { transform: translate3d(0, 110%, 0); }
-  100% { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
-
-/* Parent-level delay inheritance for glyphs */
-.op-big > .op-clip { margin: 0 0.03em; }
-.op-motto > .op-clip { display: inline-block; }
 
 /* ============ TYPOGRAPHY ============ */
-.op-eyebrow {
-  font-family: "Cormorant Garamond", "Shippori Mincho", serif;
+.op-micro {
+  font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: clamp(0.78rem, 1.05vw, 0.95rem);
-  letter-spacing: 0.45em;
-  color: rgba(231, 212, 163, 0.92);
+  font-size: clamp(0.78rem, 1.1vw, 0.92rem);
+  letter-spacing: 0.5em;
+  color: rgba(231, 212, 163, 0.8);
   text-transform: uppercase;
-  margin-bottom: 1.8rem;
+  margin-bottom: 2.4rem;
 }
 
-.op-big {
-  font-family: "Shippori Mincho", "Noto Serif JP", "Hiragino Mincho ProN", serif;
-  font-weight: 600;
-  font-size: clamp(4.2rem, 13vw, 10.5rem);
+/* ============ ACT 1: KEIO ============ */
+.op-keio {
+  margin: 0;
+  font-family: "Cormorant Garamond", "Shippori Mincho", serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(5rem, 17vw, 14rem);
   line-height: 1;
   color: #ffffff;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.15em;
+  display: flex;
+  gap: 0.18em;
   text-shadow:
-    0 0 30px rgba(231, 212, 163, 0.5),
-    0 0 70px rgba(200, 169, 106, 0.22);
+    0 0 40px rgba(231, 212, 163, 0.45),
+    0 0 100px rgba(200, 169, 106, 0.25);
 }
-.op-glyph {
-  display: inline-block;
-}
-.op-glyph-small {
-  font-size: 0.68em;
-  color: #e7d4a3;
-  vertical-align: 0.3em;
-}
-.op-small-wrap { vertical-align: baseline; }
+.op-letter { display: inline-block; }
 
-.op-sub {
-  margin-top: 1.8rem;
+/* ============ ACT 2: Sociology · Seminar ============ */
+.op-discipline {
+  margin: 0;
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
-  letter-spacing: 0.38em;
-  color: rgba(231, 212, 163, 0.78);
-  text-transform: uppercase;
-}
-
-.op-phrase {
-  font-family: "Shippori Mincho", "Noto Serif JP", serif;
-  font-weight: 500;
-  font-size: clamp(1.9rem, 4.4vw, 3.3rem);
-  letter-spacing: 0.18em;
-  color: #e8e2d0;
-  line-height: 1.6;
-}
-.op-phrase em {
-  font-style: normal;
-  font-weight: 700;
-  color: #e7d4a3;
-  margin-left: 0.35em;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
   letter-spacing: 0.12em;
-  text-shadow: 0 0 18px rgba(200, 169, 106, 0.35);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  text-transform: uppercase;
+}
+.op-discipline .op-sep {
+  color: var(--accent);
+  opacity: 0;
+  animation: op-sep-in 0.8s ease-out 3.6s forwards;
+}
+@keyframes op-sep-in {
+  0%   { opacity: 0; transform: scale(0); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
-.op-en {
-  margin-top: 1.2rem;
+.op-vseal {
+  margin-top: 2.4rem;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 600;
+  font-size: clamp(1.6rem, 2.4vw, 2rem);
+  color: var(--accent-2);
+  letter-spacing: 0;
+  padding: 0.4em 0.5em;
+  border: 1px solid var(--accent);
+  display: inline-block;
+  line-height: 1;
+  opacity: 0;
+  animation: op-seal-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 4.1s forwards;
+}
+@keyframes op-seal-in {
+  0%   { opacity: 0; transform: translateY(20px) rotate(-6deg); }
+  100% { opacity: 0.85; transform: translateY(0) rotate(-6deg); }
+}
+
+/* ============ ACT 3: unified identity card ============ */
+.op-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: clamp(1.6rem, 4vw, 2.8rem) clamp(2rem, 6vw, 4rem);
+  border-top: 1px solid rgba(200, 169, 106, 0.25);
+  border-bottom: 1px solid rgba(200, 169, 106, 0.25);
+  max-width: 92vw;
+}
+
+.op-id-keio {
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: clamp(1rem, 1.6vw, 1.25rem);
-  letter-spacing: 0.42em;
-  color: #c8a96a;
-  text-transform: uppercase;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  letter-spacing: 0.5em;
+  color: var(--accent-2);
+  padding-bottom: 0.8rem;
 }
 
 .op-divider {
   width: 0;
   height: 1px;
-  background: linear-gradient(to right, transparent, #c8a96a 30%, #e7d4a3 50%, #c8a96a 70%, transparent);
-  margin: 1.3rem 0 1rem;
+  background: linear-gradient(to right, transparent, var(--accent), transparent);
+  opacity: 0;
 }
+.op-divider-2 { margin: 0.6rem 0 0.8rem; }
 .is-ready .op-act[data-act="3"] .op-divider {
-  animation: op-divider-grow 1.4s cubic-bezier(0.22, 1, 0.36, 1) 8.0s forwards;
+  animation: op-divider-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1) 6.5s forwards;
+}
+.is-ready .op-act[data-act="3"] .op-divider-2 {
+  animation: op-divider-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1) 7.4s forwards;
 }
 @keyframes op-divider-grow {
   0%   { width: 0; opacity: 0; }
-  100% { width: 280px; opacity: 1; }
+  100% { width: 220px; opacity: 1; }
 }
 
-.op-motto {
+.op-id-main {
+  margin: 0.6rem 0 0;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  text-shadow: 0 0 32px rgba(231, 212, 163, 0.3);
+}
+
+.op-id-jp {
+  margin: 0.3rem 0 0;
   font-family: "Shippori Mincho", serif;
+  font-weight: 400;
   font-size: clamp(0.9rem, 1.3vw, 1.05rem);
-  letter-spacing: 0.45em;
-  color: #e7d4a3;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.2em;
-}
-.op-motto-dash { display: inline-block; margin: 0 0.6em; color: #c8a96a; }
-.op-motto-jp {
-  display: inline-block;
-  letter-spacing: 0.28em;
-  color: rgba(215, 209, 193, 0.95);
-  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--ink-1);
 }
 
-/* ============ HUD ============ */
+.op-id-motto {
+  margin: 0.2rem 0 0;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+  letter-spacing: 0.35em;
+  color: var(--accent-2);
+  text-transform: none;
+}
+
+/* ============ HUD (bottom-center) ============ */
 .op-hud {
   position: absolute;
-  bottom: 2rem;
-  left: 2rem;
+  bottom: 1.8rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  align-items: center;
+  gap: 0.5rem;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  color: rgba(245, 241, 230, 0.4);
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  color: rgba(245, 241, 230, 0.35);
   text-transform: uppercase;
   opacity: 0;
 }
-.is-ready .op-hud { animation: op-act-enter 0.001s linear 0.3s forwards, op-hud-fade 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards; }
-@keyframes op-hud-fade {
-  0%   { opacity: 0; transform: translate3d(0, 10px, 0); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-
+.is-ready .op-hud { animation: op-corner-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards; }
+.op-hud-tag { font-style: italic; }
 .op-hud-bar {
-  width: 160px;
+  width: 180px;
   height: 1px;
-  background: rgba(245, 241, 230, 0.1);
+  background: rgba(245, 241, 230, 0.08);
   overflow: hidden;
 }
 .op-hud-fill {
   width: 0;
   height: 100%;
-  background: linear-gradient(to right, #c8a96a, #e7d4a3);
+  background: linear-gradient(to right, var(--accent), var(--accent-2));
 }
-.is-ready .op-hud-fill {
-  animation: op-hud-grow 9.5s linear 0.3s forwards;
-}
+.is-ready .op-hud-fill { animation: op-hud-grow 8.5s linear 0.3s forwards; }
 @keyframes op-hud-grow {
-  0%   { width: 0; }
-  100% { width: 100%; }
+  to { width: 100%; }
 }
-.op-hud-meta {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.55rem;
-  color: rgba(245, 241, 230, 0.3);
+@media (max-width: 640px) {
+  .op-hud { bottom: 1rem; }
+  .op-hud-bar { width: 140px; }
 }
 
 /* ============ SKIP ============ */
 .op-skip {
   position: absolute;
-  bottom: 2rem;
-  right: 2rem;
+  top: 4rem; right: 1.8rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.8rem 1.3rem;
+  gap: 0.55rem;
+  padding: 0.55rem 1rem;
   background: transparent;
-  border: 1px solid rgba(245, 241, 230, 0.18);
-  color: rgba(245, 241, 230, 0.75);
+  border: 1px solid rgba(245, 241, 230, 0.15);
+  color: rgba(245, 241, 230, 0.65);
   font-family: ui-monospace, monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.32em;
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   cursor: pointer;
   opacity: 0;
-  transition: color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-              background 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
 }
-.is-ready .op-skip {
-  animation: op-hud-fade 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
-}
+.is-ready .op-skip { animation: op-corner-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards; }
 .op-skip:hover {
-  color: #e7d4a3;
-  border-color: #c8a96a;
-  background: rgba(200, 169, 106, 0.06);
+  color: var(--accent-2);
+  border-color: var(--accent);
+  background: rgba(200, 169, 106, 0.08);
 }
-.op-skip-arrow { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-.op-skip:hover .op-skip-arrow { transform: translateX(5px); }
-
-@media (max-width: 640px) {
-  .op-rule-t { top: 6vh; }
-  .op-rule-b { bottom: 6vh; }
-  .op-hud { bottom: 1.2rem; left: 1.2rem; }
-  .op-hud-bar { width: 120px; }
-  .op-skip { bottom: 1.2rem; right: 1.2rem; padding: 0.6rem 1rem; font-size: 0.6rem; }
-}
+.op-skip-arrow { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.op-skip:hover .op-skip-arrow { transform: translateX(4px); }
 
 @media (prefers-reduced-motion: reduce) {
   .op *, .op *::before, .op *::after {
@@ -405,7 +451,7 @@ a { color: inherit; text-decoration: none; }
   .op-clip-in { transform: none !important; }
   .op-rule { transform: scaleX(1) !important; }
 }
-/* =========================================================
+
    SITE FRAME
    ========================================================= */
 

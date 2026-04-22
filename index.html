@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  <link rel="stylesheet" href="assets/css/main.css?v=16" />
 </head>
 <body>
 
@@ -27,81 +27,94 @@
     <div class="cursor__ring"></div>
   </div>
 
-  <!-- ============ OPENING (v7 — Awwwards-grade kinetic typography) ============ -->
+  <!-- ============ OPENING (v16 — KEIO-centered editorial) ============ -->
   <div id="opening" class="op">
 
-    <!-- Calm static backdrop + subtle canvas particles -->
+    <!-- Calm backdrop + subtle particles -->
     <div class="op-bg" aria-hidden="true">
       <div class="op-bg-a"></div>
       <div class="op-bg-b"></div>
       <canvas id="op-particles"></canvas>
     </div>
 
-    <!-- Thin horizontal rules that draw before type -->
+    <!-- Editorial corner marks -->
+    <div class="op-corner op-corner-tl" aria-hidden="true">
+      <span class="op-corner__num">01</span>
+      <span class="op-corner__lbl">OPENING</span>
+    </div>
+    <div class="op-corner op-corner-tr" aria-hidden="true">
+      <span class="op-corner__lbl">EST.</span>
+      <span class="op-corner__num">2026</span>
+    </div>
+    <div class="op-corner op-corner-bl" aria-hidden="true">
+      <span class="op-corner__lbl">SOC · SEM</span>
+    </div>
+    <div class="op-corner op-corner-br" aria-hidden="true">
+      <span class="op-corner__lbl">VER · I</span>
+    </div>
+
+    <!-- Thin horizontal rules -->
     <div class="op-rule op-rule-t" aria-hidden="true"></div>
     <div class="op-rule op-rule-b" aria-hidden="true"></div>
 
-    <!-- Stage: three stacked acts -->
+    <!-- Stage -->
     <div class="op-stage">
 
-      <!-- ACT 1 -->
+      <!-- ACT 1 — KEIO giant -->
       <div class="op-act" data-act="1">
-        <div class="op-eyebrow" style="--d:0.55s">
-          <span class="op-clip"><span class="op-clip-in">EST. 慶應義塾 · KEIYUKAI</span></span>
+        <div class="op-micro" style="--d:0.6s">
+          <span class="op-clip"><span class="op-clip-in">— Since 慶應義塾 —</span></span>
         </div>
-        <div class="op-big">
-          <span class="op-clip" style="--d:0.75s"><span class="op-clip-in op-glyph">慶</span></span><span class="op-clip" style="--d:0.82s"><span class="op-clip-in op-glyph">友</span></span><span class="op-clip" style="--d:0.89s"><span class="op-clip-in op-glyph">会</span></span>
-        </div>
-        <div class="op-sub" style="--d:1.5s">
-          <span class="op-clip"><span class="op-clip-in">Sociology Seminar · Since 慶應義塾</span></span>
-        </div>
+        <h1 class="op-keio">
+          <span class="op-clip" style="--d:0.85s"><span class="op-clip-in op-letter">K</span></span><span class="op-clip" style="--d:1.00s"><span class="op-clip-in op-letter">E</span></span><span class="op-clip" style="--d:1.15s"><span class="op-clip-in op-letter">I</span></span><span class="op-clip" style="--d:1.30s"><span class="op-clip-in op-letter">O</span></span>
+        </h1>
       </div>
 
-      <!-- ACT 2 -->
+      <!-- ACT 2 — Sociology · Seminar -->
       <div class="op-act" data-act="2">
-        <div class="op-phrase" style="--d:3.2s">
-          <span class="op-clip"><span class="op-clip-in">本質的<em>思考</em></span></span>
+        <div class="op-micro" style="--d:3.1s">
+          <span class="op-clip"><span class="op-clip-in">— A Field of Inquiry —</span></span>
         </div>
-        <div class="op-phrase" style="--d:3.42s">
-          <span class="op-clip"><span class="op-clip-in">本質的<em>学び</em></span></span>
-        </div>
-        <div class="op-phrase" style="--d:3.64s">
-          <span class="op-clip"><span class="op-clip-in">自立できる<em>ちから</em></span></span>
+        <h2 class="op-discipline">
+          <span class="op-clip" style="--d:3.35s"><span class="op-clip-in">Sociology</span></span>
+          <span class="op-sep" aria-hidden="true">·</span>
+          <span class="op-clip" style="--d:3.55s"><span class="op-clip-in">Seminar</span></span>
+        </h2>
+        <div class="op-vseal" style="--d:4.1s" aria-hidden="true">
+          <span class="op-clip"><span class="op-clip-in">社</span></span>
         </div>
       </div>
 
-      <!-- ACT 3 -->
+      <!-- ACT 3 — full identity -->
       <div class="op-act" data-act="3">
-        <div class="op-eyebrow" style="--d:6.3s">
-          <span class="op-clip"><span class="op-clip-in">慶應義塾大学 通信教育課程</span></span>
-        </div>
-        <div class="op-big">
-          <span class="op-clip" style="--d:6.55s"><span class="op-clip-in op-glyph">社</span></span><span class="op-clip" style="--d:6.62s"><span class="op-clip-in op-glyph">会</span></span><span class="op-clip" style="--d:6.69s"><span class="op-clip-in op-glyph">学</span></span><span class="op-clip op-small-wrap" style="--d:6.78s"><span class="op-clip-in op-glyph op-glyph-small">ゼ</span></span><span class="op-clip op-small-wrap" style="--d:6.85s"><span class="op-clip-in op-glyph op-glyph-small">ミ</span></span>
-        </div>
-        <div class="op-en" style="--d:7.5s">
-          <span class="op-clip"><span class="op-clip-in">Sociology Seminar</span></span>
-        </div>
-        <div class="op-divider"></div>
-        <div class="op-motto">
-          <span class="op-clip" style="--d:8.25s"><span class="op-clip-in">自</span></span><span class="op-clip" style="--d:8.30s"><span class="op-clip-in">我</span></span><span class="op-clip" style="--d:8.35s"><span class="op-clip-in">作</span></span><span class="op-clip" style="--d:8.40s"><span class="op-clip-in">古</span></span>
-          <span class="op-motto-dash" style="--d:8.55s"><span class="op-clip"><span class="op-clip-in">—</span></span></span>
-          <span class="op-motto-jp" style="--d:8.65s"><span class="op-clip"><span class="op-clip-in">われよりいにしえをなす</span></span></span>
+        <div class="op-identity">
+          <div class="op-id-keio" style="--d:6.2s">
+            <span class="op-clip"><span class="op-clip-in">KEIO</span></span>
+          </div>
+          <div class="op-divider"></div>
+          <h1 class="op-id-main" style="--d:6.7s">
+            <span class="op-clip"><span class="op-clip-in">Sociology Seminar</span></span>
+          </h1>
+          <p class="op-id-jp" style="--d:7.1s">
+            <span class="op-clip"><span class="op-clip-in">慶友会 社会学ゼミ</span></span>
+          </p>
+          <div class="op-divider op-divider-2"></div>
+          <p class="op-id-motto" style="--d:7.8s">
+            <span class="op-clip"><span class="op-clip-in">Jiga Sakko · 自我作古</span></span>
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- HUD -->
+    <!-- HUD (bottom-center progress) -->
     <div class="op-hud" aria-hidden="true">
+      <span class="op-hud-tag">Opening Sequence</span>
       <div class="op-hud-bar"><div class="op-hud-fill"></div></div>
-      <div class="op-hud-meta">
-        <span>SOCIOLOGY SEMINAR</span>
-        <span>BUILD · 2026</span>
-      </div>
     </div>
 
     <!-- Skip -->
     <button type="button" class="op-skip" id="opening-skip">
-      <span class="op-clip"><span class="op-clip-in">SKIP</span></span>
+      <span>SKIP</span>
       <span class="op-skip-arrow" aria-hidden="true">→</span>
     </button>
   </div>
@@ -1010,6 +1023,6 @@
     </footer>
   </div>
 
-  <script src="assets/js/main.js?v=15"></script>
+  <script src="assets/js/main.js?v=16"></script>
 </body>
 </html>

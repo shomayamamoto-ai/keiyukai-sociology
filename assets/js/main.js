@@ -1,13 +1,13 @@
 (() => {
   'use strict';
-  console.log('[sociology-seminar] main.js v7 — Awwwards-grade motion');
+  console.log('[sociology-seminar] main.js v16 — KEIO editorial opening');
 
   /* =========================================================
-     OPENING: fonts-gated, mask-and-rise CSS timeline
+     OPENING: fonts-gated, mask-and-rise CSS timeline.
      JS owns: fonts.ready gate, particle layer, skip/cleanup.
      ========================================================= */
 
-  const OPENING_DURATION = 9800;
+  const OPENING_DURATION = 8500;
   const FADE_OUT_MS = 900;
 
   const opening = document.getElementById('opening');
