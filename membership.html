@@ -4,14 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>入会申込 — 慶友会 社会学ゼミ</title>
-  <meta name="description" content="慶友会 社会学ゼミの入会申込フォーム。ゼミ規約をご確認の上、以下フォームよりお申し込みください。" />
+  <meta name="description" content="慶友会 社会学ゼミの入会申込。基本情報・連絡先・志望動機・最終確認の4ステップで、迷わず記入できます。" />
+  <meta name="theme-color" content="#05060a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Serif+JP:wght@300;400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=3" />
-  <link rel="stylesheet" href="assets/css/membership.css?v=3" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css?v=12" />
+  <link rel="stylesheet" href="assets/css/membership.css?v=12" />
 </head>
 <body class="page-membership">
+
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <header class="nav">
     <a href="index.html" class="nav__brand">
@@ -26,7 +29,7 @@
       <a href="index.html#creed">Creed</a>
       <a href="index.html#activities">Activities</a>
       <a href="index.html#readings">Readings</a>
-      <a href="membership.html" aria-current="page">Membership</a>
+      <a href="membership.html" aria-current="page" class="nav__cta">Membership</a>
       <a href="index.html#contact">Contact</a>
     </nav>
   </header>
@@ -41,284 +44,352 @@
         <span class="m-hero__sub">入会申込</span>
       </h1>
       <p class="m-hero__lead">
-        入会を希望される方は、ゼミ規約をご確認の上、以下のフォームよりお申し込みください。
+        4つのステップ、約7〜10分で完了します。<br />
+        送信後はメールソフトが起動し、担当者までそのまま送付されます。
       </p>
     </div>
   </section>
 
   <main class="m-main">
 
-    <!-- Intro card -->
-    <section class="m-intro">
-      <div class="m-intro__card">
-        <p>
-          当『社会学ゼミ』は、<strong>Zoomのみのオンライン型</strong>
-          <em>★ゼミ形式の講師派遣</em> と <em>★学習会</em> がメインの慶友会です。
-        </p>
-        <p>
-          充実した運営のため、ご入会くださる方の情報は、できるだけ詳しくご記入ください。<br />
-          <strong>★個人情報は慶應義塾のルールに則り、厳重に管理いたします。</strong>
-        </p>
-      </div>
-    </section>
-
-    <!-- Guidance -->
-    <section class="m-guidance">
-      <h2 class="m-section-title"><span class="m-section-title__num">01</span> 記入のご案内</h2>
-
-      <div class="m-cards">
-        <article class="m-card">
-          <h3>お名前</h3>
-          <p>漢字フルネームをお書きください。（日本名の場合）</p>
-        </article>
-
-        <article class="m-card">
-          <h3>メールアドレス</h3>
-          <p>
-            ◆ Gmail または ◆ keio.jp で登録してください。<br />
-            ◆ モバイルでメールチェックできるアドレスが理想です。
-          </p>
-          <p class="m-card__note">
-            ドメイン入力ミスや連絡の行き違いを防ぐため、適宜Gmail等を登録したうえでお申し込みください。
-            <strong>入力ミスがあった場合、会員登録案内はできかねます。</strong>
-            記入内容をしっかりご確認ください。
-          </p>
-        </article>
-
-        <article class="m-card">
-          <h3>質問10〜12 について</h3>
-          <p>
-            社会学ゼミは、オンラインでの活動がメインの慶友会です。
-            実際には顔を合わせず、メール等のやりとりのみで活動を行いますので、
-            こちらの質問項目を設けています。
-          </p>
-          <p>
-            慶應通信入学の動機や問題意識、学習上で悩んでいることなど、
-            あなたの人物像がわかるよう、<strong>具体的に</strong>書き込んでください。
-            <em>長文の書き込みOK！</em>
-          </p>
-
-          <div class="m-ng">
-            <p class="m-ng__label">［NG例］</p>
-            <ul>
-              <li>質問10：普段は試験勉強をしています。</li>
-              <li>質問11：入会の動機は、社会学に興味があるからです。</li>
-              <li>質問12：社ゼミを選んだのは、無料で入会できる慶友会を探していたからです。</li>
-            </ul>
-            <p class="m-ng__note">
-              → 概要や具体的な目的が把握できないため、こういったコメントのみでは入会承認不可となります。
-            </p>
+    <!-- Intro summary (collapsible) -->
+    <section class="m-prelude">
+      <div class="m-prelude__card">
+        <div class="m-prelude__row">
+          <span class="m-prelude__icon" aria-hidden="true">◆</span>
+          <div>
+            <h3>オンライン型ゼミです</h3>
+            <p>当ゼミは <strong>Zoomのみ</strong> の「ゼミ形式の講師派遣」と「学習会」が中心の慶友会です。</p>
           </div>
-        </article>
-
-        <article class="m-card m-card--accent">
-          <h3>ご入会後について</h3>
-          <p>
-            ご入会後のパスワード取得で、<strong>会員ページの図解資料</strong>が多数閲覧できます！
-          </p>
-        </article>
+        </div>
+        <div class="m-prelude__row">
+          <span class="m-prelude__icon" aria-hidden="true">◆</span>
+          <div>
+            <h3>情報管理</h3>
+            <p>ご入会くださる方の情報は<strong>慶應義塾のルールに則り厳重に管理</strong>いたします。</p>
+          </div>
+        </div>
+        <div class="m-prelude__row">
+          <span class="m-prelude__icon" aria-hidden="true">◆</span>
+          <div>
+            <h3>会員特典</h3>
+            <p>ご入会後は <strong>100本以上のオリジナル図解資料</strong> が会員ページで閲覧可能になります。</p>
+          </div>
+        </div>
       </div>
+
+      <details class="m-prelude__details">
+        <summary>
+          <span>記入にあたっての注意事項（必ずお読みください）</span>
+          <span class="m-prelude__caret" aria-hidden="true">＋</span>
+        </summary>
+        <div class="m-prelude__notes">
+          <section>
+            <h4>お名前</h4>
+            <p>漢字フルネームをお書きください（日本名の場合）。</p>
+          </section>
+          <section>
+            <h4>メールアドレス</h4>
+            <p>◆ Gmail または ◆ keio.jp で登録してください。モバイルでメールチェックできるアドレスが理想です。<strong>入力ミスがあった場合、会員登録案内はできかねます。</strong></p>
+          </section>
+          <section>
+            <h4>志望動機欄（ステップ3）</h4>
+            <p>当ゼミは実際に顔を合わせず、メール等のやりとりで運営しますので、<strong>あなたの人物像がわかるよう具体的に</strong>ご記入ください。長文歓迎です。</p>
+            <div class="m-ng">
+              <p class="m-ng__label">［NG例］入会承認不可</p>
+              <ul>
+                <li>「普段は試験勉強をしています」</li>
+                <li>「社会学に興味があるから入会したい」</li>
+                <li>「無料で入会できる慶友会を探していた」</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </details>
     </section>
 
-    <!-- FORM -->
-    <section class="m-form-wrap">
-      <h2 class="m-section-title"><span class="m-section-title__num">02</span> 入会申込フォーム</h2>
-      <p class="m-form__note">※ <span class="req">*</span> は入力必須項目です</p>
+    <!-- WIZARD -->
+    <section class="m-wizard" id="wizard">
+
+      <!-- Progress indicator -->
+      <ol class="m-wizard__steps" aria-label="ステップ">
+        <li class="is-active" data-step-indicator="1">
+          <span class="m-wizard__step-num">01</span>
+          <span class="m-wizard__step-name">基本情報</span>
+        </li>
+        <li data-step-indicator="2">
+          <span class="m-wizard__step-num">02</span>
+          <span class="m-wizard__step-name">連絡先・属性</span>
+        </li>
+        <li data-step-indicator="3">
+          <span class="m-wizard__step-num">03</span>
+          <span class="m-wizard__step-name">志望動機</span>
+        </li>
+        <li data-step-indicator="4">
+          <span class="m-wizard__step-num">04</span>
+          <span class="m-wizard__step-name">確認・同意</span>
+        </li>
+      </ol>
+
+      <div class="m-wizard__progress" aria-hidden="true">
+        <div class="m-wizard__progress-fill" id="progress-fill" style="width:25%"></div>
+      </div>
+
+      <div class="m-wizard__meta">
+        <span id="save-indicator" class="m-wizard__save" aria-live="polite"></span>
+        <span id="step-counter" class="m-wizard__counter">Step 1 / 4</span>
+      </div>
 
       <form id="membership-form" class="m-form" novalidate>
 
-        <!-- 1. Name -->
-        <fieldset class="m-field">
-          <legend>1. お名前 <span class="req">*</span></legend>
-          <div class="m-row">
+        <!-- STEP 1: 基本情報 -->
+        <div class="m-step is-active" data-step="1">
+          <header class="m-step__header">
+            <p class="m-step__kicker">Step 01</p>
+            <h2 class="m-step__title">基本情報</h2>
+            <p class="m-step__lead">まずは慶應通信での在籍状況を教えてください。</p>
+          </header>
+
+          <fieldset class="m-field">
+            <legend>お名前 <span class="req">*</span></legend>
+            <div class="m-row">
+              <label>
+                <span class="m-label">氏名（漢字）</span>
+                <input type="text" name="name_kanji" required placeholder="例：山田 太郎" autocomplete="name" />
+                <span class="m-err"></span>
+              </label>
+              <label>
+                <span class="m-label">フリガナ</span>
+                <input type="text" name="name_kana" placeholder="例：ヤマダ タロウ" />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>学籍番号 <span class="req">*</span></legend>
             <label>
-              <span class="m-label">氏名（漢字）</span>
-              <input type="text" name="name_kanji" required placeholder="例：山田 太郎" />
+              <input type="text" name="student_id" required placeholder="例：12345678" autocomplete="off" inputmode="numeric" />
+              <span class="m-err"></span>
             </label>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>在籍学部 <span class="req">*</span></legend>
+            <div class="m-choices">
+              <label><input type="radio" name="department" value="文学部" required /> <span>文学部</span></label>
+              <label><input type="radio" name="department" value="経済学部" /> <span>経済学部</span></label>
+              <label><input type="radio" name="department" value="法学部" /> <span>法学部</span></label>
+            </div>
+            <span class="m-err"></span>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>メールアドレス <span class="req">*</span></legend>
+            <p class="m-legend-note">Gmail または keio.jp のアドレスをご入力ください。</p>
             <label>
-              <span class="m-label">お名前フリガナ</span>
-              <input type="text" name="name_kana" placeholder="例：ヤマダ タロウ" />
+              <input type="email" name="email" required placeholder="yourname@gmail.com" autocomplete="email" />
+              <span class="m-err"></span>
             </label>
-          </div>
-        </fieldset>
-
-        <!-- 2. Student ID -->
-        <fieldset class="m-field">
-          <legend>2. 学籍番号 <span class="req">*</span></legend>
-          <label>
-            <input type="text" name="student_id" required placeholder="例：12345678" />
-          </label>
-        </fieldset>
-
-        <!-- 3. Department -->
-        <fieldset class="m-field">
-          <legend>3. 在籍学部 <span class="req">*</span></legend>
-          <div class="m-choices">
-            <label><input type="radio" name="department" value="文学部" required /> <span>文学部</span></label>
-            <label><input type="radio" name="department" value="経済学部" /> <span>経済学部</span></label>
-            <label><input type="radio" name="department" value="法学部" /> <span>法学部</span></label>
-          </div>
-        </fieldset>
-
-        <!-- 4. Email -->
-        <fieldset class="m-field">
-          <legend>4. メールアドレス <span class="req">*</span></legend>
-          <label>
-            <input type="email" name="email" required placeholder="例：yourname@gmail.com" />
-          </label>
-          <label class="m-check">
-            <input type="checkbox" name="email_domain_ok" required />
-            <span>Gmail または keio.jp のメールアドレスを記入しました。</span>
-          </label>
-          <label class="m-check">
-            <input type="checkbox" name="email_verified" required />
-            <span>メールアドレスに入力ミスがないか確認しました。</span>
-          </label>
-        </fieldset>
-
-        <!-- 5. Phone -->
-        <fieldset class="m-field">
-          <legend>5. 携帯電話番号（緊急連絡先） <span class="req">*</span></legend>
-          <label>
-            <input type="tel" name="phone" required placeholder="例：090-1234-5678" />
-          </label>
-        </fieldset>
-
-        <!-- 6. Prefecture -->
-        <fieldset class="m-field">
-          <legend>6. お住まいの都道府県 <span class="req">*</span></legend>
-          <label>
-            <input type="text" name="prefecture" required placeholder="例：東京都" />
-          </label>
-        </fieldset>
-
-        <!-- 7. Age -->
-        <fieldset class="m-field">
-          <legend>7. 年齢層 <span class="req">*</span></legend>
-          <div class="m-choices">
-            <label><input type="radio" name="age" value="10代" required /> <span>10代</span></label>
-            <label><input type="radio" name="age" value="20代" /> <span>20代</span></label>
-            <label><input type="radio" name="age" value="30代" /> <span>30代</span></label>
-            <label><input type="radio" name="age" value="40代" /> <span>40代</span></label>
-            <label><input type="radio" name="age" value="50代" /> <span>50代</span></label>
-            <label><input type="radio" name="age" value="60代以上" /> <span>60代以上</span></label>
-          </div>
-        </fieldset>
-
-        <!-- 8. Occupation -->
-        <fieldset class="m-field">
-          <legend>8. 職業 <span class="req">*</span></legend>
-          <p class="m-legend-note">
-            ★できるだけ業種など、具体的にご記入ください。<br />
-            卒論の適切なアドバイスが可能となるためです。
-          </p>
-          <label>
-            <input type="text" name="occupation" required placeholder="例：IT企業エンジニア／教育業界（中学校教諭）など" />
-          </label>
-        </fieldset>
-
-        <!-- 9. How you heard -->
-        <fieldset class="m-field">
-          <legend>9. ご入会のきっかけ（複数選択可） <span class="req">*</span></legend>
-          <div class="m-choices m-choices--col">
-            <label><input type="checkbox" name="source[]" value="(1) ニューズレターを見て" /> <span>(1) ニューズレターを見て</span></label>
-            <label><input type="checkbox" name="source[]" value="(2) このサイトを検索して" /> <span>(2) このサイトを検索して</span></label>
-            <label><input type="checkbox" name="source[]" value="(3) Twitterを見て" /> <span>(3) Twitterを見て</span></label>
-            <label><input type="checkbox" name="source[]" value="(4) 学友からのご紹介を受けて" /> <span>(4) 学友からのご紹介を受けて</span></label>
-            <label><input type="checkbox" name="source[]" value="(5) 講師派遣に魅力を感じたため" /> <span>(5) 講師派遣に魅力を感じたため</span></label>
-            <label><input type="checkbox" name="source[]" value="(6) 統計学の学習資料に魅力を感じたため" /> <span>(6) 統計学の学習資料に魅力を感じたため</span></label>
-          </div>
-          <label>
-            <span class="m-label">「(4) ご紹介」を選んだ方は、ご学友のお名前をお書きください。（任意）</span>
-            <input type="text" name="referrer" placeholder="例：山田 花子 さん" />
-          </label>
-        </fieldset>
-
-        <!-- 10. Self-introduction -->
-        <fieldset class="m-field">
-          <legend>10. 自己紹介 <span class="req">*</span></legend>
-          <p class="m-legend-note">普段どんなことをしているか、学ぶ上での問題意識など（長文OK）</p>
-          <label>
-            <textarea name="intro" rows="6" required placeholder="あなたの人物像がわかるよう、具体的にお書きください。"></textarea>
-          </label>
-        </fieldset>
-
-        <!-- 11. Motivation -->
-        <fieldset class="m-field">
-          <legend>11. 入会を希望する動機 <span class="req">*</span></legend>
-          <p class="m-legend-note">きっかけや動機、期待していることなど（長文OK）</p>
-          <label>
-            <textarea name="motivation" rows="6" required placeholder="社会学ゼミへの入会を通じて得たいこと、探究したいテーマなどをお書きください。"></textarea>
-          </label>
-        </fieldset>
-
-        <!-- 12. Site impressions -->
-        <fieldset class="m-field">
-          <legend>12. 当サイトへのご感想 <span class="req">*</span></legend>
-          <p class="m-legend-note">社会学ゼミのサイトをチェックし、サイトへの感想をお書きください。（長文OK）</p>
-          <label>
-            <textarea name="impression" rows="5" required placeholder="サイトをご覧になった率直なご感想をお聞かせください。"></textarea>
-          </label>
-        </fieldset>
-
-        <!-- 13. Verification -->
-        <fieldset class="m-field">
-          <legend>13. 誤記入の確認 <span class="req">*</span></legend>
-          <p class="m-legend-note">
-            誤記入の確認のため、再度
-            <strong>① 学籍番号　② 学部＆類　③ 氏名</strong>
-            を記入し、卒論計画や現在のお悩みなどもお書き込みください。
-          </p>
-          <label>
-            <textarea name="verification" rows="6" required placeholder="①学籍番号：&#10;②学部・類：&#10;③氏名：&#10;&#10;卒論計画・現在のお悩みなど："></textarea>
-          </label>
-        </fieldset>
-
-        <!-- Rules agreement -->
-        <fieldset class="m-field m-field--agree">
-          <legend>ルール順守のご確認 <span class="req">*</span></legend>
-          <p class="m-legend-note">
-            「社会学ゼミ」活動方針の基本である、慶應義塾が規定するルール順守の徹底に賛同します。
-            <strong>いかなる理由においても</strong>、以下の2項目にご理解・ご同意の上、チェックを入れてください。
-          </p>
-
-          <label class="m-check m-check--block">
-            <input type="checkbox" name="rule_note" required />
-            <span>
-              統計学や経済学の「独習ノート」の<strong>スクリーンショット禁止ルール</strong>を守り、
-              手書きコピーや写真付きメールなどで会員以外の学生とシェアしたり、
-              SNSで発信するなどの禁止の理由を理解し、徹底順守します。
-            </span>
-          </label>
-
-          <label class="m-check m-check--block">
-            <input type="checkbox" name="rule_record" required />
-            <span>
-              講師派遣の<strong>講義録音や画像撮影および録画などを一切行わない</strong>ことを約束します。
-            </span>
-          </label>
-
-          <label class="m-check m-check--block">
-            <input type="checkbox" name="privacy" required />
-            <span>
-              プライバシーポリシーおよびゼミ規約を確認し、同意したうえで申し込みます。
-            </span>
-          </label>
-        </fieldset>
-
-        <!-- Submit -->
-        <div class="m-submit">
-          <button type="submit" class="btn btn--primary">入会申込を送信する</button>
-          <p class="m-submit__note">
-            送信ボタンを押すと、メールソフトが起動し、入力内容が本文に自動で入ります。<br />
-            宛先は <a href="mailto:sociology.semi.kk@gmail.com">sociology.semi.kk@gmail.com</a> です。
-          </p>
-          <div id="m-errors" class="m-errors" role="alert" aria-live="polite"></div>
+            <label class="m-check">
+              <input type="checkbox" name="email_domain_ok" required />
+              <span>Gmail または keio.jp のメールアドレスを記入しました</span>
+            </label>
+            <label class="m-check">
+              <input type="checkbox" name="email_verified" required />
+              <span>メールアドレスに入力ミスがないか確認しました</span>
+            </label>
+          </fieldset>
         </div>
+
+        <!-- STEP 2: 連絡先・属性 -->
+        <div class="m-step" data-step="2">
+          <header class="m-step__header">
+            <p class="m-step__kicker">Step 02</p>
+            <h2 class="m-step__title">連絡先・属性</h2>
+            <p class="m-step__lead">緊急時の連絡先と、卒論アドバイスに役立つ背景情報をお聞きします。</p>
+          </header>
+
+          <fieldset class="m-field">
+            <legend>携帯電話番号（緊急連絡先） <span class="req">*</span></legend>
+            <label>
+              <input type="tel" name="phone" required placeholder="例：090-1234-5678" autocomplete="tel" />
+              <span class="m-err"></span>
+            </label>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>お住まいの都道府県 <span class="req">*</span></legend>
+            <label>
+              <input type="text" name="prefecture" required placeholder="例：東京都" autocomplete="address-level1" />
+              <span class="m-err"></span>
+            </label>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>年齢層 <span class="req">*</span></legend>
+            <div class="m-choices">
+              <label><input type="radio" name="age" value="10代" required /> <span>10代</span></label>
+              <label><input type="radio" name="age" value="20代" /> <span>20代</span></label>
+              <label><input type="radio" name="age" value="30代" /> <span>30代</span></label>
+              <label><input type="radio" name="age" value="40代" /> <span>40代</span></label>
+              <label><input type="radio" name="age" value="50代" /> <span>50代</span></label>
+              <label><input type="radio" name="age" value="60代以上" /> <span>60代以上</span></label>
+            </div>
+            <span class="m-err"></span>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>職業 <span class="req">*</span></legend>
+            <p class="m-legend-note">★業種など、できるだけ具体的に。卒論の適切なアドバイスのために役立ちます。</p>
+            <label>
+              <input type="text" name="occupation" required placeholder="例：IT企業エンジニア／教育業界（中学校教諭）" />
+              <span class="m-err"></span>
+            </label>
+          </fieldset>
+        </div>
+
+        <!-- STEP 3: 志望動機 -->
+        <div class="m-step" data-step="3">
+          <header class="m-step__header">
+            <p class="m-step__kicker">Step 03</p>
+            <h2 class="m-step__title">志望動機</h2>
+            <p class="m-step__lead">あなたの人物像・問題意識・期待を、具体的にお聞かせください。<br />長文歓迎です。</p>
+          </header>
+
+          <fieldset class="m-field">
+            <legend>ご入会のきっかけ（複数選択可） <span class="req">*</span></legend>
+            <div class="m-choices m-choices--col">
+              <label><input type="checkbox" name="source[]" value="(1) ニューズレターを見て" /> <span>ニューズレターを見て</span></label>
+              <label><input type="checkbox" name="source[]" value="(2) このサイトを検索して" /> <span>このサイトを検索して</span></label>
+              <label><input type="checkbox" name="source[]" value="(3) Twitterを見て" /> <span>Twitter(X)を見て</span></label>
+              <label><input type="checkbox" name="source[]" value="(4) 学友からのご紹介を受けて" /> <span>学友からのご紹介</span></label>
+              <label><input type="checkbox" name="source[]" value="(5) 講師派遣に魅力を感じたため" /> <span>講師派遣に魅力を感じて</span></label>
+              <label><input type="checkbox" name="source[]" value="(6) 統計学の学習資料に魅力を感じたため" /> <span>統計学の学習資料に魅力を感じて</span></label>
+            </div>
+            <span class="m-err"></span>
+            <label class="m-referrer">
+              <span class="m-label">「学友からのご紹介」の場合、ご学友のお名前（任意）</span>
+              <input type="text" name="referrer" placeholder="例：山田 花子 さん" />
+            </label>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>自己紹介 <span class="req">*</span></legend>
+            <p class="m-legend-note">普段どんなことをしているか、学ぶ上での問題意識など。長文OK。</p>
+            <label>
+              <textarea name="intro" rows="6" minlength="40" required placeholder="あなたの人物像がわかるよう、具体的にお書きください。"></textarea>
+              <span class="m-counter" data-for="intro">0 文字</span>
+              <span class="m-err"></span>
+            </label>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>入会を希望する動機 <span class="req">*</span></legend>
+            <p class="m-legend-note">きっかけ・動機・期待していることなど。長文OK。</p>
+            <label>
+              <textarea name="motivation" rows="6" minlength="40" required placeholder="社会学ゼミへの入会を通じて得たいこと、探究したいテーマなどをお書きください。"></textarea>
+              <span class="m-counter" data-for="motivation">0 文字</span>
+              <span class="m-err"></span>
+            </label>
+          </fieldset>
+
+          <fieldset class="m-field">
+            <legend>当サイトへのご感想 <span class="req">*</span></legend>
+            <p class="m-legend-note">社会学ゼミのサイトをご覧になっての率直なご感想を。</p>
+            <label>
+              <textarea name="impression" rows="5" minlength="20" required placeholder="サイトをご覧になってのご感想をお聞かせください。"></textarea>
+              <span class="m-counter" data-for="impression">0 文字</span>
+              <span class="m-err"></span>
+            </label>
+          </fieldset>
+        </div>
+
+        <!-- STEP 4: 確認・同意 -->
+        <div class="m-step" data-step="4">
+          <header class="m-step__header">
+            <p class="m-step__kicker">Step 04</p>
+            <h2 class="m-step__title">確認・同意</h2>
+            <p class="m-step__lead">入力内容をご確認いただき、ルール順守の同意のうえ送信してください。</p>
+          </header>
+
+          <!-- Summary of entered values -->
+          <section class="m-summary" id="form-summary" aria-label="入力内容の確認">
+            <h3 class="m-summary__title">入力内容</h3>
+            <div class="m-summary__body" id="summary-body">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <fieldset class="m-field">
+            <legend>誤記入の最終確認 <span class="req">*</span></legend>
+            <p class="m-legend-note">
+              再度 <strong>①学籍番号 ②学部・類 ③氏名</strong> を記入し、卒論計画・現在のお悩み等もお書きください。
+            </p>
+            <label>
+              <textarea name="verification" rows="7" minlength="40" required placeholder="①学籍番号：&#10;②学部・類：&#10;③氏名：&#10;&#10;卒論計画・現在のお悩みなど："></textarea>
+              <span class="m-counter" data-for="verification">0 文字</span>
+              <span class="m-err"></span>
+            </label>
+          </fieldset>
+
+          <fieldset class="m-field m-field--agree">
+            <legend>ルール順守への同意 <span class="req">*</span></legend>
+            <p class="m-legend-note">
+              以下の3項目を必ずお読みいただき、同意のうえチェックを入れてください。
+            </p>
+
+            <label class="m-check m-check--block">
+              <input type="checkbox" name="rule_note" required />
+              <span>
+                統計学・経済学の<strong>「独習ノート」のスクリーンショット禁止</strong>ルールを守り、手書きコピー・写真付きメール・SNSなどで会員外の学生と共有しないことを徹底順守します。
+              </span>
+            </label>
+
+            <label class="m-check m-check--block">
+              <input type="checkbox" name="rule_record" required />
+              <span>
+                講師派遣の<strong>講義録音・画像撮影・録画などを一切行わない</strong>ことを約束します。
+              </span>
+            </label>
+
+            <label class="m-check m-check--block">
+              <input type="checkbox" name="privacy" required />
+              <span>
+                プライバシーポリシーおよびゼミ規約を確認し、同意したうえで申し込みます。
+              </span>
+            </label>
+          </fieldset>
+        </div>
+
+        <!-- Navigation -->
+        <div class="m-nav">
+          <button type="button" class="btn btn--ghost m-nav__prev" id="wizard-prev" disabled>
+            <span aria-hidden="true">←</span> 戻る
+          </button>
+          <div class="m-nav__spacer"></div>
+          <button type="button" class="btn btn--primary m-nav__next" id="wizard-next">
+            次へ <span aria-hidden="true">→</span>
+          </button>
+          <button type="submit" class="btn btn--primary m-nav__submit" id="wizard-submit" hidden>
+            入会申込を送信する <span aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        <p class="m-nav__note">
+          送信ボタンで<strong>メールソフトが起動</strong>し、入力内容が本文に自動で入ります。<br />
+          宛先: <a href="mailto:sociology.semi.kk@gmail.com">sociology.semi.kk@gmail.com</a>
+        </p>
+
+        <div class="m-errors" id="m-errors" role="alert" aria-live="polite"></div>
       </form>
+
+      <div class="m-wizard__actions">
+        <button type="button" class="m-wizard__reset" id="wizard-reset">
+          入力をリセット
+        </button>
+      </div>
     </section>
 
-    <!-- Back link -->
     <section class="m-back">
       <a href="index.html" class="btn btn--ghost">← トップページへ戻る</a>
     </section>
@@ -326,15 +397,45 @@
 
   <footer class="footer">
     <div class="footer__inner">
-      <div class="footer__brand">
-        <span class="footer__brand-jp">慶友会 社会学ゼミ</span>
-        <span class="footer__brand-en">Sociology Seminar, Keio Keiyukai</span>
+      <div class="footer__top">
+        <div class="footer__brand-block">
+          <span class="footer__brand-mark" aria-hidden="true"></span>
+          <div class="footer__brand">
+            <span class="footer__brand-jp">慶友会 社会学ゼミ</span>
+            <span class="footer__brand-en">Sociology Seminar, Keio Keiyukai</span>
+          </div>
+          <p class="footer__motto">自我作古 — われよりいにしえをなす</p>
+        </div>
+        <nav class="footer__nav" aria-label="サイト内リンク">
+          <div class="footer__col">
+            <h6>About</h6>
+            <a href="index.html#about">ゼミについて</a>
+            <a href="index.html#creed">理念</a>
+          </div>
+          <div class="footer__col">
+            <h6>Learn</h6>
+            <a href="index.html#activities">活動内容</a>
+            <a href="index.html#readings">指定書籍</a>
+            <a href="index.html#voices">メンバーの声</a>
+          </div>
+          <div class="footer__col">
+            <h6>Join</h6>
+            <a href="membership.html" aria-current="page">入会申込</a>
+            <a href="index.html#faq">よくあるご質問</a>
+          </div>
+          <div class="footer__col">
+            <h6>Contact</h6>
+            <a class="footer__mail" href="mailto:sociology.semi.kk@gmail.com">sociology.semi.kk@gmail.com</a>
+          </div>
+        </nav>
       </div>
-      <p class="footer__motto">自我作古 — われよりいにしえをなす</p>
-      <p class="footer__copy">© <span id="year"></span> Sociology Seminar. All rights reserved.</p>
+      <div class="footer__bottom">
+        <p class="footer__copy">© <span id="year"></span> 慶友会 社会学ゼミ. All rights reserved.</p>
+        <p class="footer__credit">Crafted with care in 2026.</p>
+      </div>
     </div>
   </footer>
 
-  <script src="assets/js/membership.js?v=3"></script>
+  <script src="assets/js/membership.js?v=12"></script>
 </body>
 </html>
