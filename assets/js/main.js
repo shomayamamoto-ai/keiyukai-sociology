@@ -1,12 +1,16 @@
 (() => {
   'use strict';
-  console.log('[sociology-seminar] main.js v19 — Dynamic opening');
+  console.log('[sociology-seminar] main.js v20 — Loading + char reveals + typewriter');
 
   /* =========================================================
-     OPENING: fonts-gated, mask-and-rise CSS timeline.
-     JS owns: fonts.ready gate, particle layer, skip/cleanup.
+     INTRO SEQUENCE
+     1) Loading screen (fonts gate + 1.6s minimum)
+     2) Opening movie (CSS timeline + JS character splits)
+     3) Site revealed
      ========================================================= */
 
+  const LOADING_MIN_MS = 1600;  // minimum time loading screen is shown
+  const LOADING_MAX_MS = 7000;  // safety cap
   const OPENING_DURATION = 8600;
   const FADE_OUT_MS = 900;
 
@@ -102,24 +106,136 @@
     window.addEventListener('resize', () => { resizeCanvas(); seedParticles(); });
   }
 
+  /* ---------- Loading screen controller ---------- */
+  const loadingEl = document.getElementById('loading');
+  const loadingFill = document.getElementById('ld-fill');
+  const loadingCount = document.getElementById('ld-count');
+  const bootStart = performance.now();
+  let loadingFinished = false;
+
+  function animateLoading(targetElapsed) {
+    // 0→100 over targetElapsed ms with easeOutCubic
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min(1, (now - start) / targetElapsed);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const pct = Math.min(100, Math.floor(eased * 100));
+      if (loadingFill) loadingFill.style.width = pct + '%';
+      if (loadingCount) loadingCount.textContent = String(pct).padStart(2, '0');
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function hideLoading() {
+    if (loadingFinished) return;
+    loadingFinished = true;
+    if (loadingEl) loadingEl.classList.add('is-done');
+    setTimeout(() => {
+      if (loadingEl && loadingEl.parentNode) loadingEl.parentNode.removeChild(loadingEl);
+    }, 1000);
+  }
+
+  /* ---------- Character splitter ---------- */
+  function splitChars(rootSel) {
+    document.querySelectorAll(rootSel).forEach((el) => {
+      const text = el.textContent;
+      el.textContent = '';
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (ch === ' ') {
+          el.appendChild(document.createTextNode(' '));
+          continue;
+        }
+        const wrap = document.createElement('span');
+        wrap.className = 'op-char-wrap';
+        const inner = document.createElement('span');
+        inner.className = 'op-char';
+        inner.textContent = ch;
+        wrap.appendChild(inner);
+        el.appendChild(wrap);
+      }
+    });
+  }
+
+  /* ---------- Typewriter effect ---------- */
+  function setupTypewriter() {
+    const els = document.querySelectorAll('[data-typewriter]');
+    els.forEach((el) => {
+      const text = el.getAttribute('data-typewriter') || '';
+      const startDelay = parseInt(el.getAttribute('data-typewriter-delay') || '0', 10);
+      const charDelay = 52; // ms per char
+      const target = el.querySelector('.op-tw-text');
+      const caret = el.querySelector('.op-tw-caret');
+      if (!target) return;
+      let i = 0;
+      setTimeout(() => {
+        const iv = setInterval(() => {
+          target.textContent = text.slice(0, ++i);
+          if (i >= text.length) {
+            clearInterval(iv);
+            // Hide caret after 3 more blinks (~2.5s)
+            setTimeout(() => { if (caret) caret.classList.add('is-off'); }, 2400);
+          }
+        }, charDelay);
+      }, startDelay);
+    });
+  }
+
+  /* ---------- Compute per-character delays for statement ---------- */
+  function assignCharDelays() {
+    // Base timings per chunk (in seconds)
+    const chunks = [
+      { sel: '.op-line-a .op-chunk:nth-of-type(1)', base: 4.00, step: 0.035 }, // "A space"
+      { sel: '.op-line-a .op-chunk:nth-of-type(2)', base: 4.20, step: 0.035 }, // "for"
+      { sel: '.op-hero',                             base: 4.55, step: 0.045 }, // "essential"
+      { sel: '.op-line-b .op-chunk-last',            base: 5.10, step: 0.035 }, // "learning."
+    ];
+    chunks.forEach(({ sel, base, step }) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      const chars = el.querySelectorAll('.op-char');
+      chars.forEach((c, idx) => {
+        c.style.setProperty('--char-delay', (base + idx * step) + 's');
+      });
+    });
+  }
+
   /* ---------- Gate on fonts ready, then arm .is-ready ---------- */
   function armOpening() {
+    // Split statement into characters (once, before animations run)
+    splitChars('[data-split-chars]');
+    assignCharDelays();
+
     // Force a single paint before triggering, warms the GPU pipeline
     if (ctx) ctx.fillRect(0, 0, 1, 1);
     document.body.classList.add('is-ready');
     console.log('[sociology-seminar] opening armed');
     startParticles();
+    setupTypewriter();
     setTimeout(() => finishOpening(FADE_OUT_MS), OPENING_DURATION + FADE_OUT_MS);
   }
 
   async function bootOpening() {
-    try {
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
-      }
-    } catch (_) { /* ignore */ }
-    // Two raf cycles guarantees layout is settled
-    requestAnimationFrame(() => requestAnimationFrame(armOpening));
+    animateLoading(LOADING_MIN_MS);
+
+    // Wait for fonts + min loading time
+    const fontsPromise = (document.fonts && document.fonts.ready)
+      ? document.fonts.ready.catch(() => {})
+      : Promise.resolve();
+    const minWait = new Promise((r) => setTimeout(r, LOADING_MIN_MS));
+    const maxWait = new Promise((r) => setTimeout(r, LOADING_MAX_MS));
+
+    await Promise.race([
+      Promise.all([fontsPromise, minWait]),
+      maxWait,
+    ]);
+
+    // Hide loading, then arm opening after fade
+    hideLoading();
+    setTimeout(() => {
+      requestAnimationFrame(() => requestAnimationFrame(armOpening));
+    }, 550);
   }
 
   /* ---------- Lifecycle ---------- */

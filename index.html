@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=19" />
+  <link rel="stylesheet" href="assets/css/main.css?v=20" />
 </head>
 <body>
 
@@ -27,7 +27,43 @@
     <div class="cursor__ring"></div>
   </div>
 
-  <!-- ============ OPENING (v19 — Dynamic: camera + sweeps + complex emblem) ============ -->
+  <!-- ============ LOADING SCREEN ============ -->
+  <div id="loading" class="ld" aria-hidden="false" aria-label="ロード中">
+    <div class="ld-vignette" aria-hidden="true"></div>
+    <div class="ld-corners" aria-hidden="true">
+      <span class="ld-corner ld-corner-tl"></span>
+      <span class="ld-corner ld-corner-tr"></span>
+      <span class="ld-corner ld-corner-bl"></span>
+      <span class="ld-corner ld-corner-br"></span>
+    </div>
+
+    <div class="ld-inner">
+      <p class="ld-eyebrow"><span>Keio · Sociology · Seminar</span></p>
+      <div class="ld-mark" aria-hidden="true">
+        <svg viewBox="0 0 120 120" fill="none">
+          <circle class="ld-ring" cx="60" cy="60" r="44" stroke="currentColor" stroke-width="1" />
+          <circle class="ld-ring ld-ring-2" cx="60" cy="60" r="32" stroke="currentColor" stroke-width="0.8" />
+          <circle cx="60" cy="60" r="3" fill="currentColor" />
+          <line x1="60" y1="8" x2="60" y2="20" stroke="currentColor" stroke-width="0.8" />
+          <line x1="60" y1="100" x2="60" y2="112" stroke="currentColor" stroke-width="0.8" />
+          <line x1="8" y1="60" x2="20" y2="60" stroke="currentColor" stroke-width="0.8" />
+          <line x1="100" y1="60" x2="112" y2="60" stroke="currentColor" stroke-width="0.8" />
+        </svg>
+      </div>
+      <div class="ld-progress">
+        <div class="ld-line"><div class="ld-fill" id="ld-fill"></div></div>
+        <div class="ld-meta">
+          <span class="ld-label">Loading</span>
+          <span class="ld-count"><span id="ld-count">00</span><span class="ld-percent">%</span></span>
+        </div>
+      </div>
+      <div class="ld-dots" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ OPENING (v20 — Dynamic + character reveals) ============ -->
   <div id="opening" class="op">
 
     <!-- Layered backdrop for parallax depth -->
@@ -88,24 +124,25 @@
           <circle class="op-e-core" cx="210" cy="70" r="2.6" fill="currentColor" />
         </svg>
 
-        <!-- Eyebrow: words enter from alternating directions -->
-        <div class="op-eyebrow">
-          <span class="op-w op-w-from-l">Keio</span>
-          <span class="op-ed op-ed-1" aria-hidden="true">·</span>
-          <span class="op-w op-w-from-r">Sociology</span>
-          <span class="op-ed op-ed-2" aria-hidden="true">·</span>
-          <span class="op-w op-w-from-l">Seminar</span>
+        <!-- Eyebrow: typewriter effect -->
+        <div class="op-eyebrow op-eyebrow--typewriter" data-typewriter="Keio · Sociology · Seminar" data-typewriter-delay="3000" aria-label="Keio · Sociology · Seminar">
+          <span class="op-tw-text"></span>
+          <span class="op-tw-caret" aria-hidden="true"></span>
         </div>
 
-        <!-- Main statement with varied word entrances -->
+        <!-- Main statement — character-by-character reveal -->
         <h1 class="op-statement">
           <span class="op-line op-line-a">
-            <span class="op-w op-w-rise">A space</span>
-            <span class="op-w op-w-rise op-w-d2">for</span>
+            <span class="op-chunk" data-split-chars>A space</span>
+            <span class="op-chunk-gap" aria-hidden="true"></span>
+            <span class="op-chunk" data-split-chars>for</span>
           </span>
           <span class="op-line op-line-b">
-            <span class="op-hero" aria-hidden="false">essential</span>
-            <span class="op-w op-w-rise op-w-d3">learning.</span>
+            <span class="op-hero-wrap">
+              <span class="op-hero" data-split-chars>essential</span>
+            </span>
+            <span class="op-chunk-gap" aria-hidden="true"></span>
+            <span class="op-chunk op-chunk-last" data-split-chars>learning.</span>
           </span>
         </h1>
 
@@ -1041,6 +1078,6 @@
     </footer>
   </div>
 
-  <script src="assets/js/main.js?v=19"></script>
+  <script src="assets/js/main.js?v=20"></script>
 </body>
 </html>

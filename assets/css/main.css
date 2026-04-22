@@ -51,6 +51,193 @@ a { color: inherit; text-decoration: none; }
 ::selection { background: var(--accent); color: var(--bg-0); }
 
 /* =========================================================
+   LOADING SCREEN — precedes the opening
+   Appears while fonts and critical assets load.
+   Sophisticated restraint: thin gold line, counter, pulsing
+   dots, and a rotating compass mark.
+   ========================================================= */
+
+.ld {
+  position: fixed;
+  inset: 0;
+  z-index: 110;            /* above opening (z-index 100) */
+  background:
+    radial-gradient(ellipse at 50% 50%, #0b1020 0%, #05070d 60%, #02040a 100%);
+  color: #f5f1e6;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0s linear 0.8s;
+  opacity: 1;
+  visibility: visible;
+}
+.ld.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ld-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(50% 40% at 50% 50%, rgba(200, 169, 106, 0.08), transparent 70%);
+  pointer-events: none;
+}
+
+/* Tiny corner brackets */
+.ld-corners { position: absolute; inset: 0; pointer-events: none; }
+.ld-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(200, 169, 106, 0.7);
+  opacity: 0;
+  animation: ld-corner-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+.ld-corner-tl { top: 2rem; left: 2rem; border-right: 0; border-bottom: 0; }
+.ld-corner-tr { top: 2rem; right: 2rem; border-left: 0; border-bottom: 0; }
+.ld-corner-bl { bottom: 2rem; left: 2rem; border-right: 0; border-top: 0; }
+.ld-corner-br { bottom: 2rem; right: 2rem; border-left: 0; border-top: 0; }
+.ld-corner-tr { animation-delay: 0.4s; }
+.ld-corner-bl { animation-delay: 0.5s; }
+.ld-corner-br { animation-delay: 0.6s; }
+@keyframes ld-corner-in {
+  0%   { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.ld-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+  padding: 0 2rem;
+  text-align: center;
+  z-index: 1;
+}
+
+.ld-eyebrow {
+  margin: 0;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(0.78rem, 1.1vw, 0.9rem);
+  letter-spacing: 0.45em;
+  color: rgba(231, 212, 163, 0.75);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: ld-fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+}
+@keyframes ld-fade-up {
+  0%   { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Compass mark: two concentric rings gently rotating */
+.ld-mark {
+  width: clamp(90px, 12vw, 120px);
+  color: var(--accent);
+  opacity: 0;
+  filter: drop-shadow(0 0 20px rgba(200, 169, 106, 0.35));
+  animation: ld-fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+.ld-mark svg { width: 100%; height: auto; display: block; }
+.ld-ring {
+  transform-origin: 60px 60px;
+  animation: ld-rotate 9s linear infinite;
+}
+.ld-ring-2 {
+  animation: ld-rotate 6s linear reverse infinite;
+  opacity: 0.7;
+}
+@keyframes ld-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Progress area */
+.ld-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  opacity: 0;
+  animation: ld-fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+}
+.ld-line {
+  width: clamp(220px, 30vw, 300px);
+  height: 1px;
+  background: rgba(245, 241, 230, 0.12);
+  overflow: hidden;
+  position: relative;
+}
+.ld-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(to right, var(--accent), var(--accent-2));
+  box-shadow: 0 0 12px rgba(200, 169, 106, 0.5);
+  transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ld-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: clamp(220px, 30vw, 300px);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  color: rgba(245, 241, 230, 0.55);
+  text-transform: uppercase;
+}
+.ld-label { font-style: italic; font-family: "Cormorant Garamond", serif; letter-spacing: 0.35em; }
+.ld-count { color: var(--accent-2); font-variant-numeric: tabular-nums; }
+.ld-percent { color: var(--accent); margin-left: 0.25em; opacity: 0.7; }
+
+/* Five pulsing dots */
+.ld-dots {
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: ld-fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards;
+}
+.ld-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.25;
+  animation: ld-dot 1.6s ease-in-out infinite;
+}
+.ld-dots span:nth-child(1) { animation-delay: 0s; }
+.ld-dots span:nth-child(2) { animation-delay: 0.18s; }
+.ld-dots span:nth-child(3) { animation-delay: 0.36s; }
+.ld-dots span:nth-child(4) { animation-delay: 0.54s; }
+.ld-dots span:nth-child(5) { animation-delay: 0.72s; }
+@keyframes ld-dot {
+  0%, 80%, 100% { opacity: 0.25; transform: scale(1); }
+  40%           { opacity: 1;    transform: scale(1.4); }
+}
+
+@media (max-width: 640px) {
+  .ld-corner-tl, .ld-corner-tr { top: 1.2rem; }
+  .ld-corner-bl, .ld-corner-br { bottom: 1.2rem; }
+  .ld-corner-tl, .ld-corner-bl { left: 1.2rem; }
+  .ld-corner-tr, .ld-corner-br { right: 1.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld *, .ld *::before, .ld *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .ld-ring { animation: none !important; }
+}
+
+/* =========================================================
    OPENING MOVIE (v19) — Dynamic: camera + sweeps + complex emblem
 
    Still dignified, but now with motion in multiple axes:
@@ -372,7 +559,7 @@ a { color: inherit; text-decoration: none; }
   100% { opacity: 1; transform: scale(1) rotate(0); }
 }
 
-/* ==================== STATEMENT ==================== */
+/* ==================== STATEMENT (character-level reveal) ==================== */
 .op-statement {
   margin: 0.8rem 0 0.2rem;
   font-family: "Cormorant Garamond", serif;
@@ -387,16 +574,50 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.45rem 1rem;
+  gap: 0.45rem 0.6rem;
   align-items: baseline;
 }
-.op-line-a .op-w:nth-child(1) { animation-delay: 4.0s; }
-.op-line-a .op-w:nth-child(2) { animation-delay: 4.1s; }
-.op-line-b .op-w:nth-child(2) { animation-delay: 4.85s; }
+.op-chunk-gap {
+  display: inline-block;
+  width: 0.3em;
+}
 
-/* Hero word — dramatic zoom-in with glow burst */
+/* Chunks that split into single-letter children at JS time */
+.op-chunk,
 .op-hero {
   display: inline-block;
+}
+
+/* Individual split character - starts below & transparent */
+.op-char {
+  display: inline-block;
+  transform: translate3d(0, 105%, 0);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.op-char-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 1;
+  padding: 0.08em 0;
+}
+.is-ready .op-char {
+  animation: op-char-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--char-delay, 4s);
+}
+@keyframes op-char-in {
+  0%   { opacity: 0; transform: translate3d(0, 105%, 0); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Hero word wrapper + glow */
+.op-hero-wrap {
+  display: inline-block;
+  position: relative;
+}
+.op-hero {
   font-style: italic;
   font-weight: 500;
   color: var(--accent-2);
@@ -405,33 +626,24 @@ a { color: inherit; text-decoration: none; }
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 60px rgba(231, 212, 163, 0);
-  opacity: 0;
-  transform: scale(1.8);
-  filter: blur(8px);
-  will-change: transform, opacity, filter;
   position: relative;
-}
-.op-hero::after {
-  content: "";
-  position: absolute;
-  inset: -20%;
-  background: radial-gradient(circle, rgba(231, 212, 163, 0.55), transparent 55%);
-  filter: blur(20px);
-  opacity: 0;
-  z-index: -1;
+  z-index: 1;
 }
 .is-ready .op-hero {
-  animation: op-hero-in 1.3s cubic-bezier(0.16, 1, 0.3, 1) 4.55s forwards,
-             op-shimmer 6s linear 6s infinite;
+  animation: op-shimmer 6s linear 6.2s infinite;
 }
-.is-ready .op-hero::after {
-  animation: op-hero-glow 1.4s cubic-bezier(0.22, 1, 0.36, 1) 4.5s forwards;
+.op-hero-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(circle, rgba(231, 212, 163, 0.5), transparent 55%);
+  filter: blur(22px);
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
 }
-@keyframes op-hero-in {
-  0%   { opacity: 0; transform: scale(1.8); filter: blur(8px); }
-  60%  { opacity: 1; }
-  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+.is-ready .op-hero-wrap::after {
+  animation: op-hero-glow 1.4s cubic-bezier(0.22, 1, 0.36, 1) 4.7s forwards;
 }
 @keyframes op-hero-glow {
   0%   { opacity: 0; transform: scale(0.4); }
@@ -441,6 +653,36 @@ a { color: inherit; text-decoration: none; }
 @keyframes op-shimmer {
   0%   { background-position: 0% 50%; }
   100% { background-position: 200% 50%; }
+}
+
+/* ==================== TYPEWRITER EYEBROW ==================== */
+.op-eyebrow--typewriter {
+  margin-top: 1rem;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-size: clamp(0.88rem, 1.25vw, 1.05rem);
+  letter-spacing: 0.5em;
+  color: rgba(231, 212, 163, 0.9);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.1em;
+  min-height: 1.2em;
+}
+.op-tw-text { white-space: pre; }
+.op-tw-caret {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 0.1em;
+  opacity: 0;
+  animation: op-caret-blink 0.85s steps(2, start) 3.0s 9;
+}
+.op-tw-caret.is-off { display: none; }
+@keyframes op-caret-blink {
+  0%, 49.9% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 /* ==================== SUBTITLE / MOTTO ==================== */
