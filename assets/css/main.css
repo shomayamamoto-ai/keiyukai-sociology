@@ -1519,6 +1519,64 @@ a { color: inherit; text-decoration: none; }
   transition: color 0.3s;
 }
 .contact__mail:hover { color: var(--accent-2); }
+
+/* Mail button — replaces visible email on the page */
+.contact__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.1rem 2.2rem;
+  margin-bottom: 1.8rem;
+  background: var(--accent);
+  color: var(--bg-0);
+  border: none;
+  font-family: var(--serif-en);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: background 0.35s var(--ease-out),
+              transform 0.35s var(--ease-out),
+              box-shadow 0.35s var(--ease-out);
+}
+.contact__btn:hover {
+  background: var(--accent-2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px -10px rgba(200, 169, 106, 0.5);
+}
+.contact__btn-ico {
+  font-family: var(--serif-en);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.contact__btn-arrow {
+  font-size: 1.1rem;
+  transition: transform 0.3s var(--ease-out);
+}
+.contact__btn:hover .contact__btn-arrow {
+  transform: translateX(5px);
+}
+
+/* Footer mail button — replaces visible email text */
+.footer__mail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent-2);
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
+}
+.footer__mail-btn:hover {
+  background: var(--accent);
+  color: var(--bg-0);
+}
 .contact__note {
   margin: 0 auto;
   max-width: 52ch;

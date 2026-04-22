@@ -9,7 +9,7 @@
 `https://shomayamamoto-ai.github.io/keiyukai-sociology/`
 
 ## 連絡先
-入会・見学のご相談: sociology.semi.kk@gmail.com
+入会・見学のご相談は、公開サイト内の「お問い合わせ」ボタンからご送付ください。
 
 ---
 

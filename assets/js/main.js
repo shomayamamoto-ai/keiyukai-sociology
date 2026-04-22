@@ -434,6 +434,33 @@
     if (y) y.textContent = String(new Date().getFullYear());
   }
 
+  // Contact buttons — build the mailto address client-side so the
+  // raw address isn't sitting in the HTML for crawlers/scrapers.
+  function setupMailButtons() {
+    const localPart = 'sociology.semi.kk';
+    const domainPart = 'gmail.com';
+    const addr = localPart + '@' + domainPart;
+    document.querySelectorAll('[data-mail]').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        const subject = el.getAttribute('data-subject') || '';
+        const body = el.getAttribute('data-body') || '';
+        const params = [];
+        if (subject) params.push('subject=' + encodeURIComponent(subject));
+        if (body) params.push('body=' + encodeURIComponent(body));
+        const mailto = 'mailto:' + addr + (params.length ? ('?' + params.join('&')) : '');
+        // Use transient anchor for reliable handoff
+        const a = document.createElement('a');
+        a.href = mailto;
+        a.rel = 'noopener';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     setYear();
     setupReveal();
@@ -447,6 +474,7 @@
     setupCustomCursor();
     setupDotNav();
     setupPageTransitions();
+    setupMailButtons();
     bootOpening();
   });
 })();

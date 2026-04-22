@@ -29,6 +29,7 @@
   const steps = Array.from(form.querySelectorAll('.m-step'));
   const indicators = Array.from(document.querySelectorAll('[data-step-indicator]'));
   let current = 1;
+  let lastMailto = null; // remembered so the modal's retry button can relaunch
 
   /* ---------- Field labels for summary + errors ---------- */
   const LABELS = {
@@ -451,9 +452,14 @@
 
     const subject = `【入会申込】慶友会 社会学ゼミ - ${fd.get('name_kanji') || ''}`;
     const body = lines.join('\n');
-    const mailto = 'mailto:sociology.semi.kk@gmail.com' +
+    // Address assembled at runtime so the raw string isn't visible
+    // to scrapers pulling the HTML/JS.
+    const localPart = 'sociology.semi.kk';
+    const domainPart = 'gmail.com';
+    const mailto = 'mailto:' + localPart + '@' + domainPart +
       '?subject=' + encodeURIComponent(subject) +
       '&body=' + encodeURIComponent(body);
+    lastMailto = mailto;
 
     saveState();
 
@@ -475,6 +481,21 @@
   /* ---------- Thank-you modal ---------- */
   const modal = document.getElementById('thanks-modal');
   const modalClose = document.getElementById('thanks-close');
+  // Wire up "もう一度メールを起動する" button inside the modal
+  document.querySelectorAll('.m-modal__mail-btn[data-mail]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (lastMailto) {
+        const a = document.createElement('a');
+        a.href = lastMailto;
+        a.rel = 'noopener';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+    });
+  });
   function openThanksModal() {
     if (!modal) return;
     modal.classList.add('is-open');

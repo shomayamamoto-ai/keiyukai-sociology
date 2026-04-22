@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=12" />
+  <link rel="stylesheet" href="assets/css/main.css?v=15" />
 </head>
 <body>
 
@@ -174,7 +174,6 @@
           <a href="membership.html" class="nav-drawer__cta">入会申込へ</a>
         </nav>
         <div class="nav-drawer__foot">
-          <p>sociology.semi.kk@gmail.com</p>
           <p>自我作古</p>
         </div>
       </aside>
@@ -948,11 +947,14 @@
 
       <div class="contact__card">
         <p class="contact__kicker">入会・見学のご相談はこちらから</p>
-        <a class="contact__mail" href="mailto:sociology.semi.kk@gmail.com">
-          sociology.semi.kk@gmail.com
-        </a>
+        <button type="button" class="contact__btn" data-mail data-subject="【お問い合わせ】慶友会 社会学ゼミ">
+          <span class="contact__btn-ico" aria-hidden="true">✉</span>
+          <span>メールでお問い合わせ</span>
+          <span class="contact__btn-arrow" aria-hidden="true">→</span>
+        </button>
         <p class="contact__note">
           お名前・ご所属（通信教育課程の学類・学年など）・ご関心の分野を添えてお送りください。<br />
+          ボタンを押すとメールソフトが起動し、宛先が自動入力されます。<br />
           数日以内に担当者よりご返信いたします。
         </p>
       </div>
@@ -992,7 +994,9 @@
             </div>
             <div class="footer__col">
               <h6>Contact</h6>
-              <a class="footer__mail" href="mailto:sociology.semi.kk@gmail.com">sociology.semi.kk@gmail.com</a>
+              <button type="button" class="footer__mail-btn" data-mail data-subject="【お問い合わせ】慶友会 社会学ゼミ">
+                <span aria-hidden="true">✉</span> メールでお問い合わせ
+              </button>
               <p class="footer__note">慶應義塾大学 通信教育課程 公認学生団体</p>
             </div>
           </nav>
@@ -1006,6 +1010,6 @@
     </footer>
   </div>
 
-  <script src="assets/js/main.js?v=12"></script>
+  <script src="assets/js/main.js?v=15"></script>
 </body>
 </html>

@@ -925,6 +925,26 @@
 }
 .m-modal__mail a:hover { color: var(--ink-0); }
 
+.m-modal__mail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent-2);
+  font-family: var(--serif-jp);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  margin-top: 0.6rem;
+  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
+}
+.m-modal__mail-btn:hover {
+  background: var(--accent);
+  color: var(--bg-0);
+}
+
 .m-modal__actions {
   display: flex;
   justify-content: center;

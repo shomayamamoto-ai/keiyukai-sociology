@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=14" />
-  <link rel="stylesheet" href="assets/css/membership.css?v=14" />
+  <link rel="stylesheet" href="assets/css/main.css?v=15" />
+  <link rel="stylesheet" href="assets/css/membership.css?v=15" />
 </head>
 <body class="page-membership">
 
@@ -458,7 +458,7 @@
 
         <p class="m-nav__note">
           送信ボタンで<strong>メールソフトが起動</strong>し、入力内容が本文に自動で入ります。<br />
-          宛先: <a href="mailto:sociology.semi.kk@gmail.com">sociology.semi.kk@gmail.com</a>
+          担当者宛の宛先は自動で入力されます。そのまま送信してください。
         </p>
 
         <div class="m-errors" id="m-errors" role="alert" aria-live="polite"></div>
@@ -491,13 +491,15 @@
           そのまま送信ボタンを押してください。
         </p>
         <ol class="m-modal__steps">
-          <li>メールソフトが起動しない場合は、下記アドレスに本文を手動でお送りください。</li>
+          <li>メールソフトが起動しない場合は、下の「もう一度メールを起動」をお試しください。</li>
           <li>担当者より通常<strong>数日以内に</strong>ご返信いたします。</li>
           <li>ご返信に重要な情報が含まれるため、ご確認いただけるメールアドレスであることをあらためてご確認ください。</li>
         </ol>
         <div class="m-modal__mail">
-          <span class="m-modal__mail-label">宛先</span>
-          <a href="mailto:sociology.semi.kk@gmail.com">sociology.semi.kk@gmail.com</a>
+          <span class="m-modal__mail-label">メールが起動しない場合</span>
+          <button type="button" class="m-modal__mail-btn" data-mail data-subject="【入会申込】慶友会 社会学ゼミ">
+            ✉ もう一度メールを起動する
+          </button>
         </div>
       </div>
       <div class="m-modal__actions">
@@ -537,7 +539,9 @@
           </div>
           <div class="footer__col">
             <h6>Contact</h6>
-            <a class="footer__mail" href="mailto:sociology.semi.kk@gmail.com">sociology.semi.kk@gmail.com</a>
+            <button type="button" class="footer__mail-btn" data-mail data-subject="【お問い合わせ】慶友会 社会学ゼミ">
+              <span aria-hidden="true">✉</span> メールでお問い合わせ
+            </button>
           </div>
         </nav>
       </div>
@@ -548,6 +552,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/membership.js?v=14"></script>
+  <script src="assets/js/membership.js?v=15"></script>
 </body>
 </html>
