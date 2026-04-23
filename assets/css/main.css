@@ -52,6 +52,112 @@ html, body {
   .br-md { display: none; }
 }
 
+/* Screen-reader-only but anchorable target */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================================
+   SKIP-TO-CONTENT link (a11y)
+   ========================================================= */
+.skip-link {
+  position: fixed;
+  top: -64px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 0.8rem 1.6rem;
+  background: var(--accent);
+  color: var(--bg-0);
+  font-family: var(--serif-jp);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  border: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  transition: top 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.skip-link:focus {
+  top: 1rem;
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   DECORATIVE SECTION DIVIDER (between major sections)
+   Use: <div class="section-divider" aria-hidden="true"></div>
+   ========================================================= */
+.section-divider {
+  --col: rgba(200, 169, 106, 0.55);
+  position: relative;
+  width: 100%;
+  padding: 4rem 1rem;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.section-divider::before,
+.section-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: clamp(60px, 18vw, 200px);
+  height: 1px;
+  background: linear-gradient(to var(--dir, right), transparent, var(--col), transparent);
+}
+.section-divider::before {
+  left: calc(50% - clamp(100px, 22vw, 240px));
+  --dir: right;
+}
+.section-divider::after {
+  right: calc(50% - clamp(100px, 22vw, 240px));
+  --dir: left;
+}
+.section-divider__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.78rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(231, 212, 163, 0.75);
+}
+.section-divider__mark::before,
+.section-divider__mark::after {
+  content: "◆";
+  color: var(--accent);
+  font-size: 0.65rem;
+  opacity: 0.9;
+}
+@media (max-width: 640px) {
+  .section-divider { padding: 2.4rem 1rem; }
+  .section-divider__mark { font-size: 0.62rem; letter-spacing: 0.28em; }
+}
+
+/* =========================================================
+   SECTION NUMBER — scroll-in animation
+   Bigger, more confident entrance when header comes into view.
+   ========================================================= */
+.section__num {
+  display: inline-block;
+  transform: translateY(8px) scale(0.92);
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.section__header.is-in .section__num,
+.is-in .section__num {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
 /* =========================================================
    BACK-TO-TOP floating button
    ========================================================= */

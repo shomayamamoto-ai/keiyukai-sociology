@@ -7,14 +7,19 @@
   <meta name="description" content="慶友会 社会学ゼミの入会申込。基本情報・連絡先・志望動機・最終確認の4ステップで、迷わず記入できます。" />
   <meta name="theme-color" content="#05060a" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="社会学ゼミ" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=27" />
-  <link rel="stylesheet" href="assets/css/membership.css?v=27" />
+  <link rel="stylesheet" href="assets/css/main.css?v=29" />
+  <link rel="stylesheet" href="assets/css/membership.css?v=29" />
 </head>
 <body class="page-membership">
 
+  <a href="#main" class="skip-link">メインコンテンツへスキップ</a>
   <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 
   <header class="nav">
@@ -51,7 +56,7 @@
     </div>
   </section>
 
-  <main class="m-main">
+  <main class="m-main" id="main" tabindex="-1">
 
     <!-- Intro summary (collapsible) -->
     <section class="m-prelude">
@@ -563,6 +568,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/membership.js?v=22"></script>
+  <script src="assets/js/membership.js?v=29"></script>
 </body>
 </html>

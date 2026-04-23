@@ -1,0 +1,27 @@
+{
+  "name": "慶友会 社会学ゼミ",
+  "short_name": "社会学ゼミ",
+  "description": "慶應義塾大学 通信教育課程で学ぶ学生による社会学ゼミ。本質的な学びと図解資料を通じて、自律する力を共に育みます。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#05070d",
+  "theme_color": "#05060a",
+  "lang": "ja",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    }
+  ]
+}

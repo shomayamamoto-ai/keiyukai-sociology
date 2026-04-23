@@ -14,6 +14,10 @@
   <meta name="twitter:title" content="慶友会 社会学ゼミ" />
   <meta name="twitter:description" content="本質的思考・本質的学び — 慶應義塾大学 通信教育課程の社会学ゼミ" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="社会学ゼミ" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -34,9 +38,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=28" />
+  <link rel="stylesheet" href="assets/css/main.css?v=29" />
 </head>
 <body>
+
+  <!-- Skip to main content (a11y) -->
+  <a href="#main" class="skip-link">メインコンテンツへスキップ</a>
 
   <!-- Custom cursor (desktop only) -->
   <div class="cursor" id="cursor" aria-hidden="true">
@@ -207,6 +214,7 @@
 
   <!-- ============ MAIN SITE ============ -->
   <div id="site" class="site" aria-hidden="true">
+    <a id="main" tabindex="-1" class="sr-only">メインコンテンツ</a>
 
     <header class="nav">
       <a href="#top" class="nav__brand">
@@ -405,6 +413,10 @@
       </div>
     </section>
 
+    <div class="section-divider" aria-hidden="true">
+      <span class="section-divider__mark">Our Philosophy</span>
+    </div>
+
     <!-- CREED / 理念 -->
     <section id="creed" class="section section--creed">
       <div class="section__header">
@@ -501,6 +513,10 @@
         </div>
       </div>
     </section>
+
+    <div class="section-divider" aria-hidden="true">
+      <span class="section-divider__mark">What We Do</span>
+    </div>
 
     <!-- ACTIVITIES -->
     <section id="activities" class="section section--activities">
@@ -986,6 +1002,10 @@
       </div>
     </section>
 
+    <div class="section-divider" aria-hidden="true">
+      <span class="section-divider__mark">Join Us</span>
+    </div>
+
     <!-- JOIN -->
     <section id="join" class="section section--join">
       <div class="section__header">
@@ -1098,6 +1118,6 @@
     </svg>
   </button>
 
-  <script src="assets/js/main.js?v=28"></script>
+  <script src="assets/js/main.js?v=29"></script>
 </body>
 </html>
