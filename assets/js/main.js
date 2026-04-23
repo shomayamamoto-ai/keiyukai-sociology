@@ -1,6 +1,10 @@
 (() => {
   'use strict';
-  console.log('[sociology-seminar] main.js v28 — First-visit gate + back-to-top');
+  console.log('[sociology-seminar] main.js v30 — opening plays every visit');
+
+  // Clear the legacy "skip intro for 24h" key so returning visitors
+  // (who got marked by v28) see the opening again.
+  try { localStorage.removeItem('ksoc_intro_seen_at'); } catch (_) {}
 
   /* =========================================================
      INTRO SEQUENCE
@@ -252,36 +256,7 @@
     setTimeout(() => finishOpening(FADE_OUT_MS), OPENING_DURATION + FADE_OUT_MS);
   }
 
-  // Skip loading+opening entirely for visitors who have seen it in
-  // the last 24h (within the same browser). Returning users go
-  // straight to the site content.
-  const SEEN_KEY = 'ksoc_intro_seen_at';
-  const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-  function shouldSkipIntro() {
-    try {
-      const seen = parseInt(localStorage.getItem(SEEN_KEY) || '0', 10);
-      return seen && (Date.now() - seen) < ONE_DAY_MS;
-    } catch (_) { return false; }
-  }
-  function markIntroSeen() {
-    try { localStorage.setItem(SEEN_KEY, String(Date.now())); } catch (_) {}
-  }
-
   async function bootOpening() {
-    // First-visit-only gate
-    if (shouldSkipIntro()) {
-      console.log('[sociology-seminar] skipping intro (seen within 24h)');
-      if (loadingEl) { loadingEl.classList.add('is-done'); setTimeout(() => loadingEl.remove(), 100); }
-      if (opening)   { opening.classList.add('is-done');   setTimeout(() => opening.remove(), 100); }
-      if (site) {
-        site.setAttribute('aria-hidden', 'false');
-        requestAnimationFrame(() => site.classList.add('is-visible'));
-      }
-      finished = true;
-      return;
-    }
-    markIntroSeen();
-
     animateLoading(LOADING_MIN_MS);
 
     // Wait for fonts + min loading time
