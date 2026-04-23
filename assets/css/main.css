@@ -46,6 +46,12 @@ html, body {
   line-break: strict;
 }
 
+/* Utility: hide <br> on small screens so mobile text flows naturally */
+.br-md { display: inline; }
+@media (max-width: 720px) {
+  .br-md { display: none; }
+}
+
 body { overflow-x: hidden; }
 
 img { max-width: 100%; display: block; }
