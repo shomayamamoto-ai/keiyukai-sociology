@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — 慶友会 社会学ゼミ</title>
+  <meta name="description" content="お探しのページは見つかりませんでした。" />
+  <meta name="theme-color" content="#05060a" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css?v=28" />
+  <style>
+    .nf {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 6rem 1.5rem;
+      background:
+        radial-gradient(ellipse at 50% 55%, #0b1020 0%, #05070d 60%, #02040a 100%);
+      overflow: hidden;
+    }
+    .nf::before,
+    .nf::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .nf::before {
+      background:
+        radial-gradient(45% 35% at 30% 40%, rgba(30, 55, 100, 0.4), transparent 70%),
+        radial-gradient(40% 30% at 70% 60%, rgba(200, 169, 106, 0.18), transparent 70%);
+    }
+    .nf::after {
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+    }
+    .nf__inner {
+      position: relative;
+      text-align: center;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    .nf__eyebrow {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 0.78rem;
+      letter-spacing: 0.5em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .nf__code {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(6rem, 18vw, 12rem);
+      line-height: 1;
+      letter-spacing: 0.08em;
+      color: #fff;
+      text-shadow:
+        0 0 40px rgba(231, 212, 163, 0.35),
+        0 0 100px rgba(200, 169, 106, 0.22);
+    }
+    .nf__rule {
+      width: 180px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+    }
+    .nf__message {
+      margin: 0;
+      font-family: "Shippori Mincho", serif;
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      letter-spacing: 0.2em;
+      color: var(--ink-0);
+      line-height: 2;
+    }
+    .nf__sub {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      letter-spacing: 0.3em;
+      color: var(--ink-2);
+    }
+    .nf__actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="nf">
+    <div class="nf__inner">
+      <p class="nf__eyebrow">Page Not Found</p>
+      <h1 class="nf__code">404</h1>
+      <div class="nf__rule"></div>
+      <p class="nf__message">お探しのページは<br class="br-md" />見つかりませんでした。</p>
+      <p class="nf__sub">The page you are looking for does not exist.</p>
+      <div class="nf__actions">
+        <a href="index.html" class="btn btn--primary">
+          <span>トップへ戻る</span>
+          <span class="btn__arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="membership.html" class="btn btn--ghost">
+          <span>入会申込へ</span>
+        </a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

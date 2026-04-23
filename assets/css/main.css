@@ -52,6 +52,52 @@ html, body {
   .br-md { display: none; }
 }
 
+/* =========================================================
+   BACK-TO-TOP floating button
+   ========================================================= */
+.back-top {
+  position: fixed;
+  bottom: 1.8rem;
+  right: 1.8rem;
+  z-index: 55;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 6, 10, 0.7);
+  border: 1px solid var(--line-strong);
+  color: var(--accent-2);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.3s,
+              background 0.3s,
+              color 0.3s;
+}
+.back-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-top:hover {
+  border-color: var(--accent);
+  background: rgba(200, 169, 106, 0.1);
+  color: #fff;
+}
+.back-top svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.back-top:hover svg { transform: translateY(-3px); }
+@media (max-width: 640px) {
+  .back-top { bottom: 1.2rem; right: 1.2rem; width: 42px; height: 42px; }
+}
+
 /* Japanese paragraph defaults — enable pretty wrap where supported */
 p, li, blockquote, h1, h2, h3, h4, h5 {
   text-wrap: pretty;
