@@ -307,3 +307,66 @@ body{
     max-width:100%;
   }
 }
+
+/* v38 — two fixes from the 13:08 screenshots:
+   (a) FAQ questions were clipped at the right edge, with the +
+       arrow pushed outside. The summary grid was 32px / 1fr / 24px
+       but 1fr = minmax(auto,1fr), so the question's min-content
+       (keep-all Japanese) pushed the track past the card width,
+       and .faq__item{overflow:hidden} clipped the end.
+   (b) join__lead and other narrative text was being broken in
+       the middle of a phrase ("本質的に学び / たい」") because
+       v37 applied overflow-wrap:anywhere globally. Non-grid text
+       doesn't need anywhere for min-content sizing, so revert
+       those blocks to keep-all + break-word — Japanese will
+       prefer phrase-boundary (、) breaks. */
+
+@media (max-width:640px){
+  /* (a) FAQ summary: shrinkable middle track + wrappable question */
+  .faq__item summary{
+    grid-template-columns:28px minmax(0,1fr) 22px !important;
+    gap:.8rem;
+    padding:1.1rem 1.2rem;
+  }
+  .faq__question{
+    overflow-wrap:anywhere;
+    word-break:normal;
+    min-width:0;
+    max-width:100%;
+    line-height:1.55;
+    letter-spacing:.02em;
+  }
+  .faq__q,
+  .faq__arrow{
+    flex-shrink:0;
+  }
+
+  /* (b) Non-grid narrative text: prefer phrase-boundary breaks.
+     keep-all keeps CJK "words" (between 、/。/「」) together;
+     break-word still allows an emergency break when the word
+     genuinely cannot fit. */
+  .hero__lead,
+  .hero__lead--soft,
+  .creed__statement,
+  .creed__statement p,
+  .philosophy__quote,
+  .join__lead,
+  .manifesto__sub,
+  .contact__note,
+  .themes__intro p,
+  .resources__intro p,
+  .resources__note{
+    overflow-wrap:break-word;
+    word-break:keep-all;
+    line-break:strict;
+  }
+
+  /* Pull the join__lead line-height a touch tighter so the
+     stacked phrases don't feel floaty on a narrow screen. */
+  .join__lead{
+    line-height:1.85;
+  }
+  .contact__note{
+    line-height:1.85;
+  }
+}
