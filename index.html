@@ -18,7 +18,20 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="社会学ゼミ" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <script>try{localStorage.removeItem('ksoc_intro_seen_at');}catch(_){}</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <script>
+    // Clear ALL legacy intro-related localStorage keys so cached v28/v29
+    // JS (if somehow still running) cannot skip the opening.
+    try {
+      localStorage.removeItem('ksoc_intro_seen_at');
+      localStorage.removeItem('intro_seen');
+      localStorage.removeItem('opening_seen');
+      // Also mark this session as "never skip" for any cached older JS
+      sessionStorage.removeItem('ksoc_intro_seen_at');
+    } catch(_) {}
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -39,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/main.css?v=30" />
+  <link rel="stylesheet" href="assets/css/main.css?v=31" />
 </head>
 <body>
 
@@ -1119,6 +1132,6 @@
     </svg>
   </button>
 
-  <script src="assets/js/main.js?v=30"></script>
+  <script src="assets/js/main.js?v=31"></script>
 </body>
 </html>
