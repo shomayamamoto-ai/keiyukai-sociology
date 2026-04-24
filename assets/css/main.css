@@ -31,3 +31,47 @@ html{hanging-punctuation:allow-end}
   overflow-wrap:break-word;
   text-wrap:pretty;
 }
+
+/* v34 — mobile hero layout fixes */
+@media (max-width:640px){
+  /* 1-2. Hero title: each line (span) stays whole so 。 and 、
+     can't drop to their own line. */
+  .hero__title span{
+    display:block;
+    white-space:nowrap;
+    letter-spacing:.06em;
+  }
+
+  /* 3. Hero metrics: stack vertically with subtle separators
+     so 慶應 / Online / 全国 aren't mashed together. */
+  .hero__metrics{
+    display:flex !important;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    padding:1rem 1.4rem;
+    margin:0 auto;
+    max-width:calc(100% - 2rem);
+  }
+  .metric{
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:.7rem 0;
+    border-bottom:1px solid var(--line);
+  }
+  .metric:last-of-type{border-bottom:none;}
+  .metric__divider{display:none !important;}
+  .metric__num{font-size:1rem;text-align:left;}
+  .metric__label{text-align:right;font-size:.7rem;}
+
+  /* 4. SCROLL indicator — recenter below metrics */
+  .hero__scroll{
+    position:static;
+    transform:none;
+    left:auto;
+    margin:2.2rem auto 0;
+    align-items:center;
+  }
+  .hero__scroll-line{display:block;margin:0 auto;}
+}
