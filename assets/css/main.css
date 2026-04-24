@@ -231,3 +231,79 @@ body{
     height:auto;
   }
 }
+
+/* v37 — fix voice / resource / book / theme quotes getting clipped.
+   With word-break:keep-all from v33, Japanese text without nearby
+   punctuation pushes a grid track's min-content beyond the viewport.
+   The v36 overflow-x:hidden then clips that overflow mid-sentence.
+   Fixes:
+   1. Use minmax(0, 1fr) so grid tracks can shrink below min-content.
+   2. Use overflow-wrap:anywhere on long-text blocks — unlike
+      break-word, this IS considered during min-content sizing,
+      so the track no longer expands. */
+
+@media (max-width:640px){
+  .voices__grid,
+  .resources__grid,
+  .readings__grid,
+  .themes__grid,
+  .about__grid,
+  .creed__values,
+  .philosophy__pillars,
+  .footer__nav{
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+
+  /* Also let every grid/flex item shrink regardless of its content */
+  .voices__grid > *,
+  .resources__grid > *,
+  .readings__grid > *,
+  .themes__grid > *,
+  .about__grid > *,
+  .creed__values > *,
+  .philosophy__pillars > *,
+  .footer__nav > *,
+  .voice > *,
+  .resource > *,
+  .book > *,
+  .theme > *,
+  .pillar > *,
+  .value > *,
+  .process__card,
+  .process__step > *,
+  .activity > *,
+  .faq__item,
+  .faq__answer > *{
+    min-width:0;
+    max-width:100%;
+  }
+
+  /* Long-text blocks: allow emergency break anywhere so the
+     min-content sizing stays small. overflow-wrap:anywhere IS
+     factored into min-content (unlike break-word). */
+  .voice__quote,
+  .resource__body p,
+  .book__desc,
+  .theme__desc,
+  .activity__body p,
+  .faq__answer p,
+  .about__card p,
+  .pillar p,
+  .value p,
+  .process__card p,
+  .manifesto__sub,
+  .contact__note,
+  .hero__lead,
+  .hero__lead--soft,
+  .creed__statement,
+  .creed__statement p,
+  .philosophy__quote,
+  .join__lead,
+  .themes__intro p,
+  .resources__intro p,
+  .resources__note{
+    overflow-wrap:anywhere;
+    word-break:normal;
+    max-width:100%;
+  }
+}
