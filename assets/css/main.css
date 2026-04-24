@@ -370,3 +370,40 @@ body{
     line-height:1.85;
   }
 }
+
+/* v39 — editorial-grade mobile line breaks.
+   Japanese web editors (note.com / Wired Japan / NewsPicks)
+   typically break every 10-14 characters on mobile, at phrase
+   boundaries (、 「」 etc), never mid-clause. We introduce
+   .br-sm which shows only on mobile so HTML can carry both
+   desktop breaks (.br-md) and finer mobile sub-breaks (.br-sm). */
+
+.br-sm{display:none}
+@media (max-width:720px){
+  .br-sm{display:inline}
+}
+
+@media (max-width:640px){
+  /* Slightly tighter body copy so the finer mobile breaks
+     don't stretch content too tall. Still above the readable
+     floor (~15px at 16px root). */
+  .hero__lead,
+  .hero__lead--soft,
+  .creed__statement,
+  .creed__statement p,
+  .philosophy__quote,
+  .join__lead,
+  .contact__note,
+  .m-hero__lead,
+  .m-step__lead,
+  .m-nav__note{
+    font-size:.94rem;
+    line-height:1.85;
+    letter-spacing:.015em;
+  }
+  .manifesto__sub{
+    font-size:.92rem;
+    line-height:1.8;
+    letter-spacing:.015em;
+  }
+}
