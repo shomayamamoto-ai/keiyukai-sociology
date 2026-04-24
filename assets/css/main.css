@@ -75,3 +75,73 @@ html{hanging-punctuation:allow-end}
   }
   .hero__scroll-line{display:block;margin:0 auto;}
 }
+
+/* v35 — mobile readability: restore line breaks and stop shrinking text.
+   Previously .br-md was hidden below 720px, so manually-authored phrase
+   breaks disappeared on mobile — which forced heavy font down-scaling
+   to keep lines from running off-screen. Show the breaks everywhere and
+   bump the body/quote sizes back to a readable range. */
+.br-md{display:inline !important}
+@media (max-width:720px){
+  .br-md{display:inline !important}
+}
+
+@media (max-width:640px){
+  /* Hero lead & soft lead */
+  .hero__lead,
+  .hero__lead--soft{
+    font-size:1rem;
+    line-height:1.95;
+    padding:0 .2rem;
+  }
+
+  /* Section creed / philosophy / manifesto body copy */
+  .creed__statement{font-size:1rem;line-height:1.95;letter-spacing:.02em;}
+  .philosophy__quote{font-size:1rem;line-height:2;letter-spacing:.02em;}
+  .manifesto__sub{font-size:.96rem;line-height:1.9;}
+  .join__lead{font-size:1rem;line-height:1.9;letter-spacing:.02em;}
+  .voice__quote{font-size:.98rem;line-height:1.85;}
+  .contact__note{font-size:.92rem;line-height:1.85;max-width:100%;}
+
+  /* Hero title: hold a fixed, readable size instead of vw scaling,
+     so the three stacked phrases don't get crushed. */
+  .hero__title{
+    font-size:clamp(1.9rem, 6.5vw, 2.4rem);
+    letter-spacing:.06em;
+    line-height:1.55;
+  }
+
+  /* Manifesto headline: same treatment */
+  .manifesto__big{
+    font-size:clamp(1.7rem, 6vw, 2.1rem);
+    letter-spacing:.06em;
+    line-height:1.55;
+  }
+
+  /* Opening statement: keep the two English lines at a readable min */
+  .op-statement{
+    font-size:1.8rem;
+    line-height:1.4;
+    letter-spacing:.02em;
+    padding:0 .8rem;
+  }
+
+  /* Section titles & subtitles in English / romaji */
+  .section__title{font-size:clamp(1.5rem, 5vw, 1.95rem);}
+}
+
+/* Extra-narrow phones (<=380px): tone down by a hair but never drop
+   below the readable floor. */
+@media (max-width:380px){
+  .hero__lead,
+  .hero__lead--soft,
+  .creed__statement,
+  .philosophy__quote,
+  .join__lead{font-size:.96rem;}
+  .hero__title{font-size:1.85rem;letter-spacing:.04em;}
+  .manifesto__big{font-size:1.65rem;letter-spacing:.04em;}
+  .op-statement{font-size:1.6rem;}
+  /* When the viewport really can't fit the manual break layout,
+     allow spans in the hero title to wrap again so nothing overflows. */
+  .hero__title span{white-space:normal;}
+}
