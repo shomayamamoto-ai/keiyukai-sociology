@@ -1,1 +1,651 @@
-(()=>{"use strict";const STORAGE_KEY="keiyukai-sociology-app-v1",form=document.getElementById("membership-form"),wizard=document.getElementById("wizard"),prevBtn=document.getElementById("wizard-prev"),nextBtn=document.getElementById("wizard-next"),submitBtn=document.getElementById("wizard-submit"),resetBtn=document.getElementById("wizard-reset"),progressFill=document.getElementById("progress-fill"),stepCounter=document.getElementById("step-counter"),saveIndicator=document.getElementById("save-indicator"),errorsEl=document.getElementById("m-errors"),summaryBody=document.getElementById("summary-body"),yearEl=document.getElementById("year");if(yearEl&&(yearEl.textContent=String((new Date).getFullYear())),!form||!wizard)return;const steps=Array.from(form.querySelectorAll(".m-step")),indicators=Array.from(document.querySelectorAll("[data-step-indicator]"));let current=1;const LABELS={name_kanji:"お名前（漢字）",name_kana:"フリガナ",student_id:"学籍番号",department:"在籍学部",email:"メールアドレス",email_domain_ok:"Gmail/keio.jp 確認",email_verified:"入力ミス確認",phone:"携帯電話番号",prefecture:"都道府県",age:"年齢層",occupation:"職業","source[]":"ご入会のきっかけ",referrer:"ご紹介者",intro:"自己紹介",motivation:"入会動機",impression:"サイトへのご感想",verification:"最終確認・卒論計画",rule_note:"独習ノート禁止ルール順守",rule_record:"録音・録画禁止",privacy:"プライバシーポリシー同意"};function renderStep(n,skipScroll){if(current=Math.max(1,Math.min(4,n)),steps.forEach(s=>{s.classList.toggle("is-active",parseInt(s.dataset.step,10)===current)}),indicators.forEach(i=>{const step=parseInt(i.dataset.stepIndicator,10);i.classList.toggle("is-active",step===current),i.classList.toggle("is-done",step<current)}),progressFill&&(progressFill.style.width=current/4*100+"%"),stepCounter&&(stepCounter.textContent=`Step ${current} / 4`),prevBtn.disabled=1===current,4===current?(nextBtn.hidden=!0,submitBtn.hidden=!1,function(){if(!summaryBody)return;const fd=new FormData(form),rows=[],addRow=(key,val)=>{rows.push({key:key,val:val&&String(val).trim()?val:null})};addRow("お名前",(fd.get("name_kanji")||"")+(fd.get("name_kana")?`（${fd.get("name_kana")}）`:"")),addRow("学籍番号",fd.get("student_id")),addRow("在籍学部",fd.get("department")),addRow("メールアドレス",fd.get("email")),addRow("携帯電話番号",fd.get("phone")),addRow("都道府県",fd.get("prefecture")),addRow("年齢層",fd.get("age")),addRow("職業",fd.get("occupation"));const sources=fd.getAll("source[]");addRow("ご入会のきっかけ",sources.length?sources.join("、"):null);const ref=fd.get("referrer");ref&&addRow("ご紹介者",ref);addRow("自己紹介",fd.get("intro")),addRow("入会動機",fd.get("motivation")),addRow("サイトへのご感想",fd.get("impression")),summaryBody.innerHTML="",rows.forEach(r=>{const row=document.createElement("div");row.className="m-summary__row";const k=document.createElement("div");k.className="m-summary__key",k.textContent=r.key;const v=document.createElement("div");v.className="m-summary__val"+(r.val?"":" is-empty"),v.textContent=r.val||"未入力",row.appendChild(k),row.appendChild(v),summaryBody.appendChild(row)})}()):(nextBtn.hidden=!1,submitBtn.hidden=!0),errorsEl.textContent="",!skipScroll){const top=wizard.getBoundingClientRect().top+window.scrollY-80;window.scrollTo({top:top,behavior:"smooth"})}}function showFieldError(el,msg){el.classList.add("has-error");const field=el.closest(".m-field, label");if(field){const err=field.querySelector(":scope > .m-err, :scope .m-err");err&&(err.textContent=msg||"")}}function clearFieldError(el){el.classList.remove("has-error");const field=el.closest(".m-field, label");if(field){const err=field.querySelector(":scope > .m-err, :scope .m-err");err&&(err.textContent="")}}function validateStep(n){const fields=function(n){const container=form.querySelector(`.m-step[data-step="${n}"]`);return container?Array.from(container.querySelectorAll("input, textarea, select")):[]}(n);fields.forEach(clearFieldError),errorsEl.textContent="";const errors=[],seen=new Set;if(fields.forEach(f=>{if(!f.required)return;if("radio"===f.type){const group=form.querySelectorAll(`input[type="radio"][name="${f.name}"]`);return void(Array.from(group).some(r=>r.checked)||seen.has(f.name)||(errors.push(LABELS[f.name]||f.name),seen.add(f.name),showFieldError(f,"選択してください")))}if("checkbox"===f.type)return void(f.checked||(errors.push(LABELS[f.name]||f.name),showFieldError(f,"")));const val=(f.value||"").trim();return val?"TEXTAREA"===f.tagName&&f.minLength&&val.length<f.minLength?(errors.push(`${LABELS[f.name]||f.name}（あと ${f.minLength-val.length} 文字）`),void showFieldError(f,`あと ${f.minLength-val.length} 文字ほど具体的にお書きください`)):void(f.checkValidity()||(errors.push(`${LABELS[f.name]||f.name}（形式）`),showFieldError(f,"形式をご確認ください"))):(errors.push(LABELS[f.name]||f.name),void showFieldError(f,"入力してください"))}),3===n){if(!(form.querySelectorAll('input[name="source[]"]:checked').length>0)){errors.push("ご入会のきっかけ");const first=form.querySelector('input[name="source[]"]');first&&showFieldError(first,"ひとつ以上お選びください")}}return errors.length&&(errorsEl.textContent="以下の項目をご確認ください："+errors.join(" ／ ")),0===errors.length}let saveTimeout=null;function saveState(){const fd=new FormData(form),data={};for(const[k,v]of fd.entries())k.endsWith("[]")?(data[k]||(data[k]=[]),data[k].push(v)):data[k]=v;form.querySelectorAll('input[type="checkbox"]').forEach(c=>{c.name.endsWith("[]")||(data["__chk_"+c.name]=c.checked?1:0)});try{localStorage.setItem(STORAGE_KEY,JSON.stringify({data:data,step:current,savedAt:Date.now()})),function(){if(!saveIndicator)return;saveIndicator.textContent="自動保存しました",saveIndicator.classList.add("is-saved"),clearTimeout(saveTimeout),saveTimeout=setTimeout(()=>{saveIndicator.classList.remove("is-saved"),saveIndicator.textContent=""},1800)}()}catch(_){}}function updateCounter(textarea){const counter=textarea.parentElement.querySelector(`.m-counter[data-for="${textarea.name}"]`);if(!counter)return;const len=textarea.value.length,min=parseInt(textarea.getAttribute("minlength")||"0",10);counter.textContent=len+" 文字"+(min?` / 最低 ${min}`:""),counter.classList.toggle("is-ok",len>=min&&min>0)}function updateAllCounters(){form.querySelectorAll("textarea[minlength]").forEach(updateCounter)}function updateValidityVisual(el){const label=el.closest("label");label&&label.classList.toggle("is-valid",function(el){if(!el)return!1;if("checkbox"===el.type||"radio"===el.type)return!1;const val=(el.value||"").trim();return!(el.required&&!val)&&!("TEXTAREA"===el.tagName&&el.minLength&&val.length<el.minLength)&&el.checkValidity()}(el))}form.querySelectorAll("input:not([type=radio]):not([type=checkbox]), textarea, select").forEach(el=>{el.addEventListener("input",()=>{clearFieldError(el),updateValidityVisual(el)}),el.addEventListener("blur",()=>updateValidityVisual(el)),"TEXTAREA"===el.tagName&&el.addEventListener("input",()=>updateCounter(el))}),form.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el=>{el.addEventListener("change",()=>{clearFieldError(el),el.name&&form.querySelectorAll(`input[name="${CSS.escape(el.name)}"]`).forEach(sib=>clearFieldError(sib))})}),nextBtn.addEventListener("click",()=>{validateStep(current)&&(renderStep(current+1),saveState())}),prevBtn.addEventListener("click",()=>{renderStep(current-1),saveState()}),indicators.forEach(i=>{i.addEventListener("click",()=>{const target=parseInt(i.dataset.stepIndicator,10);target<current&&renderStep(target)}),i.style.cursor="pointer"}),resetBtn.addEventListener("click",()=>{confirm("入力内容をすべて消去してよろしいですか？この操作は取り消せません。")&&function(){try{localStorage.removeItem(STORAGE_KEY)}catch(_){}form.reset(),updateAllCounters(),steps.forEach(s=>s.querySelectorAll(".has-error").forEach(e=>e.classList.remove("has-error"))),renderStep(1)}()});let changeTimeout=null;function setSubmitState(state,label){const btn=document.getElementById("wizard-submit");btn&&(btn.disabled="loading"===state,label&&(btn.textContent=label))}function mailtoFallback(subject,body){const mailto="mailto:sociology.semi.kk"+"@"+"gmail.com?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body),a=document.createElement("a");a.href=mailto,a.rel="noopener",a.style.display="none",document.body.appendChild(a),a.click(),a.remove()}form.addEventListener("input",()=>{clearTimeout(changeTimeout),changeTimeout=setTimeout(saveState,600)}),form.addEventListener("change",saveState),form.addEventListener("keydown",e=>{"Enter"===e.key&&"TEXTAREA"!==e.target.tagName&&(e.shiftKey||4!==current&&(e.preventDefault(),validateStep(current)&&(renderStep(current+1),saveState())))}),form.addEventListener("submit",async e=>{if(e.preventDefault(),!validateStep(4))return;saveState();const fd=new FormData(form),body=function(fd){const lines=[];lines.push("■ 慶友会 社会学ゼミ 入会申込"),lines.push("（このメールは申込フォームから自動生成されています）"),lines.push("");const add=(label,val)=>{lines.push(`${label}: ${val||""}`)};add("1. お名前（漢字）",fd.get("name_kanji")),add("   フリガナ",fd.get("name_kana")),add("2. 学籍番号",fd.get("student_id")),add("3. 在籍学部",fd.get("department")),add("4. メールアドレス",fd.get("email")),add("5. 携帯電話番号",fd.get("phone")),add("6. 都道府県",fd.get("prefecture")),add("7. 年齢層",fd.get("age")),add("8. 職業",fd.get("occupation")),lines.push(""),lines.push("9. ご入会のきっかけ（複数選択可）:"),fd.getAll("source[]").forEach(s=>lines.push(`   - ${s}`));const ref=fd.get("referrer");return ref&&lines.push(`   ご紹介者: ${ref}`),lines.push(""),lines.push("10. 自己紹介:"),lines.push(fd.get("intro")||""),lines.push(""),lines.push("11. 入会を希望する動機:"),lines.push(fd.get("motivation")||""),lines.push(""),lines.push("12. サイトへのご感想:"),lines.push(fd.get("impression")||""),lines.push(""),lines.push("13. 誤記入の確認・卒論計画・現在のお悩み等:"),lines.push(fd.get("verification")||""),lines.push(""),lines.push("---"),lines.push("【ルール順守への同意】"),lines.push("・独習ノートのスクリーンショット禁止ルール順守に同意: "+(fd.get("rule_note")?"✓":"-")),lines.push("・講師派遣の録音・撮影・録画を一切行わないことに同意:   "+(fd.get("rule_record")?"✓":"-")),lines.push("・プライバシーポリシーおよびゼミ規約に同意:             "+(fd.get("privacy")?"✓":"-")),lines.join("\n")}(fd),subject=`【入会申込】慶友会 社会学ゼミ - ${fd.get("name_kanji")||""}`,subjInput=form.querySelector('input[name="subject"]');subjInput&&(subjInput.value=subject);const messageInput=document.createElement("input");messageInput.type="hidden",messageInput.name="message",messageInput.value=body,form.appendChild(messageInput);const accessKey=(form.querySelector('input[name="access_key"]')||{}).value||"",endpoint=form.getAttribute("action")||"https://api.web3forms.com/submit";if(!accessKey||"YOUR_WEB3FORMS_ACCESS_KEY"===accessKey)return errorsEl.textContent="",console.warn("[membership] Web3Forms access key not configured — falling back to mailto"),openThanksModal(),setTimeout(()=>mailtoFallback(subject,body),280),void messageInput.remove();setSubmitState("loading","送信中…"),errorsEl.textContent="";try{const res=await fetch(endpoint,{method:"POST",headers:{Accept:"application/json"},body:new FormData(form)});if(res.ok){openThanksModal(),setSubmitState("done","送信完了");try{localStorage.removeItem(STORAGE_KEY)}catch(_){}}else{const data=await res.json().catch(()=>({}));errorsEl.textContent="送信に失敗しました（HTTP "+res.status+"）。"+(data.message?data.message+" ":"")+"時間をおいて再度お試しいただくか、下のリンクからメールアプリでもお送りいただけます。";const fallbackLink=document.createElement("a");fallbackLink.href="#",fallbackLink.textContent="メールアプリで送る",fallbackLink.style.cssText="color:#e7d4a3;text-decoration:underline;margin-left:.6em;",fallbackLink.addEventListener("click",ev=>{ev.preventDefault(),mailtoFallback(subject,body)}),errorsEl.appendChild(fallbackLink),setSubmitState("idle","入会申込を送信する →")}}catch(err){errorsEl.textContent="ネットワークエラーが発生しました: "+err.message+" / メールアプリでお送りいただくか、時間をおいて再度お試しください。",setSubmitState("idle","入会申込を送信する →")}finally{messageInput.remove()}});const modal=document.getElementById("thanks-modal"),modalClose=document.getElementById("thanks-close");function openThanksModal(){modal&&(modal.classList.add("is-open"),modal.setAttribute("aria-hidden","false"),document.body.style.overflow="hidden")}function closeThanksModal(){modal&&(modal.classList.remove("is-open"),modal.setAttribute("aria-hidden","true"),document.body.style.overflow="")}modalClose&&modalClose.addEventListener("click",closeThanksModal),modal&&(modal.querySelector(".m-modal__backdrop").addEventListener("click",closeThanksModal),document.addEventListener("keydown",e=>{"Escape"===e.key&&modal.classList.contains("is-open")&&closeThanksModal()})),function(){const bar=document.getElementById("scroll-progress");if(!bar)return;let ticking=!1;function update(){const h=document.documentElement,total=h.scrollHeight-h.clientHeight,ratio=total>0?(h.scrollTop||window.scrollY)/total:0;bar.style.width=(100*Math.max(0,Math.min(1,ratio))).toFixed(2)+"%",ticking=!1}window.addEventListener("scroll",()=>{ticking||(requestAnimationFrame(update),ticking=!0)},{passive:!0}),update()}(),function(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;const{data:data,step:step}=JSON.parse(raw);Object.entries(data).forEach(([k,v])=>{if(k.startsWith("__chk_")){const name=k.slice(6),el=form.querySelector(`input[type="checkbox"][name="${name}"]`);return void(el&&(el.checked=!!v))}if(Array.isArray(v))return void v.forEach(val=>{const el=form.querySelector(`input[name="${k}"][value="${CSS.escape(val)}"]`);el&&(el.checked=!0)});const el=form.querySelector(`[name="${k}"]`);if(el)if("radio"===el.type){const target=form.querySelector(`input[name="${k}"][value="${CSS.escape(v)}"]`);target&&(target.checked=!0)}else el.value=v}),step&&"number"==typeof step&&renderStep(step,!0),updateAllCounters()}catch(_){}}(),renderStep(current,!0),updateAllCounters(),form.querySelectorAll("input:not([type=radio]):not([type=checkbox]), textarea, select").forEach(updateValidityVisual)})();
+(() => {
+  'use strict';
+
+  /* =========================================================
+     Membership wizard (v12)
+     4 steps · inline validation · localStorage autosave ·
+     summary review · mailto submit
+     ========================================================= */
+
+  const STORAGE_KEY = 'keiyukai-sociology-app-v1';
+  const TOTAL_STEPS = 4;
+
+  const form = document.getElementById('membership-form');
+  const wizard = document.getElementById('wizard');
+  const prevBtn = document.getElementById('wizard-prev');
+  const nextBtn = document.getElementById('wizard-next');
+  const submitBtn = document.getElementById('wizard-submit');
+  const resetBtn = document.getElementById('wizard-reset');
+  const progressFill = document.getElementById('progress-fill');
+  const stepCounter = document.getElementById('step-counter');
+  const saveIndicator = document.getElementById('save-indicator');
+  const errorsEl = document.getElementById('m-errors');
+  const summaryBody = document.getElementById('summary-body');
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  if (!form || !wizard) return;
+
+  const steps = Array.from(form.querySelectorAll('.m-step'));
+  const indicators = Array.from(document.querySelectorAll('[data-step-indicator]'));
+  let current = 1;
+
+  /* ---------- Field labels for summary + errors ---------- */
+  const LABELS = {
+    name_kanji: 'お名前（漢字）',
+    name_kana: 'フリガナ',
+    student_id: '学籍番号',
+    department: '在籍学部',
+    email: 'メールアドレス',
+    email_domain_ok: 'Gmail/keio.jp 確認',
+    email_verified: '入力ミス確認',
+    phone: '携帯電話番号',
+    prefecture: '都道府県',
+    age: '年齢層',
+    occupation: '職業',
+    'source[]': 'ご入会のきっかけ',
+    referrer: 'ご紹介者',
+    intro: '自己紹介',
+    motivation: '入会動機',
+    impression: 'サイトへのご感想',
+    verification: '最終確認・卒論計画',
+    rule_note: '独習ノート禁止ルール順守',
+    rule_record: '録音・録画禁止',
+    privacy: 'プライバシーポリシー同意',
+  };
+
+  /* ---------- Step / progress rendering ---------- */
+  function renderStep(n, skipScroll) {
+    current = Math.max(1, Math.min(TOTAL_STEPS, n));
+    steps.forEach((s) => {
+      s.classList.toggle('is-active', parseInt(s.dataset.step, 10) === current);
+    });
+    indicators.forEach((i) => {
+      const step = parseInt(i.dataset.stepIndicator, 10);
+      i.classList.toggle('is-active', step === current);
+      i.classList.toggle('is-done', step < current);
+    });
+    if (progressFill) progressFill.style.width = (current / TOTAL_STEPS * 100) + '%';
+    if (stepCounter) stepCounter.textContent = `Step ${current} / ${TOTAL_STEPS}`;
+
+    prevBtn.disabled = current === 1;
+    if (current === TOTAL_STEPS) {
+      nextBtn.hidden = true;
+      submitBtn.hidden = false;
+      buildSummary();
+    } else {
+      nextBtn.hidden = false;
+      submitBtn.hidden = true;
+    }
+
+    errorsEl.textContent = '';
+
+    if (!skipScroll) {
+      const top = wizard.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }
+
+  /* ---------- Validation of the currently visible step ---------- */
+  function collectStepFields(n) {
+    const container = form.querySelector(`.m-step[data-step="${n}"]`);
+    if (!container) return [];
+    return Array.from(container.querySelectorAll('input, textarea, select'));
+  }
+
+  function showFieldError(el, msg) {
+    el.classList.add('has-error');
+    // Find nearest .m-err
+    const field = el.closest('.m-field, label');
+    if (field) {
+      const err = field.querySelector(':scope > .m-err, :scope .m-err');
+      if (err) err.textContent = msg || '';
+    }
+  }
+  function clearFieldError(el) {
+    el.classList.remove('has-error');
+    const field = el.closest('.m-field, label');
+    if (field) {
+      const err = field.querySelector(':scope > .m-err, :scope .m-err');
+      if (err) err.textContent = '';
+    }
+  }
+
+  function validateStep(n) {
+    const fields = collectStepFields(n);
+    // Reset previous errors
+    fields.forEach(clearFieldError);
+    errorsEl.textContent = '';
+
+    const errors = [];
+    const seen = new Set();
+
+    fields.forEach((f) => {
+      if (!f.required) return;
+      if (f.type === 'radio') {
+        const group = form.querySelectorAll(`input[type="radio"][name="${f.name}"]`);
+        const picked = Array.from(group).some((r) => r.checked);
+        if (!picked && !seen.has(f.name)) {
+          errors.push(LABELS[f.name] || f.name);
+          seen.add(f.name);
+          showFieldError(f, '選択してください');
+        }
+        return;
+      }
+      if (f.type === 'checkbox') {
+        if (!f.checked) {
+          errors.push(LABELS[f.name] || f.name);
+          showFieldError(f, '');
+        }
+        return;
+      }
+      const val = (f.value || '').trim();
+      if (!val) {
+        errors.push(LABELS[f.name] || f.name);
+        showFieldError(f, '入力してください');
+        return;
+      }
+      // Min-length check for textareas
+      if (f.tagName === 'TEXTAREA' && f.minLength && val.length < f.minLength) {
+        errors.push(`${LABELS[f.name] || f.name}（あと ${f.minLength - val.length} 文字）`);
+        showFieldError(f, `あと ${f.minLength - val.length} 文字ほど具体的にお書きください`);
+        return;
+      }
+      // Native HTML5 validation (email pattern etc.)
+      if (!f.checkValidity()) {
+        errors.push(`${LABELS[f.name] || f.name}（形式）`);
+        showFieldError(f, '形式をご確認ください');
+      }
+    });
+
+    // Step-3 source[] needs at least one checked
+    if (n === 3) {
+      const any = form.querySelectorAll('input[name="source[]"]:checked').length > 0;
+      if (!any) {
+        errors.push('ご入会のきっかけ');
+        const first = form.querySelector('input[name="source[]"]');
+        if (first) showFieldError(first, 'ひとつ以上お選びください');
+      }
+    }
+
+    if (errors.length) {
+      errorsEl.textContent = '以下の項目をご確認ください：' + errors.join(' ／ ');
+    }
+    return errors.length === 0;
+  }
+
+  /* ---------- Summary builder ---------- */
+  function buildSummary() {
+    if (!summaryBody) return;
+    const fd = new FormData(form);
+    const rows = [];
+
+    const addRow = (key, val) => {
+      rows.push({ key, val: val && String(val).trim() ? val : null });
+    };
+
+    addRow('お名前', (fd.get('name_kanji') || '') + (fd.get('name_kana') ? `（${fd.get('name_kana')}）` : ''));
+    addRow('学籍番号', fd.get('student_id'));
+    addRow('在籍学部', fd.get('department'));
+    addRow('メールアドレス', fd.get('email'));
+    addRow('携帯電話番号', fd.get('phone'));
+    addRow('都道府県', fd.get('prefecture'));
+    addRow('年齢層', fd.get('age'));
+    addRow('職業', fd.get('occupation'));
+
+    const sources = fd.getAll('source[]');
+    addRow('ご入会のきっかけ', sources.length ? sources.join('、') : null);
+    const ref = fd.get('referrer');
+    if (ref) addRow('ご紹介者', ref);
+
+    addRow('自己紹介', fd.get('intro'));
+    addRow('入会動機', fd.get('motivation'));
+    addRow('サイトへのご感想', fd.get('impression'));
+
+    summaryBody.innerHTML = '';
+    rows.forEach((r) => {
+      const row = document.createElement('div');
+      row.className = 'm-summary__row';
+      const k = document.createElement('div');
+      k.className = 'm-summary__key';
+      k.textContent = r.key;
+      const v = document.createElement('div');
+      v.className = 'm-summary__val' + (r.val ? '' : ' is-empty');
+      v.textContent = r.val || '未入力';
+      row.appendChild(k);
+      row.appendChild(v);
+      summaryBody.appendChild(row);
+    });
+  }
+
+  /* ---------- Autosave to localStorage ---------- */
+  let saveTimeout = null;
+  function saveState() {
+    const fd = new FormData(form);
+    const data = {};
+    for (const [k, v] of fd.entries()) {
+      if (k.endsWith('[]')) {
+        if (!data[k]) data[k] = [];
+        data[k].push(v);
+      } else {
+        data[k] = v;
+      }
+    }
+    // Also record checkboxes explicitly (FormData skips unchecked)
+    form.querySelectorAll('input[type="checkbox"]').forEach((c) => {
+      if (c.name.endsWith('[]')) return;
+      data['__chk_' + c.name] = c.checked ? 1 : 0;
+    });
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ data, step: current, savedAt: Date.now() }));
+      flashSaved();
+    } catch (_) { /* quota / private mode — ignore */ }
+  }
+
+  function flashSaved() {
+    if (!saveIndicator) return;
+    saveIndicator.textContent = '自動保存しました';
+    saveIndicator.classList.add('is-saved');
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+      saveIndicator.classList.remove('is-saved');
+      saveIndicator.textContent = '';
+    }, 1800);
+  }
+
+  function restoreState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const { data, step } = JSON.parse(raw);
+      Object.entries(data).forEach(([k, v]) => {
+        if (k.startsWith('__chk_')) {
+          const name = k.slice('__chk_'.length);
+          const el = form.querySelector(`input[type="checkbox"][name="${name}"]`);
+          if (el) el.checked = !!v;
+          return;
+        }
+        if (Array.isArray(v)) {
+          v.forEach((val) => {
+            const el = form.querySelector(`input[name="${k}"][value="${CSS.escape(val)}"]`);
+            if (el) el.checked = true;
+          });
+          return;
+        }
+        const el = form.querySelector(`[name="${k}"]`);
+        if (!el) return;
+        if (el.type === 'radio') {
+          const target = form.querySelector(`input[name="${k}"][value="${CSS.escape(v)}"]`);
+          if (target) target.checked = true;
+        } else {
+          el.value = v;
+        }
+      });
+      if (step && typeof step === 'number') renderStep(step, true);
+      updateAllCounters();
+    } catch (_) { /* ignore */ }
+  }
+
+  function clearState() {
+    try { localStorage.removeItem(STORAGE_KEY); } catch (_) { }
+    form.reset();
+    updateAllCounters();
+    steps.forEach((s) => s.querySelectorAll('.has-error').forEach((e) => e.classList.remove('has-error')));
+    renderStep(1);
+  }
+
+  /* ---------- Character counters ---------- */
+  function updateCounter(textarea) {
+    const counter = textarea.parentElement.querySelector(`.m-counter[data-for="${textarea.name}"]`);
+    if (!counter) return;
+    const len = textarea.value.length;
+    const min = parseInt(textarea.getAttribute('minlength') || '0', 10);
+    counter.textContent = len + ' 文字' + (min ? ` / 最低 ${min}` : '');
+    counter.classList.toggle('is-ok', len >= min && min > 0);
+  }
+  function updateAllCounters() {
+    form.querySelectorAll('textarea[minlength]').forEach(updateCounter);
+  }
+
+  /* ---------- Real-time field validation ---------- */
+  function isFieldValid(el) {
+    if (!el) return false;
+    if (el.type === 'checkbox' || el.type === 'radio') return false; // handled separately
+    const val = (el.value || '').trim();
+    if (el.required && !val) return false;
+    if (el.tagName === 'TEXTAREA' && el.minLength && val.length < el.minLength) return false;
+    return el.checkValidity();
+  }
+  function updateValidityVisual(el) {
+    const label = el.closest('label');
+    if (!label) return;
+    label.classList.toggle('is-valid', isFieldValid(el));
+  }
+  form.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea, select').forEach((el) => {
+    el.addEventListener('input', () => {
+      clearFieldError(el);
+      updateValidityVisual(el);
+    });
+    el.addEventListener('blur', () => updateValidityVisual(el));
+    if (el.tagName === 'TEXTAREA') {
+      el.addEventListener('input', () => updateCounter(el));
+    }
+  });
+
+  // Checkboxes & radios: clear their own (and group's) has-error on change
+  form.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach((el) => {
+    el.addEventListener('change', () => {
+      clearFieldError(el);
+      // For groups sharing a name, clear siblings too
+      if (el.name) {
+        form.querySelectorAll(`input[name="${CSS.escape(el.name)}"]`)
+          .forEach((sib) => clearFieldError(sib));
+      }
+    });
+  });
+
+  /* ---------- Navigation handlers ---------- */
+  nextBtn.addEventListener('click', () => {
+    if (!validateStep(current)) return;
+    renderStep(current + 1);
+    saveState();
+  });
+  prevBtn.addEventListener('click', () => {
+    renderStep(current - 1);
+    saveState();
+  });
+
+  // Allow clicking an earlier step indicator to jump back (not forward)
+  indicators.forEach((i) => {
+    i.addEventListener('click', () => {
+      const target = parseInt(i.dataset.stepIndicator, 10);
+      if (target < current) {
+        renderStep(target);
+      }
+    });
+    i.style.cursor = 'pointer';
+  });
+
+  resetBtn.addEventListener('click', () => {
+    if (confirm('入力内容をすべて消去してよろしいですか？この操作は取り消せません。')) {
+      clearState();
+    }
+  });
+
+  // Autosave on any field change (debounced)
+  let changeTimeout = null;
+  form.addEventListener('input', () => {
+    clearTimeout(changeTimeout);
+    changeTimeout = setTimeout(saveState, 600);
+  });
+  form.addEventListener('change', saveState);
+
+  // Enter key → advance to next step (except inside textareas & when submit is visible)
+  form.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    if (e.target.tagName === 'TEXTAREA') return;
+    if (e.shiftKey) return;
+    // On last step, let native submit happen
+    if (current === TOTAL_STEPS) return;
+    e.preventDefault();
+    if (validateStep(current)) {
+      renderStep(current + 1);
+      saveState();
+    }
+  });
+
+  /* ---------- Submit (direct send via Web3Forms) ---------- */
+  function buildBodyText(fd) {
+    const lines = [];
+    lines.push('■ 慶友会 社会学ゼミ 入会申込');
+    lines.push('（このメールは申込フォームから自動生成されています）');
+    lines.push('');
+    const add = (label, val) => { lines.push(`${label}: ${val || ''}`); };
+    add('1. お名前（漢字）', fd.get('name_kanji'));
+    add('   フリガナ', fd.get('name_kana'));
+    add('2. 学籍番号', fd.get('student_id'));
+    add('3. 在籍学部', fd.get('department'));
+    add('4. メールアドレス', fd.get('email'));
+    add('5. 携帯電話番号', fd.get('phone'));
+    add('6. 都道府県', fd.get('prefecture'));
+    add('7. 年齢層', fd.get('age'));
+    add('8. 職業', fd.get('occupation'));
+    lines.push('');
+    lines.push('9. ご入会のきっかけ（複数選択可）:');
+    fd.getAll('source[]').forEach((s) => lines.push(`   - ${s}`));
+    const ref = fd.get('referrer');
+    if (ref) lines.push(`   ご紹介者: ${ref}`);
+    lines.push(''); lines.push('10. 自己紹介:'); lines.push(fd.get('intro') || '');
+    lines.push(''); lines.push('11. 入会を希望する動機:'); lines.push(fd.get('motivation') || '');
+    lines.push(''); lines.push('12. サイトへのご感想:'); lines.push(fd.get('impression') || '');
+    lines.push(''); lines.push('13. 誤記入の確認・卒論計画・現在のお悩み等:'); lines.push(fd.get('verification') || '');
+    lines.push(''); lines.push('---');
+    lines.push('【ルール順守への同意】');
+    lines.push(`・独習ノートのスクリーンショット禁止ルール順守に同意: ${fd.get('rule_note') ? '✓' : '-'}`);
+    lines.push(`・講師派遣の録音・撮影・録画を一切行わないことに同意:   ${fd.get('rule_record') ? '✓' : '-'}`);
+    lines.push(`・プライバシーポリシーおよびゼミ規約に同意:             ${fd.get('privacy') ? '✓' : '-'}`);
+    return lines.join('\n');
+  }
+
+  function setSubmitState(state, label) {
+    const btn = document.getElementById('wizard-submit');
+    if (!btn) return;
+    btn.disabled = (state === 'loading');
+    if (label) btn.textContent = label;
+  }
+
+  const MAIL_LOCAL = 'sociology.semi.kk';
+  const MAIL_DOMAIN = 'gmail.com';
+  const CONTACT_ADDRESS = MAIL_LOCAL + '@' + MAIL_DOMAIN;
+
+  function mailtoFallback(subject, body) {
+    const mailto = 'mailto:' + CONTACT_ADDRESS +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+    const a = document.createElement('a');
+    a.href = mailto; a.rel = 'noopener'; a.style.display = 'none';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  // When we go through the mailto path, replace the modal copy
+  // with an honest message and a copy-to-clipboard fallback so
+  // users without a configured mail client still have a path.
+  function presentMailtoSummary(subject, body) {
+    const modalEl = document.getElementById('thanks-modal');
+    if (!modalEl) return;
+    const titleEl = modalEl.querySelector('.m-modal__title');
+    const bodyEl = modalEl.querySelector('.m-modal__body');
+    if (titleEl) titleEl.textContent = 'メールアプリで内容をご確認ください';
+    if (!bodyEl) return;
+
+    bodyEl.innerHTML = '';
+
+    const lead = document.createElement('p');
+    lead.innerHTML = 'メールアプリが起動し、宛先・件名・本文が自動で入力されています。<br>'
+      + '内容をご確認のうえ、<strong>そのまま送信</strong>してください。';
+    bodyEl.appendChild(lead);
+
+    const note = document.createElement('p');
+    note.className = 'm-modal__hint';
+    note.style.cssText = 'margin-top:1.1rem;font-size:.9em;opacity:.85;';
+    note.textContent = 'メールアプリが起動しなかった場合は、下記をコピーして送信してください。';
+    bodyEl.appendChild(note);
+
+    const block = document.createElement('div');
+    block.className = 'm-mail-fallback';
+    block.style.cssText = 'margin-top:.6rem;border:1px solid rgba(231,212,163,.35);border-radius:8px;padding:.85rem 1rem;background:rgba(0,0,0,.18);';
+
+    const addr = document.createElement('div');
+    addr.style.cssText = 'font-size:.88em;margin-bottom:.35rem;';
+    addr.innerHTML = '<strong>宛先:</strong> <span class="m-mail-fallback__addr"></span>';
+    addr.querySelector('.m-mail-fallback__addr').textContent = CONTACT_ADDRESS;
+    block.appendChild(addr);
+
+    const subj = document.createElement('div');
+    subj.style.cssText = 'font-size:.88em;margin-bottom:.55rem;';
+    subj.innerHTML = '<strong>件名:</strong> <span class="m-mail-fallback__subj"></span>';
+    subj.querySelector('.m-mail-fallback__subj').textContent = subject;
+    block.appendChild(subj);
+
+    const ta = document.createElement('textarea');
+    ta.readOnly = true;
+    ta.value = body;
+    ta.style.cssText = 'width:100%;min-height:120px;max-height:240px;font:0.85em/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:rgba(0,0,0,.25);color:inherit;border:1px solid rgba(231,212,163,.25);border-radius:6px;padding:.6rem .7rem;resize:vertical;';
+    block.appendChild(ta);
+
+    const btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem;';
+
+    const copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'btn btn--ghost';
+    copyBtn.textContent = '本文をコピー';
+    copyBtn.addEventListener('click', () => {
+      const text = '宛先: ' + CONTACT_ADDRESS + '\n件名: ' + subject + '\n\n' + body;
+      const done = (ok) => {
+        copyBtn.textContent = ok ? 'コピーしました ✓' : 'コピーに失敗しました';
+        setTimeout(() => { copyBtn.textContent = '本文をコピー'; }, 2200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => done(true), () => {
+          ta.select(); document.execCommand && document.execCommand('copy'); done(true);
+        });
+      } else {
+        try { ta.select(); document.execCommand('copy'); done(true); }
+        catch (_) { done(false); }
+      }
+    });
+    btnRow.appendChild(copyBtn);
+
+    const reopen = document.createElement('button');
+    reopen.type = 'button';
+    reopen.className = 'btn btn--ghost';
+    reopen.textContent = 'メールアプリを再度開く';
+    reopen.addEventListener('click', () => mailtoFallback(subject, body));
+    btnRow.appendChild(reopen);
+
+    block.appendChild(btnRow);
+    bodyEl.appendChild(block);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validateStep(TOTAL_STEPS)) return;
+
+    saveState();
+    const fd = new FormData(form);
+    const body = buildBodyText(fd);
+    const subject = `【入会申込】慶友会 社会学ゼミ - ${fd.get('name_kanji') || ''}`;
+
+    // Update hidden Web3Forms fields with dynamic values
+    const subjInput = form.querySelector('input[name="subject"]');
+    if (subjInput) subjInput.value = subject;
+    // Attach the human-readable body as the primary "message" field
+    const messageInput = document.createElement('input');
+    messageInput.type = 'hidden';
+    messageInput.name = 'message';
+    messageInput.value = body;
+    form.appendChild(messageInput);
+
+    const accessKey = (form.querySelector('input[name="access_key"]') || {}).value || '';
+    const endpoint = form.getAttribute('action') || 'https://api.web3forms.com/submit';
+
+    // If access key is still the placeholder, fall back to mailto
+    if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+      errorsEl.textContent = '';
+      console.warn('[membership] Web3Forms access key not configured — falling back to mailto');
+      presentMailtoSummary(subject, body);
+      openThanksModal();
+      setTimeout(() => mailtoFallback(subject, body), 280);
+      try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+      messageInput.remove();
+      return;
+    }
+
+    // Direct send
+    setSubmitState('loading', '送信中…');
+    errorsEl.textContent = '';
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
+      });
+      if (res.ok) {
+        openThanksModal();
+        setSubmitState('done', '送信完了');
+        try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+      } else {
+        const data = await res.json().catch(() => ({}));
+        errorsEl.textContent = '送信に失敗しました（HTTP ' + res.status + '）。' +
+          (data.message ? data.message + ' ' : '') +
+          '時間をおいて再度お試しいただくか、下のリンクからメールアプリでもお送りいただけます。';
+        const fallbackLink = document.createElement('a');
+        fallbackLink.href = '#';
+        fallbackLink.textContent = 'メールアプリで送る';
+        fallbackLink.style.cssText = 'color:#e7d4a3;text-decoration:underline;margin-left:.6em;';
+        fallbackLink.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          mailtoFallback(subject, body);
+        });
+        errorsEl.appendChild(fallbackLink);
+        setSubmitState('idle', '入会申込を送信する →');
+      }
+    } catch (err) {
+      errorsEl.textContent = 'ネットワークエラーが発生しました: ' + err.message +
+        ' / メールアプリでお送りいただくか、時間をおいて再度お試しください。';
+      setSubmitState('idle', '入会申込を送信する →');
+    } finally {
+      messageInput.remove();
+    }
+  });
+
+  /* ---------- Thank-you modal ---------- */
+  const modal = document.getElementById('thanks-modal');
+  const modalClose = document.getElementById('thanks-close');
+  function openThanksModal() {
+    if (!modal) return;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeThanksModal() {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  if (modalClose) modalClose.addEventListener('click', closeThanksModal);
+  if (modal) {
+    modal.querySelector('.m-modal__backdrop').addEventListener('click', closeThanksModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeThanksModal();
+    });
+  }
+
+  /* ---------- Scroll progress for this page ---------- */
+  (function setupScrollProgress() {
+    const bar = document.getElementById('scroll-progress');
+    if (!bar) return;
+    let ticking = false;
+    function update() {
+      const h = document.documentElement;
+      const total = h.scrollHeight - h.clientHeight;
+      const ratio = total > 0 ? (h.scrollTop || window.scrollY) / total : 0;
+      bar.style.width = (Math.max(0, Math.min(1, ratio)) * 100).toFixed(2) + '%';
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    update();
+  })();
+
+  /* ---------- Init ---------- */
+  restoreState();
+  renderStep(current, true);
+  updateAllCounters();
+  // Refresh validity visuals after restore so checkmarks show on reload
+  form.querySelectorAll('input:not([type=radio]):not([type=checkbox]), textarea, select').forEach(updateValidityVisual);
+})();
