@@ -85,8 +85,8 @@
 .page-membership .m-step__title{color:var(--ink-0) !important}
 .page-membership .m-step__lead{color:var(--ink-1) !important}
 .page-membership .m-step__header{border-bottom-color:var(--line) !important}
-.page-membership .m-step__kicker{color:var(--accent-2)}
-.page-membership .m-step__time{color:var(--ink-3) !important;border-left-color:var(--line) !important}
+.page-membership .m-step__kicker{color:var(--accent-2) !important;font-weight:600 !important}
+.page-membership .m-step__time{color:var(--ink-1) !important;border-left:1px solid var(--line-strong) !important;font-weight:500}
 
 .page-membership .m-field{border-bottom-color:var(--line) !important}
 .page-membership .m-field legend{color:var(--ink-0) !important;border-left-color:var(--accent) !important}
