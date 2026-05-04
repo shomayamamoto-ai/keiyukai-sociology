@@ -5,10 +5,50 @@
 
 /* ---------- TABLET & SMARTPHONE (≤768px) ------------------- */
 @media (max-width: 768px) {
-  /* prevent any horizontal overflow */
+  /* prevent any horizontal overflow — 強制 */
   html, body.page-membership {
-    overflow-x: hidden;
-    max-width: 100%;
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+  }
+  .page-membership *,
+  .page-membership *::before,
+  .page-membership *::after {
+    box-sizing: border-box !important;
+  }
+  /* 子要素が grid/flex 内で縮まないバグの修正 */
+  .page-membership .m-prelude__card,
+  .page-membership .m-prelude__row,
+  .page-membership .m-prelude__row > div,
+  .page-membership .m-prelude__row p,
+  .page-membership .m-prelude__row h3,
+  .page-membership .m-field,
+  .page-membership .m-field > *,
+  .page-membership fieldset,
+  .page-membership legend,
+  .page-membership .m-step,
+  .page-membership .m-form,
+  .page-membership .m-wizard,
+  .page-membership .m-main,
+  .page-membership .m-hero,
+  .page-membership .nav,
+  .page-membership .footer {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  /* テキスト要素は強制改行可能に */
+  .page-membership p,
+  .page-membership h1,
+  .page-membership h2,
+  .page-membership h3,
+  .page-membership h4,
+  .page-membership legend,
+  .page-membership label,
+  .page-membership span,
+  .page-membership strong,
+  .page-membership em {
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
   }
 
   /* nav header — tighter, brand smaller */
