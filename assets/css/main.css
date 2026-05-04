@@ -132,3 +132,13 @@ html{scroll-behavior:smooth}@keyframes heroEntry{from{opacity:0;transform:transl
     max-height: none !important;
   }
 }
+
+/* === Mobile: 装飾用の<br>をスマホでは無効化(スマホで改行が崩れる対策) === */
+@media (max-width: 720px) {
+  /* 後から追加した装飾用<br />(クラス無)は非表示 → 自然な流れで折返し */
+  .section br:not([class]),
+  .hero br:not([class]),
+  .footer br:not([class]) {
+    display: none !important;
+  }
+}
