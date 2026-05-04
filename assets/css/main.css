@@ -92,3 +92,43 @@ html{scroll-behavior:smooth}@keyframes heroEntry{from{opacity:0;transform:transl
   }
   /* ナビは通常通り(opening / drawer / modal は除外) */
 }
+
+/* === Mobile: resources/pyramid セクションの内部スクロール抑止 === */
+@media (max-width: 768px) {
+  .resources__grid,
+  .resource,
+  .resource__visual,
+  .resource__body,
+  .section--resources,
+  .section--resources * {
+    overflow: visible !important;
+    max-height: none !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  /* SVGは枠内に収める(横にはみ出さない) */
+  .resource__visual {
+    overflow: hidden !important;
+    aspect-ratio: 16/10 !important;
+  }
+  .resource__visual svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
+  }
+  /* グリッドは1列に */
+  .resources__grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* セクション・パネル系で内部スクロール禁止 */
+  .section--join,
+  .join__panel,
+  .contact,
+  .contact__inner,
+  .contact__btn,
+  .footer__inner {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+}
