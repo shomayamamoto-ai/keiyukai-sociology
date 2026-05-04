@@ -6,7 +6,7 @@
 真の教育は、人間の尊厳を守り、自己と他者の双方を理解し、互いを支え合い、心身を健康にたもちながら「自立できるちから」をはぐくみます。
 
 ## 公開URL
-`https://shomayamamoto-ai.github.io/keiyukai-sociology/`
+`https://keiyukai-shazemi-lab.com/`
 
 ## 連絡先
 入会・見学のご相談は、公開サイト内の「お問い合わせ」ボタンからご送付ください。
