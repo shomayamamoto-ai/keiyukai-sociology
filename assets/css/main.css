@@ -142,3 +142,9 @@ html{scroll-behavior:smooth}@keyframes heroEntry{from{opacity:0;transform:transl
     display: none !important;
   }
 }
+
+/* === スマホ限定改行 === */
+.br-mobile { display: none; }
+@media (max-width: 720px) {
+  .br-mobile { display: inline !important; }
+}
