@@ -148,3 +148,46 @@ html{scroll-behavior:smooth}@keyframes heroEntry{from{opacity:0;transform:transl
 @media (max-width: 720px) {
   .br-mobile { display: inline !important; }
 }
+
+/* === Mobile: Contact / Join 完全可読化 === */
+@media (max-width: 768px) {
+  /* セクション全体を完全に不透明化 */
+  .section--contact,
+  .section--contact *,
+  .section--join,
+  .section--join * {
+    opacity: 1 !important;
+  }
+  /* Contactカード背景を濃く */
+  .contact__card {
+    background:
+      radial-gradient(ellipse at center,rgba(40,58,100,.35),transparent 70%),
+      linear-gradient(180deg,rgba(22,28,46,.94),rgba(16,20,32,.92)) !important;
+    border-color: rgba(231,212,163,.4) !important;
+  }
+  .contact__kicker {
+    color: #d8c189 !important;
+  }
+  .contact__note {
+    color: #ece3cf !important;
+  }
+  .contact__mail {
+    color: #f7f1e2 !important;
+  }
+  /* Join: 強化版 */
+  .join__panel {
+    background:
+      radial-gradient(ellipse at top right,rgba(200,169,106,.18),transparent 60%),
+      linear-gradient(180deg,rgba(22,28,46,.95),rgba(16,20,32,.92)) !important;
+    border-color: rgba(231,212,163,.45) !important;
+  }
+  .join__lead {
+    color: #f7f1e2 !important;
+  }
+  .join__points li {
+    color: #ece3cf !important;
+  }
+  .join__points li::before {
+    color: #d8c189 !important;
+  }
+}
