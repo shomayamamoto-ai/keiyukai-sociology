@@ -54,3 +54,41 @@ html{scroll-behavior:smooth}@keyframes heroEntry{from{opacity:0;transform:transl
     border-color: rgba(245,241,230,.35) !important;
   }
 }
+
+/* === Mobile: ensure natural single page scroll === */
+@media (max-width: 768px) {
+  /* hero: 100vh だと iPhone でセクション内スクロール感が出るため auto に */
+  .hero {
+    min-height: auto !important;
+    padding: 5rem 1rem 3rem !important;
+  }
+  /* セクション内に小スクロールが発生しないよう強制 */
+  .section,
+  .hero,
+  .hero__content,
+  .about__grid,
+  .themes__grid,
+  .activities__grid,
+  .voices__grid,
+  .creed,
+  .creed__statement,
+  .pillars,
+  .philosophy,
+  .philosophy__quote,
+  .process,
+  .process__timeline,
+  .process__card,
+  .faq,
+  .faq__item,
+  .faq__answer,
+  .activity,
+  .theme,
+  .pillar,
+  .about__card,
+  .book {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+  /* ナビは通常通り(opening / drawer / modal は除外) */
+}
