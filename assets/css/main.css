@@ -127,3 +127,49 @@ body:not(.page-membership) .activity__tag,
 body:not(.page-membership) .theme__tag{
   border-color:rgba(250,250,245,.45) !important;
 }
+
+/* === 09-12 PC暗テーマ最終強化(Dell/HP対応) === */
+body:not(.page-membership) #readings,
+body:not(.page-membership) #readings *,
+body:not(.page-membership) #faq,
+body:not(.page-membership) #faq *,
+body:not(.page-membership) #join,
+body:not(.page-membership) #join *,
+body:not(.page-membership) #contact,
+body:not(.page-membership) #contact *{
+  opacity:1 !important;
+}
+body:not(.page-membership) #readings p,
+body:not(.page-membership) #readings h5,
+body:not(.page-membership) #readings .resource__meta,
+body:not(.page-membership) #readings .resource__meta span,
+body:not(.page-membership) #faq p,
+body:not(.page-membership) #faq .faq__question,
+body:not(.page-membership) #faq .faq__answer,
+body:not(.page-membership) #faq .faq__answer *,
+body:not(.page-membership) #join p,
+body:not(.page-membership) #join li,
+body:not(.page-membership) #join .join__lead,
+body:not(.page-membership) #join .join__points li,
+body:not(.page-membership) #contact p,
+body:not(.page-membership) #contact .contact__note,
+body:not(.page-membership) #contact .contact__kicker,
+body:not(.page-membership) #contact .contact__mail{
+  color:#ffffff !important;
+  font-weight:600 !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.5);
+}
+body:not(.page-membership) #faq .faq__q{
+  color:#ffe7a8 !important;
+}
+body:not(.page-membership) #readings .resource__meta span:first-child{
+  color:#ffe7a8 !important;
+}
+/* カードを更にコントラスト確保 */
+body:not(.page-membership) #readings .resource,
+body:not(.page-membership) #faq .faq__item,
+body:not(.page-membership) #join .join__panel,
+body:not(.page-membership) #contact .contact__card{
+  background:linear-gradient(180deg,#1c2236,#161a28) !important;
+  border:1px solid rgba(255,255,255,.3) !important;
+}
