@@ -173,3 +173,41 @@ body:not(.page-membership) #contact .contact__card{
   background:linear-gradient(180deg,#1c2236,#161a28) !important;
   border:1px solid rgba(255,255,255,.3) !important;
 }
+
+/* === skip-link: 通常は完全非表示・キーボード操作時のみ右下に表示 === */
+.skip-link{
+  position:fixed !important;
+  top:auto !important;
+  bottom:-100px !important;
+  left:auto !important;
+  right:1rem !important;
+  transform:none !important;
+  width:auto;
+  height:1px;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  clip-path:inset(50%);
+  white-space:nowrap;
+  padding:0;
+  background:transparent;
+  color:transparent;
+  box-shadow:none;
+}
+.skip-link:focus,
+.skip-link:focus-visible{
+  bottom:1rem !important;
+  right:1rem !important;
+  width:auto;
+  height:auto;
+  overflow:visible;
+  clip:auto;
+  clip-path:none;
+  padding:.8rem 1.4rem !important;
+  background:var(--accent) !important;
+  color:#1a0f00 !important;
+  font-weight:600;
+  border-radius:6px;
+  box-shadow:0 8px 24px rgba(0,0,0,.6) !important;
+  outline:2px solid #fff;
+  outline-offset:3px;
+}
