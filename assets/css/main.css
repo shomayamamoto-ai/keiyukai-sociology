@@ -7,10 +7,10 @@
 
 /* === 緊急コントラスト&サイズ強化 === */
 :root{
-  --ink-1:#ece4d3 !important;
-  --ink-2:#b5af9e !important;
-  --accent:#dcb877 !important;
-  --accent-2:#f0dfae !important;
+  --ink-1:#ece4d3;
+  --ink-2:#b5af9e;
+  --accent:#dcb877;
+  --accent-2:#f0dfae;
 }
 html{font-size:17px !important}
 @media (min-width:1200px){html{font-size:18px !important}}
@@ -19,12 +19,12 @@ html{font-size:17px !important}
 /* ボタンを高コントラストに */
 .btn--primary{background:#f0dfae !important;color:#1a1208 !important;font-weight:600 !important;font-size:.9rem !important}
 .btn--primary:hover{background:#fce8b5 !important;color:#000 !important}
-.btn--ghost{border-color:rgba(245,241,230,.55) !important;color:#f5f1e6 !important;font-weight:500 !important}
-.btn--ghost:hover{border-color:#f0dfae !important;color:#fce8b5 !important}
+body:not(.page-membership) .btn--ghost{border-color:rgba(245,241,230,.55) !important;color:#f5f1e6 !important;font-weight:500 !important}
+body:not(.page-membership) .btn--ghost:hover{border-color:#f0dfae !important;color:#fce8b5 !important}
 
-/* リンク・小サブテキストを底上げ */
-.section__subtitle{color:#ebe4d3 !important;font-size:1rem !important}
-.contact__note,.faq__answer p,.resource__body p,.about__card p,.theme__desc,.process__card p,.value p,.activity p,.pillar p,.join__lead,.join__points li,.themes__intro,.creed__statement{color:#ece4d3 !important}
+/* PC暗テーマ専用の明色化(washiは除外) */
+.section__subtitle:not(.page-membership .section__subtitle){color:#ebe4d3 !important;font-size:1rem !important}
+body:not(.page-membership) .contact__note,body:not(.page-membership) .faq__answer p,body:not(.page-membership) .resource__body p,body:not(.page-membership) .about__card p,body:not(.page-membership) .theme__desc,body:not(.page-membership) .process__card p,body:not(.page-membership) .value p,body:not(.page-membership) .activity p,body:not(.page-membership) .pillar p,body:not(.page-membership) .join__lead,body:not(.page-membership) .join__points li,body:not(.page-membership) .themes__intro,body:not(.page-membership) .creed__statement{color:#ece4d3 !important}
 
-/* テーマカード/プロセスカード/FAQ/ジョインの背景を全幅で不透明化 */
-.theme,.process__card,.faq__item,.join__panel,.contact__card,.about__card,.resource{background:linear-gradient(180deg,rgba(20,26,42,.92),rgba(14,18,30,.88)) !important}
+/* テーマカード/プロセスカード/FAQ/ジョインの背景を全幅で不透明化(暗テーマ専用) */
+body:not(.page-membership) .theme,body:not(.page-membership) .process__card,body:not(.page-membership) .faq__item,body:not(.page-membership) .join__panel,body:not(.page-membership) .contact__card,body:not(.page-membership) .about__card,body:not(.page-membership) .resource{background:linear-gradient(180deg,rgba(20,26,42,.92),rgba(14,18,30,.88)) !important}
