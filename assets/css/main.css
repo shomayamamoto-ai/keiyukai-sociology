@@ -70,3 +70,60 @@ body:not(.page-membership) .contact__card{
   background:linear-gradient(180deg,rgba(28,34,52,.95),rgba(20,26,42,.92)) !important;
   border-color:rgba(245,241,230,.25) !important;
 }
+
+/* === Windows液晶対応: 本文を純白寄りにし可読性を確保 === */
+body:not(.page-membership){
+  color:#fafaf5;
+}
+body:not(.page-membership) .pillar p,
+body:not(.page-membership) .activity p,
+body:not(.page-membership) .activity__desc,
+body:not(.page-membership) .theme__desc,
+body:not(.page-membership) .about__card p,
+body:not(.page-membership) .process__card p,
+body:not(.page-membership) .value p,
+body:not(.page-membership) .value__desc,
+body:not(.page-membership) .voice__quote,
+body:not(.page-membership) .voice__name,
+body:not(.page-membership) .voice__meta,
+body:not(.page-membership) .creed__statement,
+body:not(.page-membership) .creed__statement p,
+body:not(.page-membership) .philosophy__quote,
+body:not(.page-membership) .themes__intro,
+body:not(.page-membership) .themes__intro p,
+body:not(.page-membership) .resources__intro,
+body:not(.page-membership) .resources__intro p,
+body:not(.page-membership) .resources__note,
+body:not(.page-membership) .resource__body p,
+body:not(.page-membership) .resource__body h5,
+body:not(.page-membership) .resource__meta,
+body:not(.page-membership) .resource__meta span,
+body:not(.page-membership) .faq__answer p,
+body:not(.page-membership) .faq__question,
+body:not(.page-membership) .contact__note,
+body:not(.page-membership) .contact__kicker,
+body:not(.page-membership) .contact__mail,
+body:not(.page-membership) .join__lead,
+body:not(.page-membership) .join__points li,
+body:not(.page-membership) .section__subtitle,
+body:not(.page-membership) .activity__tag,
+body:not(.page-membership) .theme__tag,
+body:not(.page-membership) .hero__lead,
+body:not(.page-membership) .hero__lead--soft,
+body:not(.page-membership) .hero__lead em{
+  color:#fafaf5 !important;
+  font-weight:500 !important;
+}
+
+/* 強調テキスト・gold系も純白寄りに */
+body:not(.page-membership) p strong,
+body:not(.page-membership) p em,
+body:not(.page-membership) li strong{
+  color:#ffffff !important;
+}
+
+/* タグ系のborderも明るく */
+body:not(.page-membership) .activity__tag,
+body:not(.page-membership) .theme__tag{
+  border-color:rgba(250,250,245,.45) !important;
+}
