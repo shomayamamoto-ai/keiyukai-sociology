@@ -4,3 +4,27 @@
 .faq__answer p{color:var(--ink-1) !important}
 .resource__body p{color:var(--ink-1) !important}
 .section__subtitle{color:var(--ink-1) !important}
+
+/* === 緊急コントラスト&サイズ強化 === */
+:root{
+  --ink-1:#ece4d3 !important;
+  --ink-2:#b5af9e !important;
+  --accent:#dcb877 !important;
+  --accent-2:#f0dfae !important;
+}
+html{font-size:17px !important}
+@media (min-width:1200px){html{font-size:18px !important}}
+@media (max-width:768px){html{font-size:16px !important}}
+
+/* ボタンを高コントラストに */
+.btn--primary{background:#f0dfae !important;color:#1a1208 !important;font-weight:600 !important;font-size:.9rem !important}
+.btn--primary:hover{background:#fce8b5 !important;color:#000 !important}
+.btn--ghost{border-color:rgba(245,241,230,.55) !important;color:#f5f1e6 !important;font-weight:500 !important}
+.btn--ghost:hover{border-color:#f0dfae !important;color:#fce8b5 !important}
+
+/* リンク・小サブテキストを底上げ */
+.section__subtitle{color:#ebe4d3 !important;font-size:1rem !important}
+.contact__note,.faq__answer p,.resource__body p,.about__card p,.theme__desc,.process__card p,.value p,.activity p,.pillar p,.join__lead,.join__points li,.themes__intro,.creed__statement{color:#ece4d3 !important}
+
+/* テーマカード/プロセスカード/FAQ/ジョインの背景を全幅で不透明化 */
+.theme,.process__card,.faq__item,.join__panel,.contact__card,.about__card,.resource{background:linear-gradient(180deg,rgba(20,26,42,.92),rgba(14,18,30,.88)) !important}
