@@ -28,3 +28,45 @@ body:not(.page-membership) .contact__note,body:not(.page-membership) .faq__answe
 
 /* テーマカード/プロセスカード/FAQ/ジョインの背景を全幅で不透明化(暗テーマ専用) */
 body:not(.page-membership) .theme,body:not(.page-membership) .process__card,body:not(.page-membership) .faq__item,body:not(.page-membership) .join__panel,body:not(.page-membership) .contact__card,body:not(.page-membership) .about__card,body:not(.page-membership) .resource{background:linear-gradient(180deg,rgba(20,26,42,.92),rgba(14,18,30,.88)) !important}
+
+/* === 緊急: 09-12セクションPC版の暗文字を全面強化 === */
+body:not(.page-membership) .activity__tag,
+body:not(.page-membership) .theme__tag,
+body:not(.page-membership) .resource__meta,
+body:not(.page-membership) .resource__meta span,
+body:not(.page-membership) .faq__answer p,
+body:not(.page-membership) .faq__question,
+body:not(.page-membership) .faq__arrow,
+body:not(.page-membership) .contact__note,
+body:not(.page-membership) .contact__kicker,
+body:not(.page-membership) .contact__mail,
+body:not(.page-membership) .join__lead,
+body:not(.page-membership) .join__points li,
+body:not(.page-membership) .resource__body p,
+body:not(.page-membership) .resource__body h5{
+  color:#f3ecd9 !important;
+  opacity:1 !important;
+}
+
+/* お問い合わせボタン: 白い文字に変更 */
+body:not(.page-membership) .contact__btn{
+  background:#dcb877 !important;
+  color:#1a0f00 !important;
+  font-weight:700 !important;
+}
+
+/* FAQ メタ・タグなどgold系: 鮮やかゴールド */
+body:not(.page-membership) .faq__q,
+body:not(.page-membership) .activity__index,
+body:not(.page-membership) .resource__meta span:first-child{
+  color:#f0dfae !important;
+}
+
+/* カード背景を09-12全部、しっかり明 */
+body:not(.page-membership) .faq__item,
+body:not(.page-membership) .resource,
+body:not(.page-membership) .join__panel,
+body:not(.page-membership) .contact__card{
+  background:linear-gradient(180deg,rgba(28,34,52,.95),rgba(20,26,42,.92)) !important;
+  border-color:rgba(245,241,230,.25) !important;
+}
