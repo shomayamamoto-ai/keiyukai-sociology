@@ -253,3 +253,23 @@ html,body{
 @media (max-width:768px){
   #join .join__panel{padding:2.5rem 1.6rem !important}
 }
+
+/* === ナビ JOIN ボタン: クリーンな見た目に === */
+.nav__cta{
+  padding:.5rem 1.2rem !important;
+  text-indent:0 !important;
+  border:1px solid rgba(231,212,163,.55) !important;
+  background:transparent !important;
+  color:#f5f1e6 !important;
+  border-radius:2px !important;
+  letter-spacing:.18em !important;
+  font-size:.85rem !important;
+  font-weight:500 !important;
+  transition:border-color .25s,color .25s !important;
+}
+.nav__cta:hover{
+  background:transparent !important;
+  border-color:#f0dfae !important;
+  color:#f0dfae !important;
+}
+.nav__cta::after{display:none !important}
