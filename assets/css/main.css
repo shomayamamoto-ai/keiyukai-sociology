@@ -273,3 +273,12 @@ html,body{
   color:#f0dfae !important;
 }
 .nav__cta::after{display:none !important}
+
+/* === SCROLL文字の中央寄せ修正(letter-spacing補正) === */
+.hero__scroll{
+  text-indent:.4em !important;
+}
+.hero__scroll-line{
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
