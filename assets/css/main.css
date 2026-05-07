@@ -344,3 +344,10 @@ html,body{
     flex:0 0 1px !important;
   }
 }
+
+/* === 理念セクション: 鉤括弧装飾を削除 === */
+.creed__statement::before,
+.creed__statement::after{
+  content:none !important;
+  display:none !important;
+}
