@@ -282,3 +282,33 @@ html,body{
   margin-left:auto !important;
   margin-right:auto !important;
 }
+
+/* === SCROLL: 線とテキストを完全中央寄せ(緊急再修正) === */
+.hero__scroll{
+  position:absolute !important;
+  bottom:2.4rem !important;
+  left:50% !important;
+  transform:translateX(-50%) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  text-align:center !important;
+  text-indent:0 !important;
+  width:auto !important;
+  margin:0 !important;
+}
+.hero__scroll > span{
+  display:block !important;
+  text-align:center !important;
+}
+.hero__scroll-line{
+  display:block !important;
+  width:1px !important;
+  height:64px !important;
+  margin:0 auto !important;
+  align-self:center !important;
+  flex:0 0 auto !important;
+}
+.hero__scroll span:first-child{
+  text-indent:.4em !important;
+}
