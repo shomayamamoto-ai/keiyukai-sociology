@@ -354,3 +354,32 @@ html,body{
 
 /* === ヒーロー右の巨大な『社ゼミ』装飾を完全削除 === */
 .hero__signature{display:none !important}
+
+/* === ヒーロー全コンテンツを確実に中央寄せ(最優先) === */
+.hero__content{
+  text-align:center !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.hero__content > *{
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+.hero__metrics{
+  display:inline-flex !important;
+  flex-direction:row !important;
+  width:auto !important;
+  max-width:max-content !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  justify-content:center !important;
+  align-self:center !important;
+}
+.hero__actions{
+  justify-content:center !important;
+  align-self:center !important;
+}
