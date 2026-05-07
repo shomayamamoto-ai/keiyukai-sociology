@@ -409,3 +409,11 @@ html,body{
     text-align:center !important;
   }
 }
+
+/* === ホバー時のletter-spacing変化を無効化(行ジャンプ防止) === */
+.themes__intro:hover p,
+.resources__intro:hover p,
+.themes__intro p,
+.resources__intro p{
+  letter-spacing:inherit !important;
+}
