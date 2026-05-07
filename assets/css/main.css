@@ -383,3 +383,10 @@ html,body{
   justify-content:center !important;
   align-self:center !important;
 }
+
+/* === テーマカード: タイトル位置と本文開始位置を揃える === */
+.theme__title{
+  min-height:calc(1.6em * 2) !important;
+  display:flex;
+  align-items:flex-start;
+}
