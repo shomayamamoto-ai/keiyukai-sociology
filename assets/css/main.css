@@ -417,3 +417,13 @@ html,body{
 .resources__intro p{
   letter-spacing:inherit !important;
 }
+
+/* === 慶印章: 文字を中央配置 === */
+.hero__seal{
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  line-height:1 !important;
+  text-align:center !important;
+}
