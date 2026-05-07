@@ -225,3 +225,31 @@ html,body{overflow-y:auto !important;height:auto !important}
 @media (max-width:768px){
   .join__panel{padding:2.5rem 1.6rem !important}
 }
+
+/* === スクロール強制有効化(最優先) === */
+html,body{
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  height:auto !important;
+  position:static !important;
+}
+.site,.site[aria-hidden=true]{
+  pointer-events:auto !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+/* オープニングが消えなくてもクリックで操作可能に */
+#opening.is-done{
+  pointer-events:none !important;
+  opacity:0 !important;
+}
+
+/* === Joinパネル余白を確実に拡大(再強化) === */
+#join .join__panel{
+  padding:clamp(3rem,7vw,5.5rem) clamp(2rem,6vw,4.5rem) !important;
+  max-width:760px;
+  margin:0 auto;
+}
+@media (max-width:768px){
+  #join .join__panel{padding:2.5rem 1.6rem !important}
+}
