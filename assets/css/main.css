@@ -351,3 +351,6 @@ html,body{
   content:none !important;
   display:none !important;
 }
+
+/* === ヒーロー右の巨大な『社ゼミ』装飾を完全削除 === */
+.hero__signature{display:none !important}
