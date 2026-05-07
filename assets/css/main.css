@@ -211,3 +211,17 @@ body:not(.page-membership) #contact .contact__card{
   outline:2px solid #fff;
   outline-offset:3px;
 }
+
+/* === スクロール問題修正 === */
+/* aria-hidden や is-visible に関わらずスクロール可能に */
+.site[aria-hidden=true]{pointer-events:auto !important}
+.site{opacity:1 !important;pointer-events:auto !important}
+html,body{overflow-y:auto !important;height:auto !important}
+
+/* === Joinパネル: 内側の余白を広めに === */
+.join__panel{
+  padding:clamp(3rem,7vw,5.5rem) clamp(2rem,6vw,4.5rem) !important;
+}
+@media (max-width:768px){
+  .join__panel{padding:2.5rem 1.6rem !important}
+}
