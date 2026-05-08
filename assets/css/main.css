@@ -481,9 +481,5 @@ html,body{
 /* オープニング中スクロール制御は JS の inline style で行う */
 
 /* === オープニング中のスクロールロック(JS toggle) === */
-html.opening-active,html.opening-active body{overflow:hidden !important;height:100% !important;touch-action:none !important}
+/* スクロールロック撤廃: オープニングオーバーレイで視覚的にカバーするため */
 
-
-/* === オープニング後のスクロール許可(シンプル版) === */
-html:not(.opening-active){overflow-y:auto !important}
-html:not(.opening-active) body{position:static;overflow-y:visible}
