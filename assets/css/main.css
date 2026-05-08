@@ -352,8 +352,7 @@ html,body{
   display:none !important;
 }
 
-/* === ヒーロー右の巨大な『社ゼミ』装飾を完全削除 === */
-.hero__signature{display:none !important}
+/* === ヒーロー右の巨大な『社ゼミ』装飾は復活 === */
 
 /* === ヒーロー全コンテンツを確実に中央寄せ(最優先) === */
 .hero__content{
