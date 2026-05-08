@@ -475,3 +475,32 @@ html,body{
 .ld{
   pointer-events:none !important;
 }
+
+/* === オープニング/ローディング演出を完全スキップ(スクロール阻害を完全排除) === */
+#opening,
+#loading,
+.op,
+.ld{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+  opacity:0 !important;
+}
+/* サイト本体を即座に完全表示 */
+#site,
+.site{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transform:none !important;
+}
+/* body/html のスクロールを確実に有効化 */
+html,body{
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  height:auto !important;
+  min-height:100% !important;
+  position:static !important;
+  -webkit-overflow-scrolling:touch !important;
+}
