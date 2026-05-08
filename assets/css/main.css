@@ -216,7 +216,7 @@ body:not(.page-membership) #contact .contact__card{
 /* aria-hidden や is-visible に関わらずスクロール可能に */
 .site[aria-hidden=true]{pointer-events:auto !important}
 .site{opacity:1 !important;pointer-events:auto !important}
-html,body{overflow-y:auto !important;height:auto !important}
+html,body{height:auto}
 
 /* === Joinパネル: 内側の余白を広めに === */
 .join__panel{
@@ -478,17 +478,4 @@ html,body{
 
 
 
-/* === オープニング表示中のみ背景スクロールを停止 === */
-/* デフォルトでスクロールロック(オープニング表示中) */
-html.opening-active,
-html.opening-active body{
-  overflow:hidden !important;
-  height:100% !important;
-}
-/* オープニング演出は再表示 - PR#89 の display:none は撤回済み */
-/* スキップ処理が完了したら scroll 復活 */
-html:not(.opening-active),
-html:not(.opening-active) body{
-  overflow-y:auto !important;
-  overflow-x:hidden !important;
-}
+/* オープニング中スクロール制御は JS の inline style で行う */
