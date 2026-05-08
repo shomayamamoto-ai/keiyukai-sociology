@@ -443,3 +443,35 @@ html,body{
     grid-template-columns:none !important;
   }
 }
+
+/* === オープニングはマウススクロールをブロックしない === */
+.op{
+  pointer-events:none !important;
+}
+.op-skip{
+  pointer-events:auto !important;
+}
+/* オープニング表示中もサイト本体は操作可能 */
+.site,
+#site{
+  pointer-events:auto !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+.site[aria-hidden=true],
+#site[aria-hidden=true]{
+  pointer-events:auto !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+/* スクロール常時有効 */
+html,body{
+  overflow-y:auto !important;
+  height:auto !important;
+  position:static !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+/* ローディング画面も操作ブロックしない */
+.ld{
+  pointer-events:none !important;
+}
