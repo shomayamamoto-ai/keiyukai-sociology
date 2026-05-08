@@ -476,31 +476,19 @@ html,body{
   pointer-events:none !important;
 }
 
-/* === オープニング/ローディング演出を完全スキップ(スクロール阻害を完全排除) === */
-#opening,
-#loading,
-.op,
-.ld{
-  display:none !important;
-  visibility:hidden !important;
-  pointer-events:none !important;
-  opacity:0 !important;
+
+
+/* === オープニング表示中のみ背景スクロールを停止 === */
+/* デフォルトでスクロールロック(オープニング表示中) */
+html.opening-active,
+html.opening-active body{
+  overflow:hidden !important;
+  height:100% !important;
 }
-/* サイト本体を即座に完全表示 */
-#site,
-.site{
-  display:block !important;
-  opacity:1 !important;
-  visibility:visible !important;
-  pointer-events:auto !important;
-  transform:none !important;
-}
-/* body/html のスクロールを確実に有効化 */
-html,body{
+/* オープニング演出は再表示 - PR#89 の display:none は撤回済み */
+/* スキップ処理が完了したら scroll 復活 */
+html:not(.opening-active),
+html:not(.opening-active) body{
   overflow-y:auto !important;
   overflow-x:hidden !important;
-  height:auto !important;
-  min-height:100% !important;
-  position:static !important;
-  -webkit-overflow-scrolling:touch !important;
 }
