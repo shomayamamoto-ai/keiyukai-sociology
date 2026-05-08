@@ -482,3 +482,16 @@ html,body{
 
 /* === オープニング中のスクロールロック(JS toggle) === */
 html.opening-active,html.opening-active body{overflow:hidden !important;height:100% !important;touch-action:none !important}
+
+/* === スクロール最終保証(html.opening-active が無いとき) === */
+html:not(.opening-active),
+html:not(.opening-active) body{
+  overflow-y:auto !important;
+  height:auto !important;
+  position:static !important;
+  top:auto !important;
+  left:auto !important;
+}
+html:not(.opening-active) body{
+  width:auto !important;
+}
