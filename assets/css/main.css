@@ -486,3 +486,11 @@ html,body{
 
 /* === オープニング中スクロール完全停止(html+body両方) === */
 /* scroll-lock rule removed — overlay-only visual cover */
+
+/* === スクロール不能バグ恒久対策 ===
+   #opening は視覚カバー専用とし、wheel/touch を素通しさせる。
+   contain:strict + overflow:hidden の固定オーバーレイがホイールイベントを
+   吸収して下層ドキュメントへチェインしないブラウザがあるため、
+   pointer-events を root で無効化し、Skip ボタンだけ再有効化する。 */
+#opening,#opening *{pointer-events:none !important}
+#opening .op-skip,#opening #opening-skip{pointer-events:auto !important}
