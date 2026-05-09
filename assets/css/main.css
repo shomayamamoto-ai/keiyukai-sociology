@@ -485,4 +485,4 @@ html,body{
 
 
 /* === オープニング中スクロール完全停止(html+body両方) === */
-html.scroll-lock,html.scroll-lock body{overflow:hidden !important;height:100% !important}
+/* scroll-lock rule removed — overlay-only visual cover */
