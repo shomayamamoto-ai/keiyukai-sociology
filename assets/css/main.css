@@ -484,5 +484,11 @@ html,body{
 /* スクロールロック撤廃: オープニングオーバーレイで視覚的にカバーするため */
 
 
-/* === オープニング中スクロール完全停止(html+body両方) === */
-/* scroll-lock rule removed — overlay-only visual cover */
+/* === オープニング中のみスクロールロック ===
+   #opening 表示中は html/body の overflow を hidden にしてスクロールを停止。
+   解除は main.js が 3 経路で保証する:
+     1) finishOpening() の通常フロー
+     2) #opening が DOM から削除された時の MutationObserver
+     3) 15 秒の絶対フォールバック
+   いずれの経路でも scroll-lock クラスを取り除き、本体スクロールを復旧する。 */
+html.scroll-lock,html.scroll-lock body{overflow:hidden !important;height:100% !important;touch-action:none !important}
