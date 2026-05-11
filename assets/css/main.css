@@ -485,10 +485,13 @@ html,body{
 
 
 /* === オープニング中のみスクロールロック ===
-   #opening 表示中は html/body の overflow を hidden にしてスクロールを停止。
-   解除は main.js が 3 経路で保証する:
-     1) finishOpening() の通常フロー
-     2) #opening が DOM から削除された時の MutationObserver
-     3) 15 秒の絶対フォールバック
-   いずれの経路でも scroll-lock クラスを取り除き、本体スクロールを復旧する。 */
-html.scroll-lock,html.scroll-lock body{overflow:hidden !important;height:100% !important;touch-action:none !important}
+   旧 CSS class 方式(html.scroll-lock 一括 overflow:hidden) は撤廃。
+   理論上は正しく動作するが、ブラウザ/環境によって
+     - height:100% !important のレイアウト残留
+     - touch-action:none の computed 値キャッシュ
+     - !important 解除後の repaint 不足
+   などの取りこぼしが報告されたため、JS で body を position:fixed に
+   固定するモーダル方式(Bootstrap Modal 等で実績のある手法) に切替。
+   解除はインラインスタイル削除だけで完結し、CSS 状態の残留がない。
+
+   この CSS には何も書かない(JS 側ですべて制御する)。*/
