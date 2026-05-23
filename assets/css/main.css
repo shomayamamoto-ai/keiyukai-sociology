@@ -3903,7 +3903,7 @@ body.is-leaving {
 
 .facts__inner {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: .5rem;
   padding: 2rem clamp(1.5rem, 4vw, 3rem);
