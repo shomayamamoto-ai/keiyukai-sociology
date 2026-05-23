@@ -5789,7 +5789,6 @@ body::after {
   position: relative
 }
 
-.creed__body::before,
 .manifesto__inner::before {
   content: "❝";
   position: absolute;
