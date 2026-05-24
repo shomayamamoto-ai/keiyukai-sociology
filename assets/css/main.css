@@ -241,7 +241,7 @@ p {
   }
 
   .op-emblem {
-    width: 72vw
+    width: 88vw
   }
 
   .hero__title {
@@ -1101,7 +1101,7 @@ a {
 }
 
 .op-emblem {
-  width: clamp(260px, 42vw, 420px);
+  width: clamp(360px, 62vw, 640px);
   height: auto;
   color: var(--accent);
   opacity: 0;
