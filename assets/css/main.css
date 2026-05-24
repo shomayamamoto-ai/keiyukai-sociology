@@ -473,7 +473,7 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.8rem;
+  gap: 2.4rem;
   padding: 0 2rem;
   text-align: center;
   z-index: 1
@@ -483,7 +483,7 @@ a {
   margin: 0;
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
-  font-size: clamp(.78rem, 1.1vw, .9rem);
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
   letter-spacing: .45em;
   color: rgba(231, 212, 163, .75);
   text-transform: uppercase;
@@ -504,7 +504,7 @@ a {
 }
 
 .ld-mark {
-  width: clamp(90px, 12vw, 120px);
+  width: clamp(130px, 18vw, 185px);
   color: var(--accent);
   opacity: 0;
   filter: drop-shadow(0 0 20px rgba(200, 169, 106, .35));
@@ -547,8 +547,8 @@ a {
 }
 
 .ld-line {
-  width: clamp(220px, 30vw, 300px);
-  height: 1px;
+  width: clamp(280px, 40vw, 400px);
+  height: 2px;
   background: rgba(245, 241, 230, .12);
   overflow: hidden;
   position: relative
@@ -569,9 +569,9 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  width: clamp(220px, 30vw, 300px);
+  width: clamp(280px, 40vw, 400px);
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: .68rem;
+  font-size: .9rem;
   letter-spacing: .3em;
   color: rgba(245, 241, 230, .55);
   text-transform: uppercase
@@ -6860,6 +6860,3 @@ body {
    解除はインラインスタイル削除だけで完結し、CSS 状態の残留がない。
 
    この CSS には何も書かない(JS 側ですべて制御する)。*/
-/* === オープニング短縮: エンブレムを即時フル表示 (描画アニメ省略) === */
-.op .op-emblem{opacity:1;animation:none}
-.op [class*="op-e-"]{stroke-dashoffset:0;opacity:1;animation:none}
