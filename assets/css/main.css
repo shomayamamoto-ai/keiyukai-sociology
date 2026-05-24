@@ -6860,3 +6860,6 @@ body {
    解除はインラインスタイル削除だけで完結し、CSS 状態の残留がない。
 
    この CSS には何も書かない(JS 側ですべて制御する)。*/
+/* === オープニング短縮: エンブレムを即時フル表示 (描画アニメ省略) === */
+.op .op-emblem{opacity:1;animation:none}
+.op [class*="op-e-"]{stroke-dashoffset:0;opacity:1;animation:none}
