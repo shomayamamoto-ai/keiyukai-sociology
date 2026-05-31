@@ -7005,3 +7005,18 @@ body {
   color: var(--accent-2);
   font-weight: 600
 }
+
+/* === Nav brand tagline (ロゴ下のキャッチコピー) === */
+.nav__brand-tagline {
+  display: block;
+  margin-top: .15rem;
+  font-family: var(--serif-jp);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+  line-height: 1.35;
+  white-space: nowrap
+}
+@media (max-width: 720px) {
+  .nav__brand-tagline { display: none }
+}
