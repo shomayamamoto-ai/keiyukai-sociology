@@ -6860,3 +6860,47 @@ body {
    解除はインラインスタイル削除だけで完結し、CSS 状態の残留がない。
 
    この CSS には何も書かない(JS 側ですべて制御する)。*/
+
+/* === Breadcrumb (パンくずリスト) === */
+.breadcrumb {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 5.5rem clamp(1.25rem, 4vw, 2rem) 0
+}
+.breadcrumb__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .3rem .5rem;
+  font-family: var(--serif-en);
+  font-size: .82rem;
+  letter-spacing: .12em;
+  color: var(--ink-2)
+}
+.breadcrumb__list li {
+  display: inline-flex;
+  align-items: center
+}
+.breadcrumb__list li + li::before {
+  content: "›";
+  margin-right: .6rem;
+  color: var(--ink-3)
+}
+.breadcrumb__list a {
+  color: var(--ink-1);
+  border-bottom: 1px solid transparent;
+  transition: color .25s, border-color .25s
+}
+.breadcrumb__list a:hover {
+  color: var(--accent-2);
+  border-bottom-color: var(--accent)
+}
+.breadcrumb__list li[aria-current="page"] {
+  color: var(--accent-2)
+}
+.breadcrumb + .m-hero {
+  padding-top: 2.5rem
+}
